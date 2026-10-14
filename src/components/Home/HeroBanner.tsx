@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import Image from 'next/image';
 import { 
   Sparkles, 
   CheckCircle, 
@@ -39,8 +40,16 @@ export default function HeroBanner({ onNavigate }: HeroBannerProps) {
           <div className="lg:col-span-7 space-y-5 text-left">
             
             {/* Patron Guidance Pill */}
-            <div className="inline-flex items-center gap-2 bg-gradient-to-r from-amber-400/20 via-amber-300/20 to-transparent px-3 py-1.5 rounded-full border border-amber-400/40 text-amber-300 text-xs font-semibold backdrop-blur-sm">
-              <Award className="w-4 h-4 text-amber-400" />
+            <div className="inline-flex items-center gap-2.5 bg-gradient-to-r from-amber-400/20 via-amber-300/20 to-transparent px-3 py-1 rounded-full border border-amber-400/40 text-amber-300 text-xs font-semibold backdrop-blur-sm shadow-sm">
+              <div className="w-6 h-6 rounded-full border border-amber-400 overflow-hidden flex-shrink-0 bg-blue-950">
+                <Image 
+                  src="/images/roopsingh-fanat.png" 
+                  alt="रूपसिंह फनात - प्रेरक एवं मुख्य मार्गदर्शक"
+                  width={24}
+                  height={24}
+                  className="w-full h-full object-cover object-top"
+                />
+              </div>
               <span>प्रेरक सानिध्य: <strong>{DIGNITARY_DATA.hindiName}</strong></span>
               <span className="hidden sm:inline bg-amber-400 text-slate-950 text-[10px] px-1.5 py-0.2 rounded font-bold">
                 मार्गदर्शक
@@ -205,18 +214,29 @@ export default function HeroBanner({ onNavigate }: HeroBannerProps) {
 
               </div>
 
-              {/* Bottom Quote Banner */}
-              <div className="mt-4 pt-3 border-t border-slate-200 flex items-center gap-3 bg-blue-50/70 p-3 rounded-xl border border-blue-100">
-                <div className="p-2 rounded-lg bg-blue-900 text-white flex-shrink-0">
-                  <ShieldCheck className="w-4 h-4 text-amber-300" />
+              {/* Bottom Patron Card & Vision Quote */}
+              <div className="mt-4 pt-3 border-t border-slate-200 flex items-center gap-3.5 bg-gradient-to-r from-blue-50/90 via-amber-50/40 to-blue-50/90 p-3 rounded-xl border border-blue-100 shadow-sm">
+                <div className="w-12 h-12 rounded-full border-2 border-amber-500/80 p-0.5 shadow-md flex-shrink-0 bg-blue-950 overflow-hidden">
+                  <Image 
+                    src="/images/roopsingh-fanat.png" 
+                    alt="रूपसिंह फनात - प्रेरक एवं मुख्य मार्गदर्शक"
+                    width={48}
+                    height={48}
+                    className="w-full h-full object-cover object-top rounded-full"
+                  />
                 </div>
-                <div>
-                  <p className="text-[11px] text-blue-950 font-bold leading-tight">
+                <div className="flex-1 min-w-0">
+                  <p className="text-[11px] text-blue-950 font-bold leading-tight line-clamp-2">
                     &ldquo;{DIGNITARY_DATA.visionQuote}&rdquo;
                   </p>
-                  <span className="text-[10px] text-blue-800 font-semibold block mt-0.5">
-                    — {DIGNITARY_DATA.hindiName} ({DIGNITARY_DATA.initiativeName})
-                  </span>
+                  <div className="flex items-center gap-2 mt-1">
+                    <span className="text-[10px] text-blue-900 font-extrabold">
+                      — {DIGNITARY_DATA.hindiName}
+                    </span>
+                    <span className="text-[9px] bg-amber-400/20 text-amber-900 font-bold px-1.5 py-0.2 rounded border border-amber-400/40">
+                      {DIGNITARY_DATA.hindiTitle}
+                    </span>
+                  </div>
                 </div>
               </div>
 

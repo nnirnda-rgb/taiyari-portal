@@ -26,10 +26,10 @@ export default function GovFooter() {
       <div className="bg-slate-950/80 border-b border-slate-800 py-6 px-4 sm:px-6">
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-3.5">
-            <div className="w-12 h-12 rounded-full border-2 border-amber-400 overflow-hidden flex-shrink-0 bg-blue-950">
+            <div className="w-12 h-12 rounded-full border-2 border-amber-500/80 overflow-hidden flex-shrink-0 bg-blue-950 shadow-md">
               <Image 
-                src={DIGNITARY_DATA.photoUrl} 
-                alt={DIGNITARY_DATA.hindiName}
+                src="/images/roopsingh-fanat.png" 
+                alt="रूपसिंह फनात - प्रेरक एवं मुख्य मार्गदर्शक"
                 width={48} 
                 height={48}
                 className="w-full h-full object-cover object-top"

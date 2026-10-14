@@ -33,8 +33,8 @@ export default function DignitaryBanner() {
                 <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-full p-1 bg-gradient-to-tr from-amber-400 via-amber-200 to-amber-500 shadow-lg shadow-blue-950/50">
                   <div className="w-full h-full rounded-full overflow-hidden border-2 border-blue-900 bg-slate-900 relative">
                     <Image
-                      src={DIGNITARY_DATA.photoUrl}
-                      alt={DIGNITARY_DATA.hindiName}
+                      src="/images/roopsingh-fanat.png"
+                      alt="रूपसिंह फनात - प्रेरक एवं मुख्य मार्गदर्शक"
                       width={80}
                       height={80}
                       className="w-full h-full object-cover object-top transform group-hover:scale-105 transition-transform duration-300"

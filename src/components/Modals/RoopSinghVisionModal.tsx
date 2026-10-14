@@ -24,13 +24,13 @@ export default function RoopSinghVisionModal({ isOpen, onClose }: ModalProps) {
         {/* Header with Royal Blue Gradient */}
         <div className="bg-gradient-to-r from-blue-900 via-blue-800 to-indigo-900 p-5 text-white flex items-start justify-between relative">
           <div className="flex items-center gap-3">
-            <div className="w-12 h-12 rounded-full border-2 border-amber-400 p-0.5 shadow-md flex-shrink-0 bg-blue-950 overflow-hidden">
+            <div className="w-12 h-12 rounded-full border-2 border-amber-500/80 p-0.5 shadow-md flex-shrink-0 bg-blue-950 overflow-hidden">
               <Image 
-                src={DIGNITARY_DATA.photoUrl} 
-                alt={DIGNITARY_DATA.hindiName}
+                src="/images/roopsingh-fanat.png" 
+                alt="रूपसिंह फनात - प्रेरक एवं मुख्य मार्गदर्शक"
                 width={48}
                 height={48}
-                className="w-full h-full object-cover object-top"
+                className="w-full h-full object-cover object-top rounded-full"
               />
             </div>
             <div>
