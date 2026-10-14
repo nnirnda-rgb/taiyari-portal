@@ -74,22 +74,22 @@ export default function DignitaryBanner() {
 
             </div>
 
-            {/* Center: Initiative Tagline 'नई सोच, नई पहल' */}
+            {/* Center: Dedication Quote & Slogan */}
             <div className="flex-1 text-center md:px-6 w-full md:w-auto border-t md:border-t-0 md:border-l md:border-r border-blue-800/80 pt-2.5 md:pt-0">
-              <div className="inline-flex items-center gap-1.5 bg-gradient-to-r from-amber-500/20 via-amber-400/30 to-amber-500/20 px-3.5 py-1 rounded-full border border-amber-400/50 mb-1">
+              <div className="inline-flex items-center gap-1.5 bg-gradient-to-r from-amber-500/20 via-amber-400/30 to-amber-500/20 px-3.5 py-1 rounded-full border border-amber-400/50 mb-1.5">
                 <Sparkles className="w-3.5 h-3.5 text-amber-300 animate-pulse" />
                 <span className="text-xs sm:text-sm font-extrabold text-amber-300 tracking-wider">
-                  संकल्प: &lsquo;{DIGNITARY_DATA.initiativeName}&rsquo;
+                  {DIGNITARY_DATA.initiativeName}
+                </span>
+                <span className="text-amber-200/60 hidden sm:inline">•</span>
+                <span className="text-xs text-amber-200 hidden sm:inline">
+                  {DIGNITARY_DATA.tagline}
                 </span>
                 <Sparkles className="w-3.5 h-3.5 text-amber-300 animate-pulse" />
               </div>
 
-              <p className="text-xs sm:text-sm text-slate-100 font-medium leading-snug line-clamp-2">
-                &ldquo;{DIGNITARY_DATA.tagline}&rdquo;
-              </p>
-              
-              <p className="hidden lg:block text-[11px] text-amber-200/90 italic mt-0.5">
-                — {DIGNITARY_DATA.visionQuote}
+              <p className="text-xs sm:text-[13px] text-white font-semibold leading-relaxed">
+                &ldquo;{DIGNITARY_DATA.visionQuote}&rdquo;
               </p>
             </div>
 

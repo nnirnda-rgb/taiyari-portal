@@ -97,7 +97,7 @@ export default function Home() {
       {/* 1. Official National & Accessibility Bar */}
       <TopAccessibilityBar />
 
-      {/* 2. Respected Dignitary Header: Shreeman Roop Singh Fanat */}
+      {/* 2. Patron Dedication Banner: Roopsingh Fanat */}
       <DignitaryBanner />
 
       {/* 3. Official Departmental Branding Header */}

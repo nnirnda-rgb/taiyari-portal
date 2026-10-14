@@ -33,7 +33,7 @@ export default function StatsRibbon() {
       icon: <Award className="w-5 h-5 text-rose-600" />,
       number: "100%",
       label: "निःशुल्क सेवा",
-      detail: "श्रीमान रूप सिंह फणात की प्रेरणा"
+      detail: "रूपसिंह फनात की प्रेरणा"
     }
   ];
 

@@ -50,10 +50,10 @@ export default function HeroBanner({ onNavigate }: HeroBannerProps) {
             {/* Main Title */}
             <div>
               <h2 className="text-3xl sm:text-4xl md:text-5xl font-black text-white tracking-tight leading-tight">
-                राजस्थान प्रतियोगी परीक्षा संबल पोर्टल
+                युवा शिक्षा पोर्टल
               </h2>
               <div className="text-xl sm:text-2xl md:text-3xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-amber-300 via-amber-200 to-yellow-400 mt-1">
-                &lsquo;{DIGNITARY_DATA.initiativeName}&rsquo; — हर युवा का लक्ष्य, हमारी प्रेरणा
+                &lsquo;{DIGNITARY_DATA.initiativeName}&rsquo; — {DIGNITARY_DATA.tagline}
               </div>
             </div>
 

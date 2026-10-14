@@ -83,10 +83,10 @@ export default function GovFooter() {
               </div>
               <div>
                 <h4 className="font-bold text-white text-sm">
-                  नई सोच, नई पहल
+                  युवा शिक्षा पोर्टल
                 </h4>
                 <p className="text-[11px] text-amber-400 font-semibold">
-                  राजस्थान प्रतियोगी परीक्षा संबल पोर्टल
+                  नई सोच, नई पहल • आइए मिलकर कल को और बेहतर बनाते हैं
                 </p>
               </div>
             </div>
@@ -218,10 +218,10 @@ export default function GovFooter() {
         {/* Disclaimer & Copyright */}
         <div className="mt-10 pt-6 border-t border-slate-800 text-[11px] text-slate-400 text-center space-y-2">
           <p>
-            यह पोर्टल राजस्थान के युवाओं के प्रतियोगी परीक्षा मार्गदर्शन एवं शैक्षिक संबल हेतु <strong>&lsquo;श्रीमान रूप सिंह फणात&rsquo;</strong> की प्रेरणादायी पहल <strong>&lsquo;नई सोच, नई पहल&rsquo;</strong> के अंतर्गत पूर्णतः समर्पित है।
+            यह पोर्टल <strong>रूपसिंह फनात</strong> की ओर से युवाओं को समर्पित — उन सभी युवाओं के लिए जो राजस्थान भर्ती परीक्षा की तैयारी कर रहे हैं। प्रेरणादायी पहल: <strong>&lsquo;नई सोच, नई पहल&rsquo;</strong> — आइए मिलकर कल को और बेहतर बनाते हैं।
           </p>
           <p className="text-slate-500">
-            © 2024-2025 नई सोच, नई पहल - राजस्थान प्रतियोगी परीक्षा पोर्टल। भारत सरकार की राष्ट्रीय सूचना सुरक्षा नीतियों एवं वेब दिशा-निर्देशों (GIGW) के अनुरूप।
+            © 2024-2026 युवा शिक्षा पोर्टल | नई सोच, नई पहल - रूपसिंह फनात। सर्वाधिकार सुरक्षित।
           </p>
         </div>
 

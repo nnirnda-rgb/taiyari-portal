@@ -53,14 +53,14 @@ export default function GovHeader({ onSearch }: GovHeaderProps) {
             </div>
 
             <div className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight flex items-center gap-1.5">
-              <span>नई सोच, नई पहल</span>
+              <span>युवा शिक्षा पोर्टल</span>
               <span className="text-xs sm:text-sm font-semibold text-blue-800 bg-blue-50 px-2 py-0.5 rounded-md border border-blue-200 hidden sm:inline-block">
-                तैयारी पोर्टल
+                नई सोच, नई पहल
               </span>
             </div>
 
             <p className="text-xs text-slate-600 font-medium hidden sm:block">
-              राजस्थान कर्मचारी चयन बोर्ड (RSMSSB) एवं लोक सेवा आयोग (RPSC) विशेष परीक्षा संबल
+              रूपसिंह फनात की ओर से युवाओं को समर्पित • आइए मिलकर कल को और बेहतर बनाते हैं
             </p>
           </div>
         </div>

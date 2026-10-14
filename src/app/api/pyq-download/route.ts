@@ -42,7 +42,7 @@ export async function GET(request: NextRequest) {
       const { width, height } = page.getSize();
 
       // 1. TOP HEADER STAMP (REQUESTED REQUIREMENT)
-      // Header: 'नई सोच, नई पहल | श्रीमान रूप सिंह फणात'
+      // Header: 'नई सोच, नई पहल | रूपसिंह फनात'
       page.drawRectangle({
         x: 0,
         y: height - 42,
@@ -60,7 +60,7 @@ export async function GET(request: NextRequest) {
       });
 
       if (customFont) {
-        page.drawText('नई सोच, नई पहल | श्रीमान रूप सिंह फणात', {
+        page.drawText('नई सोच, नई पहल | रूपसिंह फनात', {
           x: 35,
           y: height - 26,
           size: 13,
@@ -68,7 +68,7 @@ export async function GET(request: NextRequest) {
           color: rgb(1, 1, 1),
         });
 
-        page.drawText('राजस्थान प्रतियोगी परीक्षा संबल प्रकोष्ठ • अधिकृत अधिसूचना एवं परिपत्र अभिलेख', {
+        page.drawText('युवा शिक्षा पोर्टल • अधिकृत अधिसूचना एवं परिपत्र अभिलेख', {
           x: 35,
           y: height - 38,
           size: 8.5,
@@ -76,7 +76,7 @@ export async function GET(request: NextRequest) {
           color: rgb(0.9, 0.8, 0.4),
         });
       } else {
-        page.drawText('Nayi Soch, Nayi Pehal | Shreeman Roop Singh Fanat', {
+        page.drawText('Nayi Soch, Nayi Pehal | Roopsingh Fanat', {
           x: 35,
           y: height - 26,
           size: 12,
@@ -84,7 +84,7 @@ export async function GET(request: NextRequest) {
           color: rgb(1, 1, 1),
         });
 
-        page.drawText('Rajasthan Exams Certified Official Circular & Order Portal', {
+        page.drawText('Yuva Shiksha Portal • Certified Official Circular & Order', {
           x: 35,
           y: height - 38,
           size: 8,
@@ -102,9 +102,9 @@ export async function GET(request: NextRequest) {
       });
 
       // 2. WATERMARK STAMP (REQUESTED REQUIREMENT)
-      // Watermark: 'नई सोच, नई पहल | श्रीमान रूप सिंह फणात'
+      // Watermark: 'नई सोच, नई पहल | रूपसिंह फनात'
       if (customFont) {
-        page.drawText('नई सोच, नई पहल | श्रीमान रूप सिंह फणात', {
+        page.drawText('नई सोच, नई पहल | रूपसिंह फनात', {
           x: 70,
           y: height / 2 - 40,
           size: 26,
@@ -114,7 +114,7 @@ export async function GET(request: NextRequest) {
           rotate: degrees(45),
         });
       } else {
-        page.drawText('Nayi Soch, Nayi Pehal | Shreeman Roop Singh Fanat', {
+        page.drawText('Nayi Soch, Nayi Pehal | Roopsingh Fanat', {
           x: 60,
           y: height / 2 - 40,
           size: 22,
@@ -461,7 +461,7 @@ export async function GET(request: NextRequest) {
         color: rgb(0.85, 0.88, 0.92),
       });
 
-      page.drawText('नई सोच, नई पहल | श्रीमान रूप सिंह फणात संबल अभियान • निःशुल्क आधिकारिक प्रतिलिपि', {
+      page.drawText('युवा शिक्षा पोर्टल • नई सोच, नई पहल | रूपसिंह फनात संबल अभियान', {
         x: 35,
         y: 30,
         size: 7.5,
@@ -506,7 +506,7 @@ export async function GET(request: NextRequest) {
 
       // ==========================================
       // 1. TOP HEADER STAMP (REQUESTED REQUIREMENT)
-      // Header: 'नई सोच, नई पहल | श्रीमान रूप सिंह फणात'
+      // Header: 'नई सोच, नई पहल | रूपसिंह फनात'
       // ==========================================
       page.drawRectangle({
         x: 0,
@@ -525,7 +525,7 @@ export async function GET(request: NextRequest) {
       });
 
       if (customFont) {
-        page.drawText('नई सोच, नई पहल | श्रीमान रूप सिंह फणात', {
+        page.drawText('नई सोच, नई पहल | रूपसिंह फनात', {
           x: 35,
           y: height - 26,
           size: 13,
@@ -533,7 +533,7 @@ export async function GET(request: NextRequest) {
           color: rgb(1, 1, 1),
         });
 
-        page.drawText('राजस्थान प्रतियोगी परीक्षा संबल प्रकोष्ठ • 100% निःशुल्क प्रामाणिक प्रश्न-पत्र', {
+        page.drawText('युवा शिक्षा पोर्टल • 100% निःशुल्क प्रामाणिक प्रश्न-पत्र', {
           x: 35,
           y: height - 38,
           size: 8.5,
@@ -541,7 +541,7 @@ export async function GET(request: NextRequest) {
           color: rgb(0.9, 0.8, 0.4),
         });
       } else {
-        page.drawText('Nayi Soch, Nayi Pehal | Shreeman Roop Singh Fanat', {
+        page.drawText('Nayi Soch, Nayi Pehal | Roopsingh Fanat', {
           x: 35,
           y: height - 26,
           size: 12,
@@ -549,7 +549,7 @@ export async function GET(request: NextRequest) {
           color: rgb(1, 1, 1),
         });
 
-        page.drawText('Rajasthan Exams Free PYQ Repository • Govt Exam Cell', {
+        page.drawText('Yuva Shiksha Portal Free PYQ Repository • Govt Exam Cell', {
           x: 35,
           y: height - 38,
           size: 8,
@@ -568,10 +568,10 @@ export async function GET(request: NextRequest) {
 
       // ==========================================
       // 2. WATERMARK STAMP (REQUESTED REQUIREMENT)
-      // Watermark: 'नई सोच, नई पहल | श्रीमान रूप सिंह फणात'
+      // Watermark: 'नई सोच, नई पहल | रूपसिंह फनात'
       // ==========================================
       if (customFont) {
-        page.drawText('नई सोच, नई पहल | श्रीमान रूप सिंह फणात', {
+        page.drawText('नई सोच, नई पहल | रूपसिंह फनात', {
           x: 70,
           y: height / 2 - 40,
           size: 26,
@@ -581,7 +581,7 @@ export async function GET(request: NextRequest) {
           rotate: degrees(45),
         });
 
-        page.drawText('RAIASTHAN GOVT EXAMS • FREE PORTAL', {
+        page.drawText('YUVA SHIKSHA PORTAL • FREE PYQ', {
           x: 80,
           y: height / 2 - 80,
           size: 18,
@@ -591,7 +591,7 @@ export async function GET(request: NextRequest) {
           rotate: degrees(45),
         });
       } else {
-        page.drawText('Nayi Soch, Nayi Pehal | Shreeman Roop Singh Fanat', {
+        page.drawText('Nayi Soch, Nayi Pehal | Roopsingh Fanat', {
           x: 60,
           y: height / 2 - 40,
           size: 22,
@@ -990,7 +990,7 @@ export async function GET(request: NextRequest) {
             color: rgb(0.12, 0.23, 0.54),
           });
 
-          page.drawText('यह प्रश्न-पत्र श्रीमान रूप सिंह फणात के प्रेरक सानिध्य में राजस्थान के दूरदराज एवं ग्रामीण', {
+          page.drawText('रूपसिंह फनात की ओर से युवाओं को समर्पित — उन सभी युवाओं के लिए जो राजस्थान भर्ती परीक्षा', {
             x: 48,
             y: currentY - 38,
             size: 8.5,
@@ -998,7 +998,7 @@ export async function GET(request: NextRequest) {
             color: rgb(0.2, 0.25, 0.35),
           });
 
-          page.drawText('क्षेत्रों के प्रतियोगी विद्यार्थियों की निःशुल्क एवं गुणवत्तापूर्ण तैयारी हेतु अधिकृत किया गया है।', {
+          page.drawText('की तैयारी कर रहे हैं। नई सोच, नई पहल — आइए मिलकर कल को और बेहतर बनाते हैं।', {
             x: 48,
             y: currentY - 52,
             size: 8.5,
@@ -1014,7 +1014,7 @@ export async function GET(request: NextRequest) {
             color: rgb(0.2, 0.25, 0.35),
           });
 
-          page.drawText('सम्पर्क एवं मार्गदर्शन: राजस्थान युवा संबल प्रकोष्ठ • नई सोच, नई पहल', {
+          page.drawText('सम्पर्क एवं मार्गदर्शन: युवा शिक्षा प्रकोष्ठ • रूपसिंह फनात (नई सोच, नई पहल)', {
             x: 48,
             y: currentY - 84,
             size: 8,
@@ -1030,7 +1030,7 @@ export async function GET(request: NextRequest) {
             color: rgb(0.12, 0.23, 0.54),
           });
 
-          page.drawText('Free authentic study papers under the guidance of Shreeman Roop Singh Fanat.', {
+          page.drawText('Dedicated to youth by Roopsingh Fanat for Rajasthan competitive exams preparation.', {
             x: 48,
             y: currentY - 40,
             size: 8.5,
@@ -1048,7 +1048,7 @@ export async function GET(request: NextRequest) {
         color: rgb(0.85, 0.88, 0.92),
       });
 
-      page.drawText('नई सोच, नई पहल | श्रीमान रूप सिंह फणात संबल अभियान', {
+      page.drawText('युवा शिक्षा पोर्टल • नई सोच, नई पहल | रूपसिंह फनात संबल अभियान', {
         x: 35,
         y: 22,
         size: 7.5,

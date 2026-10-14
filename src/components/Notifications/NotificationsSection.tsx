@@ -518,7 +518,7 @@ export default function NotificationsSection() {
                 <span>'नई सोच, नई पहल' संबल प्रकोष्ठ</span>
               </div>
               <p className="text-amber-800 leading-relaxed text-[11px]">
-                श्रीमान रूप सिंह फणात के मार्गदर्शन में युवाओं को समय पर निष्पक्ष, निःशुल्क एवं शत-प्रतिशत प्रामाणिक सूचना उपलब्ध कराना हमारा संकल्प है।
+                रूपसिंह फनात के मार्गदर्शन में युवाओं को समय पर निष्पक्ष, निःशुल्क एवं शत-प्रतिशत प्रामाणिक सूचना उपलब्ध कराना हमारा संकल्प है। आइए मिलकर कल को और बेहतर बनाते हैं।
               </p>
             </div>
 
@@ -647,7 +647,7 @@ export default function NotificationsSection() {
             {/* Modal Bottom Actions */}
             <div className="pt-4 border-t border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-3">
               <div className="text-[11px] text-slate-500">
-                वाटरमार्क: <strong className="text-blue-900">&lsquo;नई सोच, नई पहल | श्रीमान रूप सिंह फणात&rsquo;</strong>
+                वाटरमार्क: <strong className="text-blue-900">&lsquo;नई सोच, नई पहल | रूपसिंह फनात&rsquo;</strong>
               </div>
 
               <div className="flex items-center gap-2 w-full sm:w-auto">

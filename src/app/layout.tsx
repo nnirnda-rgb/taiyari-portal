@@ -2,10 +2,17 @@ import type { Metadata, Viewport } from 'next';
 import './globals.css';
 
 export const metadata: Metadata = {
-  title: 'नई सोच, नई पहल | राजस्थान प्रतियोगी परीक्षा पोर्टल - श्रीमान रूप सिंह फणात',
-  description: 'राजस्थान सरकार प्रतियोगी परीक्षाएं (RSMSSB एवं RPSC) तैयारी पोर्टल। पटवार, CET, RAS, व्याख्याता, पशु परिचर हेतु 100% निःशुल्क नोट्स, 5-विकल्प मॉक टेस्ट व पुराने प्रश्न-पत्र।',
-  keywords: 'नई सोच नई पहल, रूप सिंह फणात, Roop Singh Fanat, Rajasthan Exams, RSMSSB, RPSC, RAS, Patwar, CET Rajasthan, पशु परिचर भर्ती, Rajasthan GK, Mock Test',
-  authors: [{ name: 'Shreeman Roop Singh Fanat Initiative' }],
+  title: 'युवा शिक्षा पोर्टल | नई सोच, नई पहल - रूपसिंह फनात',
+  description: 'रूपसिंह फनात की ओर से युवाओं को समर्पित — उन सभी युवाओं के लिए जो राजस्थान भर्ती परीक्षा की तैयारी कर रहे हैं। नई सोच, नई पहल — आइए मिलकर कल को और बेहतर बनाते हैं।',
+  keywords: 'युवा शिक्षा पोर्टल, नई सोच नई पहल, रूपसिंह फनात, Roopsingh Fanat, आइए मिलकर कल को और बेहतर बनाते हैं, Rajasthan Exams, RSMSSB, RPSC, RAS, Patwar, CET Rajasthan, पशु परिचर भर्ती, Rajasthan GK, Mock Test',
+  authors: [{ name: 'रूपसिंह फनात (Roopsingh Fanat) - नई सोच, नई पहल' }],
+  openGraph: {
+    title: 'युवा शिक्षा पोर्टल | नई सोच, नई पहल - रूपसिंह फनात',
+    description: 'रूपसिंह फनात की ओर से युवाओं को समर्पित — उन सभी युवाओं के लिए जो राजस्थान भर्ती परीक्षा की तैयारी कर रहे हैं। आइए मिलकर कल को और बेहतर बनाते हैं।',
+    siteName: 'युवा शिक्षा पोर्टल',
+    locale: 'hi_IN',
+    type: 'website',
+  },
 };
 
 export const viewport: Viewport = {

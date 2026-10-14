@@ -143,7 +143,7 @@ export default function Navbar({ activeTab, setActiveTab }: NavbarProps) {
             <div className="flex items-center gap-2">
               <span className="font-extrabold text-sm text-white tracking-wide flex items-center gap-1.5">
                 <Sparkles className="w-4 h-4 text-amber-400" />
-                नई सोच, नई पहल
+                युवा शिक्षा पोर्टल
               </span>
               <span className="text-[11px] bg-blue-950 px-2 py-0.5 rounded text-amber-300 border border-blue-700 font-medium">
                 {navItems.find((n) => n.id === activeTab)?.label || 'पोर्टल'}

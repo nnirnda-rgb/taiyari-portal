@@ -116,7 +116,7 @@ export default function PreviousPapersSection({ searchFilter = '' }: PreviousPap
             </h2>
             <p className="text-xs sm:text-sm text-slate-600 mt-1">
               वर्ष 2021 से 2024 तक आयोजित सभी RPSC एवं RSMSSB मास्टर पेपर्स। 
-              प्रत्येक डाउनलोड पर <strong className="text-blue-900">&lsquo;नई सोच, नई पहल | श्रीमान रूप सिंह फणात&rsquo;</strong> का आधिकारिक वॉटरमार्क स्वतः अंकित होता है।
+              प्रत्येक डाउनलोड पर <strong className="text-blue-900">&lsquo;नई सोच, नई पहल | रूपसिंह फनात&rsquo;</strong> का आधिकारिक वॉटरमार्क स्वतः अंकित होता है।
             </p>
           </div>
 
@@ -341,7 +341,7 @@ export default function PreviousPapersSection({ searchFilter = '' }: PreviousPap
                 <span>स्वचालित वॉटरमार्क एवं हेडर स्टैम्पिंग (pdf-lib):</span>
               </div>
               <p className="text-[11px] text-slate-600">
-                इस प्रश्न-पत्र के प्रत्येक पृष्ठ पर <strong className="text-slate-800">&lsquo;नई सोच, नई पहल | श्रीमान रूप सिंह फणात&rsquo;</strong> का आधिकारिक हेडर और वॉटरमार्क स्वचालित रूप से एम्बेड होगा।
+                इस प्रश्न-पत्र के प्रत्येक पृष्ठ पर <strong className="text-slate-800">&lsquo;नई सोच, नई पहल | रूपसिंह फनात&rsquo;</strong> का आधिकारिक हेडर और वॉटरमार्क स्वचालित रूप से एम्बेड होगा।
               </p>
             </div>
 
