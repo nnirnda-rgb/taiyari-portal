@@ -1,0 +1,98 @@
+rules_version = '2';
+
+// ===============================================================
+// Assumed Data Model
+// ===============================================================
+//
+// Collection: mock_tests
+// Document ID: [testId] (e.g. 'cbt-mock-cet-grad-2024')
+// Fields:
+//   - id: string (required) - unique test ID
+//   - title: string (required) - test title in Hindi/English
+//   - examBoard: string (required, 'RSMSSB' or 'RPSC') - examination board
+//   - examCategory: string (required) - category label
+//   - totalQuestions: number (required, > 0) - number of questions
+//   - durationMinutes: number (required, > 0) - test timer limit
+//   - totalMarks: number (required, > 0) - maximum marks
+//   - negativeMarking: string (required) - deduction rule
+//   - hasFifthOption: bool (required) - 5th option rule flag
+//
+// Collection: questions
+// Document ID: [testId_q_qNumber]
+// Fields:
+//   - id: number (required) - question sequence number
+//   - testId: string (required) - parent test ID
+//   - subject: string (required) - subject category
+//   - questionHindi: string (required) - Hindi question text
+//   - questionEnglish: string (required) - English question text
+//   - options: list (required) - answer choices (A, B, C, D, E)
+//   - correctOption: string (required) - valid correct option key
+//   - explanationHindi: string (required) - detailed solution
+//
+// Collection: student_test_histories
+// Document ID: [attemptId]
+// Fields:
+//   - attemptId: string (required) - unique attempt identifier
+//   - studentId: string (required) - student identifier
+//   - testId: string (required) - test taken
+//   - score: number (required) - net score
+//   - totalMarks: number (required) - max marks
+//   - percentage: number (required) - score percentage
+//   - totalAttempted: number (required) - count of answered questions
+//   - correctCount: number (required) - correct count
+//   - incorrectCount: number (required) - incorrect count
+//   - accuracy: number (required) - accuracy rate
+//   - submittedAt: string/timestamp (required) - submission timestamp
+//
+// ===============================================================
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Helper: Validates if string has reasonable length
+    function isValidString(val, minLen, maxLen) {
+      return val is string && val.size() >= minLen && val.size() <= maxLen;
+    }
+
+    // Helper: Validation for student test attempt history submission
+    function isValidStudentHistory(data) {
+      return data.keys().hasAll([
+        'attemptId', 'studentId', 'testId', 'testTitle',
+        'score', 'totalMarks', 'accuracy', 'submittedAt'
+      ]) &&
+      data.attemptId is string &&
+      data.studentId is string &&
+      data.testId is string &&
+      data.score is number &&
+      data.totalMarks is number &&
+      data.accuracy is number;
+    }
+
+    // 1. Mock Tests: Publicly readable educational content; write requires admin
+    match /mock_tests/{testId} {
+      allow read: if true;
+      allow write: if request.auth != null && request.auth.token.admin == true;
+    }
+
+    // 2. Questions: Publicly readable; write requires admin
+    match /questions/{questionId} {
+      allow read: if true;
+      allow write: if request.auth != null && request.auth.token.admin == true;
+    }
+
+    // 3. Student Test Histories:
+    // - Students can record their test attempts
+    // - Students can query and read their own test histories
+    // - Updates and deletes are disallowed to preserve academic integrity
+    match /student_test_histories/{attemptId} {
+      allow create: if isValidStudentHistory(request.resource.data);
+      allow read: if true;
+      allow update, delete: if false;
+    }
+
+    // Default deny for any unlisted collections
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
