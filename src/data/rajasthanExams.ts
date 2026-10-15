@@ -24,9 +24,10 @@ export interface RajasthanExam {
   totalMarks: number;
   negativeMarking: string;
   officialWebsite: string;
+  officialSyllabusUrl?: string;
+  mirrorSyllabusUrl?: string;
   featured?: boolean;
 }
-
 export const RAJASTHAN_EXAMS_DIRECTORY: RajasthanExam[] = [
   // =========================================================================
   // 1. RPSC (राजस्थान लोक सेवा आयोग, अजमेर)
@@ -55,6 +56,8 @@ export const RAJASTHAN_EXAMS_DIRECTORY: RajasthanExam[] = [
     totalMarks: 900,
     negativeMarking: '1/3 अंक प्रति गलत उत्तर (5वां विकल्प नियम लागू)',
     officialWebsite: 'https://rpsc.rajasthan.gov.in',
+    officialSyllabusUrl: 'https://rpsc.rajasthan.gov.in/Static/Syllabus/RAS_RTS_Comb_Comp_Exam_Syllabus.pdf',
+    mirrorSyllabusUrl: 'https://archive.org/download/rajasthan-recruitment-pyqs/RAS_RTS_Official_Syllabus.pdf',
     featured: true
   },
   {
@@ -80,6 +83,8 @@ export const RAJASTHAN_EXAMS_DIRECTORY: RajasthanExam[] = [
     totalMarks: 450,
     negativeMarking: '1/3 अंक प्रति गलत उत्तर',
     officialWebsite: 'https://rpsc.rajasthan.gov.in',
+    officialSyllabusUrl: 'https://rpsc.rajasthan.gov.in/Static/Syllabus/School_Lecturer_Paper_I_Syllabus.pdf',
+    mirrorSyllabusUrl: 'https://archive.org/download/rajasthan-recruitment-pyqs/1st_Grade_Teacher_Syllabus.pdf',
     featured: true
   },
   {
@@ -105,6 +110,8 @@ export const RAJASTHAN_EXAMS_DIRECTORY: RajasthanExam[] = [
     totalMarks: 500,
     negativeMarking: '1/3 अंक प्रति गलत उत्तर',
     officialWebsite: 'https://rpsc.rajasthan.gov.in',
+    officialSyllabusUrl: 'https://rpsc.rajasthan.gov.in/Static/Syllabus/Sr_Teacher_Sec_Edu_Paper_I_Syllabus.pdf',
+    mirrorSyllabusUrl: 'https://archive.org/download/rajasthan-recruitment-pyqs/2nd_Grade_Teacher_Syllabus.pdf',
     featured: true
   },
   {
@@ -158,6 +165,8 @@ export const RAJASTHAN_EXAMS_DIRECTORY: RajasthanExam[] = [
     totalMarks: 450,
     negativeMarking: '1/3 अंक प्रति गलत उत्तर',
     officialWebsite: 'https://rpsc.rajasthan.gov.in',
+    officialSyllabusUrl: 'https://rpsc.rajasthan.gov.in/Static/Syllabus/Police_SI_Combined_Comp_Exam_Syllabus.pdf',
+    mirrorSyllabusUrl: 'https://archive.org/download/rajasthan-recruitment-pyqs/Police_SI_Syllabus.pdf',
     featured: true
   },
   {
@@ -337,6 +346,61 @@ export const RAJASTHAN_EXAMS_DIRECTORY: RajasthanExam[] = [
   // 2. RSSB (राजस्थान कर्मचारी चयन बोर्ड, जयपुर)
   // =========================================================================
   {
+    id: 'rssb-cet-grad',
+    name: 'समान पात्रता परीक्षा (CET) स्नातक स्तर 2024-25',
+    nameEnglish: 'Common Eligibility Test (CET Graduation Level)',
+    board: 'RSSB',
+    department: 'कार्मिक विभाग एवं विभिन्न अधीनस्थ विभाग',
+    minQualification: 'किसी भी मान्यता प्राप्त विश्वविद्यालय से स्नातक (Graduation)',
+    qualificationLevel: 'graduate',
+    cetStatus: 'CET-Graduation',
+    cetDetailHindi: 'अधीनस्थ सेवाओं (पटवारी, लेखाकार, जिलेदार) हेतु अनिवार्य पात्रता',
+    icon: 'FileCheck',
+    totalPosts: '8,000+ पद (विभिन्न संवर्ग)',
+    ageLimit: '18 से 40 वर्ष',
+    status: 'उत्तर कुंजी जारी',
+    description: 'प्लाटून कमांडर, जिलेदार, पटवारी, कनिष्ठ लेखाकार, तहसील राजस्व लेखाकार एवं महिला पर्यवेक्षक पदों हेतु अनिवार्य राज्य पात्रता परीक्षा।',
+    syllabusHighlights: [
+      'भारतीय राष्ट्रीय आंदोलन एवं राजस्थान का इतिहास, कला, संस्कृति व विरासत',
+      'भारत एवं राजस्थान का भूगोल, अर्थव्यवस्था एवं राजनीतिक व्यवस्था',
+      'दैनिक सामान्य विज्ञान, तार्किक योग्यता, कम्प्यूटर ज्ञान एवं सामान्य हिन्दी/अंग्रेजी'
+    ],
+    stages: ['एकल वस्तुनिष्ठ लिखित परीक्षा (150 प्रश्न / 300 अंक, 3 घंटे)', 'स्कोरकार्ड एवं 15 गुणा मुख्य परीक्षा चयन'],
+    totalMarks: 300,
+    negativeMarking: 'लागू नहीं (पात्रता आधारित 150 प्रश्न)',
+    officialWebsite: 'https://rsmssb.rajasthan.gov.in',
+    officialSyllabusUrl: 'https://rssb.rajasthan.gov.in/Static/files/CET_Graduation_Syllabus_Scheme.pdf',
+    mirrorSyllabusUrl: 'https://archive.org/download/rajasthan-recruitment-pyqs/CET_Graduation_Syllabus.pdf',
+    featured: true
+  },
+  {
+    id: 'rssb-cet-12th',
+    name: 'समान पात्रता परीक्षा (CET) सीनियर सेकंडरी (12th Level)',
+    nameEnglish: 'Common Eligibility Test (CET Senior Secondary Level)',
+    board: 'RSSB',
+    department: 'विभिन्न अधीनस्थ विभाग एवं पुलिस संवर्ग',
+    minQualification: '12वीं (सीनियर सेकेंडरी) उत्तीर्ण',
+    qualificationLevel: '12th',
+    cetStatus: 'CET-12th',
+    cetDetailHindi: 'वनपाल, छात्रावास अधीक्षक, LDC, जमादार व कांस्टेबल हेतु अनिवार्य पात्रता',
+    icon: 'Layers',
+    totalPosts: '10,000+ विभिन्न पद',
+    ageLimit: '18 से 40 वर्ष',
+    status: 'उत्तर कुंजी जारी',
+    description: 'राजस्थान अधीनस्थ कार्यालयों में लिपिकीय एवं क्षेत्रीय पदों पर चयन हेतु अनिवार्य न्यूनतम योग्यता परीक्षा।',
+    syllabusHighlights: [
+      'राजस्थान का इतिहास, कला, सांस्कृतिक विरासत एवं भूगोल (विशेष बल)',
+      'दैनिक विज्ञान, तार्किक विवेचन, गणित, सामान्य हिन्दी एवं अंग्रेजी, बेसिक कम्प्यूटर ज्ञान'
+    ],
+    stages: ['एकल वस्तुनिष्ठ लिखित परीक्षा (150 प्रश्न / 300 अंक, 3 घंटे)', 'स्कोरकार्ड 1 वर्ष हेतु मान्य'],
+    totalMarks: 300,
+    negativeMarking: 'लागू नहीं',
+    officialWebsite: 'https://rsmssb.rajasthan.gov.in',
+    officialSyllabusUrl: 'https://rssb.rajasthan.gov.in/Static/files/CET_Senior_Secondary_Syllabus.pdf',
+    mirrorSyllabusUrl: 'https://archive.org/download/rajasthan-recruitment-pyqs/CET_12th_Syllabus.pdf',
+    featured: true
+  },
+  {
     id: 'rssb-reet-mains-3rd-grade',
     name: 'तृतीय श्रेणी अध्यापक (REET Mains L1 & L2)',
     nameEnglish: '3rd Grade Teacher (Level 1 & Level 2)',
@@ -389,6 +453,8 @@ export const RAJASTHAN_EXAMS_DIRECTORY: RajasthanExam[] = [
     totalMarks: 300,
     negativeMarking: '1/3 अंक प्रति गलत उत्तर (5वां विकल्प नियम लागू)',
     officialWebsite: 'https://rsmssb.rajasthan.gov.in',
+    officialSyllabusUrl: 'https://rssb.rajasthan.gov.in/Static/files/Patwar_Detailed_Syllabus_Scheme.pdf',
+    mirrorSyllabusUrl: 'https://archive.org/download/rajasthan-recruitment-pyqs/Patwar_Official_Syllabus.pdf',
     featured: true
   },
   {
@@ -489,6 +555,8 @@ export const RAJASTHAN_EXAMS_DIRECTORY: RajasthanExam[] = [
     totalMarks: 150,
     negativeMarking: '1/4 (0.25) अंक प्रति गलत उत्तर (5वां विकल्प नियम लागू)',
     officialWebsite: 'https://rsmssb.rajasthan.gov.in',
+    officialSyllabusUrl: 'https://rssb.rajasthan.gov.in/Static/files/Animal_Attendant_Detailed_Syllabus.pdf',
+    mirrorSyllabusUrl: 'https://archive.org/download/rajasthan-recruitment-pyqs/Animal_Attendant_Syllabus.pdf',
     featured: true
   },
   {
@@ -717,6 +785,8 @@ export const RAJASTHAN_EXAMS_DIRECTORY: RajasthanExam[] = [
     totalMarks: 150,
     negativeMarking: '1/4 (0.25) अंक प्रति गलत उत्तर',
     officialWebsite: 'https://police.rajasthan.gov.in',
+    officialSyllabusUrl: 'https://police.rajasthan.gov.in/Static/files/Constable_Recruitment_Syllabus.pdf',
+    mirrorSyllabusUrl: 'https://archive.org/download/rajasthan-recruitment-pyqs/Police_Constable_Syllabus.pdf',
     featured: true
   },
   {
@@ -1207,3 +1277,5 @@ export const CET_FILTER_OPTIONS: { id: CETStatus | 'all'; labelHindi: string; ba
   { id: 'CET-Graduation', labelHindi: 'CET स्नातक स्तर', badgeClass: 'bg-blue-100 text-blue-800 border-blue-300' },
   { id: 'CET-12th', labelHindi: 'CET 12वीं स्तर', badgeClass: 'bg-purple-100 text-purple-800 border-purple-300' }
 ];
+
+export const RAJASTHAN_EXAMS = RAJASTHAN_EXAMS_DIRECTORY;

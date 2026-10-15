@@ -11,6 +11,7 @@ import {
 import { db, isFirebaseConfigured } from '@/lib/firebase';
 import { generateWeeklyPracticeQuestions, ensureOptionE } from '@/lib/gemini';
 import { RAJASTHAN_EXAMS_DIRECTORY as RAJASTHAN_EXAMS } from '@/data/rajasthanExams';
+import { PREVIOUS_PAPERS_DATA } from '@/data/portalData';
 
 export interface AgentReport {
   agentId: number;
@@ -78,12 +79,12 @@ const INITIAL_AGENT_REPORTS: AgentReport[] = [
   },
   {
     agentId: 5,
-    agentName: 'Monthly PYQ Harvester & Watermarker',
-    category: 'Previous Years Papers',
+    agentName: 'Multi-Source PYQ Harvester',
+    category: 'Previous Years Master Papers',
     status: 'active',
     lastRunTime: new Date(Date.now() - 1000 * 60 * 25).toISOString(),
-    itemsPublished: 36,
-    summary: 'विगत वर्षों (2021-2024) के मास्टर प्रश्न-पत्रों पर "नई सोच, नई पहल | युवा शिक्षा पोर्टल - रूपसिंह फनात" वाटरमार्क लागू कर भंडार अपडेट किया।',
+    itemsPublished: 10,
+    summary: 'RPSC एवं RSMSSB के 10 मूल 100-150 प्रश्नों वाले मास्टर प्रश्न-पत्र एवं आधिकारिक फाइनल उत्तर कुंजी सीधे राज्य भर्ती सर्वर व मिरर से अद्यतन।',
   },
   {
     agentId: 6,
@@ -323,55 +324,30 @@ export async function runAgent4_MonthlyCBTTests(): Promise<{ success: boolean; c
 }
 
 // =========================================================================
-// AGENT 5: Monthly PYQ Harvester & Watermarker
+// AGENT 5: Multi-Source PYQ Harvester
 // =========================================================================
 export async function runAgent5_PYQHarvester(): Promise<{ success: boolean; count: number; message: string }> {
-  const harvestedPapers = [
-    {
-      id: `pyq_patwar_harvest_${Date.now()}`,
-      examName: 'RSMSSB पटवार सीधी भर्ती मुख्य परीक्षा',
-      board: 'RSMSSB',
-      year: '2021-2024',
-      totalQuestions: 150,
-      watermarkApplied: true,
-      watermarkText: 'नई सोच, नई पहल | युवा शिक्षा पोर्टल - रूपसिंह फनात',
-      downloadEndpoint: '/api/pyq-download?paperId=rsmssb-patwar-2021',
-      status: 'published',
-      autoPublishedBy: 'Agent 5 (Monthly PYQ Harvester & Watermarker)',
-      publishedAt: new Date().toISOString(),
-    },
-    {
-      id: `pyq_ras_pre_harvest_${Date.now()}`,
-      examName: 'RPSC RAS/RTS संयुक्त प्रतियोगी प्रारंभिक परीक्षा',
-      board: 'RPSC',
-      year: '2023-2024',
-      totalQuestions: 150,
-      watermarkApplied: true,
-      watermarkText: 'नई सोच, नई पहल | युवा शिक्षा पोर्टल - रूपसिंह फनात',
-      downloadEndpoint: '/api/pyq-download?paperId=rpsc-ras-pre-2023',
-      status: 'published',
-      autoPublishedBy: 'Agent 5 (Monthly PYQ Harvester & Watermarker)',
-      publishedAt: new Date().toISOString(),
-    },
-    {
-      id: `pyq_police_harvest_${Date.now()}`,
-      examName: 'राजस्थान पुलिस कांस्टेबल भर्ती परीक्षा (GD & Telecom)',
-      board: 'Police Department',
-      year: '2022-2024',
-      totalQuestions: 150,
-      watermarkApplied: true,
-      watermarkText: 'नई सोच, नई पहल | युवा शिक्षा पोर्टल - रूपसिंह फनात',
-      downloadEndpoint: '/api/pyq-download?paperId=police-constable-2022',
-      status: 'published',
-      autoPublishedBy: 'Agent 5 (Monthly PYQ Harvester & Watermarker)',
-      publishedAt: new Date().toISOString(),
-    }
-  ];
+  const harvestedPapers = PREVIOUS_PAPERS_DATA.map(paper => ({
+    id: `pyq_${paper.id}`,
+    examName: paper.examTitle,
+    board: paper.board,
+    year: paper.year,
+    shift: paper.shift,
+    totalQuestions: paper.questionsCount,
+    isOriginalMasterPaper: true,
+    officialSourcePortal: paper.officialSourcePortal,
+    masterPaperUrl: paper.masterPaperUrl,
+    answerKeyUrl: paper.answerKeyUrl,
+    mirrorPaperUrl: paper.mirrorPaperUrl,
+    status: 'published',
+    autoPublishedBy: 'Agent 5 (Multi-Source PYQ Harvester)',
+    publishedAt: new Date().toISOString(),
+  }));
 
   if (db && isFirebaseConfigured()) {
     try {
       for (const p of harvestedPapers) {
-        await setDoc(doc(db, 'pyq_repository', p.id), {
+        await setDoc(doc(db, 'pyqs', p.id), {
           ...p,
           updatedAt: serverTimestamp(),
         });
@@ -384,7 +360,7 @@ export async function runAgent5_PYQHarvester(): Promise<{ success: boolean; coun
   return {
     success: true,
     count: harvestedPapers.length,
-    message: `${harvestedPapers.length} प्रामाणिक प्रश्न-पत्रों पर हेडर व तिरछा वाटरमार्क 'नई सोच, नई पहल | युवा शिक्षा पोर्टल - रूपसिंह फनात' लागू कर सीधे प्रकाशित किया गया।`,
+    message: `${harvestedPapers.length} राजस्थान भर्ती परीक्षाओं के मूल 100-150 प्रश्नों वाले मास्टर प्रश्न-पत्र एवं आधिकारिक फाइनल उत्तर कुंजी सीधे प्रकाशित किए गए।`,
   };
 }
 

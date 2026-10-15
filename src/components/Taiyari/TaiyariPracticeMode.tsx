@@ -51,19 +51,32 @@ export default function TaiyariPracticeMode({ initialExamId = 'all' }: TaiyariPr
         const optionIndexMap: Record<string, number> = { A: 0, B: 1, C: 2, D: 3, E: 4 };
         const mapped: PracticeQuestion[] = cloudList.map((item, idx) => ({
           id: item.id || `cloud_q_${idx}`,
-          examIds: ['all'],
-          subjectId: 'geography',
-          topic: item.subject || 'राजस्थान सामान्य ज्ञान',
+          examIds: Array.isArray(item.examIds) && item.examIds.length > 0 ? item.examIds : ['all'],
+          subjectId: item.subjectId || 'geography',
+          topic: item.topic || item.subject || 'राजस्थान सामान्य ज्ञान',
           questionHindi: item.questionHindi,
-          questionEnglish: item.questionHindi,
-          optionsHindi: item.options ? item.options.map((o: any) => o.hindi) : [],
-          optionsEnglish: item.options ? item.options.map((o: any) => o.english || o.hindi) : [],
-          correctOptionIndex: optionIndexMap[item.correctOption] ?? 0,
+          questionEnglish: item.questionEnglish || item.questionHindi,
+          optionsHindi: Array.isArray(item.optionsHindi) && item.optionsHindi.length > 0
+            ? item.optionsHindi 
+            : (item.options ? item.options.map((o: any) => o.hindi) : []),
+          optionsEnglish: Array.isArray(item.optionsEnglish) && item.optionsEnglish.length > 0
+            ? item.optionsEnglish 
+            : (item.options ? item.options.map((o: any) => o.english || o.hindi) : []),
+          correctOptionIndex: typeof item.correctOptionIndex === 'number' 
+            ? item.correctOptionIndex 
+            : (optionIndexMap[item.correctOption] ?? 0),
           explanationHindi: item.explanationHindi || '',
-          explanationEnglish: item.explanationHindi || '',
-          difficulty: 'मध्यम',
+          explanationEnglish: item.explanationEnglish || item.explanationHindi || '',
+          difficulty: item.difficulty || 'मध्यम',
         }));
-        setQuestionsList([...mapped, ...PRACTICE_QUESTIONS]);
+
+        const combined = [...mapped];
+        for (const pq of PRACTICE_QUESTIONS) {
+          if (!combined.some(q => q.id === pq.id)) {
+            combined.push(pq);
+          }
+        }
+        setQuestionsList(combined);
       }
     }).catch(() => {});
   }, []);

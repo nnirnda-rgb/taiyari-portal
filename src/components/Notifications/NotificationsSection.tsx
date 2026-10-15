@@ -42,21 +42,31 @@ export default function NotificationsSection() {
           id: item.id || `cloud_notif_${idx}`,
           title: item.title,
           board: (item.board === 'RPSC' ? 'RPSC' : 'RSMSSB') as 'RSMSSB' | 'RPSC',
-          tag: 'परीक्षा तिथि',
-          date: new Date(item.publishedAt || Date.now()).toLocaleDateString('hi-IN'),
-          circularNo: `CIRCULAR/AUTO/${item.id?.substring(0, 8) || '2025'}`,
-          department: 'राजस्थान भर्ती एवं चयन प्रकोष्ठ',
-          summary: item.title,
-          keyDetails: [
-            { label: 'स्थिति', value: 'ऑटो-पब्लिश्ड (लाइव)' },
-            { label: 'प्राथमिकता', value: 'आगामी परीक्षा' }
+          tag: item.tag || 'परीक्षा तिथि',
+          date: item.date || new Date(item.publishedAt || Date.now()).toLocaleDateString('hi-IN'),
+          circularNo: item.circularNo || `CIRCULAR/AUTO/${item.id?.substring(0, 8) || '2025-26'}`,
+          department: item.department || 'राजस्थान भर्ती एवं चयन प्रकोष्ठ',
+          summary: item.summary || item.title,
+          keyDetails: item.keyDetails || [
+            { label: 'स्थिति', value: 'आधिकारिक विज्ञप्ति' },
+            { label: 'सत्र', value: '2025-26' }
           ],
-          fileSize: '1.2 MB',
-          isNew: true,
-          isUrgent: item.urgent ?? true,
-          linkText: 'आधिकारिक परिपत्र एवं परीक्षा विवरण',
+          fileSize: item.fileSize || '1.5 MB',
+          isNew: item.isNew ?? true,
+          isUrgent: item.isUrgent ?? (item.urgent ?? false),
+          linkText: item.linkText || 'आधिकारिक परिपत्र एवं परीक्षा विवरण',
+          pdfUrl: item.pdfUrl,
+          mirrorPdfUrl: item.mirrorPdfUrl,
+          officialSourcePortal: item.officialSourcePortal,
         }));
-        setAllNotifications([...formatted, ...PORTAL_NOTIFICATIONS]);
+
+        const combined = [...formatted];
+        for (const notif of PORTAL_NOTIFICATIONS) {
+          if (!combined.some(n => n.id === notif.id)) {
+            combined.push(notif);
+          }
+        }
+        setAllNotifications(combined);
       }
     }).catch(() => {});
   }, []);
@@ -89,38 +99,19 @@ export default function NotificationsSection() {
     return true;
   });
 
-  const handleDownloadCircular = async (circular: PortalNotification) => {
-    try {
-      setDownloadingId(circular.id);
-      const url = `/api/pyq-download?circularId=${encodeURIComponent(circular.id)}`;
-      
-      const response = await fetch(url);
-      if (!response.ok) throw new Error('Download failed');
-
-      const blob = await response.blob();
-      const downloadUrl = window.URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = downloadUrl;
-      a.download = `${circular.board}_Circular_${circular.id}_Stamped.pdf`;
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-      window.URL.revokeObjectURL(downloadUrl);
-    } catch (err) {
-      console.error('Download error:', err);
-      alert(`'${circular.title}' की प्रतिलिपि डाउनलोड करने में असमर्थ। कृपया पुनः प्रयास करें।`);
-    } finally {
-      setDownloadingId(null);
-    }
+  const handleDownloadCircular = (circular: PortalNotification) => {
+    const targetUrl = circular.pdfUrl || circular.mirrorPdfUrl || `/api/pyq-download?circularId=${encodeURIComponent(circular.id)}`;
+    window.open(targetUrl, '_blank', 'noopener,noreferrer');
   };
 
   const upcomingCalendar = [
-    { exam: 'पशु परिचर सीधी भर्ती परीक्षा 2023', date: '15, 16, 17 व 18 दिसंबर 2024', board: 'RSMSSB', status: 'निश्चित' },
-    { exam: 'CET (सीनियर सेकंडरी स्तर 2024) प्राथमिक परिणाम', date: 'नवंबर 2024 चतुर्थ सप्ताह', board: 'RSMSSB', status: 'संभावित' },
-    { exam: 'सहायक अभियोजन अधिकारी (APO) संयुक्त परीक्षा', date: '19 जनवरी 2025', board: 'RPSC', status: 'घोषित' },
-    { exam: 'पटवार सीधी भर्ती 2024-25 ऑनलाइन आवेदन', date: 'दिसंबर 2024 प्रथम पखवाड़ा', board: 'RSMSSB', status: 'संभावित' },
-    { exam: 'RAS/RTS संयुक्त प्रतियोगी (प्रारंभिक) परीक्षा 2025', date: 'फरवरी - मार्च 2025', board: 'RPSC', status: 'प्रस्तावित' },
-    { exam: 'स्कूल प्राध्यापक (School Lecturer - 1st Grade)', date: 'अप्रैल - मई 2025', board: 'RPSC', status: 'कैलेंडर जारी' },
+    { exam: 'RSMSSB वार्षिक परीक्षा कैलेंडर 2025-26', date: 'जारी (2025-2026 सत्र)', board: 'RSMSSB', status: 'घोषित' },
+    { exam: 'राजस्व विभाग पटवारी सीधी भर्ती 2025', date: 'आवेदन शीघ्र (2025-26)', board: 'RSMSSB', status: 'प्रक्रियाधीन' },
+    { exam: 'RPSC RAS/RTS संयुक्त प्रतियोगी (प्रारंभिक) 2025', date: 'परीक्षा तिथि घोषित', board: 'RPSC', status: 'निश्चित' },
+    { exam: 'RSMSSB समान पात्रता परीक्षा (CET) 15 गुना परिणाम', date: 'स्कोरकार्ड जारी', board: 'RSMSSB', status: 'सक्रिय' },
+    { exam: 'राजस्थान पुलिस कांस्टेबल भर्ती सीबीटी/पीईटी', date: 'चयन प्रक्रिया जारी', board: 'Police', status: 'घोषित' },
+    { exam: 'RPSC वरिष्ठ अध्यापक (2nd Grade) भर्ती 2025', date: 'परीक्षा सत्र 2025-26', board: 'RPSC', status: 'कैलेंडर जारी' },
+    { exam: 'पशु परिचर (Animal Attendant) भर्ती परीक्षा', date: '5वां विकल्प अनिवार्य नियम', board: 'RSMSSB', status: 'विज्ञप्ति जारी' },
   ];
 
   return (
@@ -400,7 +391,7 @@ export default function NotificationsSection() {
                           </span>
                         </div>
 
-                        <div className="flex items-center gap-2">
+                        <div className="flex items-center gap-2 flex-wrap">
                           {/* View Full Order Details Button */}
                           <button
                             onClick={() => setSelectedCircular(circular)}
@@ -410,24 +401,30 @@ export default function NotificationsSection() {
                             <span>विस्तृत आदेश</span>
                           </button>
 
-                          {/* Download Stamped PDF Button */}
-                          <button
-                            onClick={() => handleDownloadCircular(circular)}
-                            disabled={downloadingId === circular.id}
-                            className="flex-1 sm:flex-none text-xs font-bold text-white bg-blue-900 hover:bg-blue-950 px-4 py-1.5 rounded-xl transition-all shadow-xs hover:shadow flex items-center justify-center gap-1.5 disabled:opacity-50"
+                          {/* Direct Official PDF Button */}
+                          <a
+                            href={circular.pdfUrl || circular.mirrorPdfUrl || `/api/pyq-download?circularId=${encodeURIComponent(circular.id)}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="flex-1 sm:flex-none text-xs font-bold text-white bg-blue-900 hover:bg-blue-950 px-3.5 py-1.5 rounded-xl transition-all shadow-xs hover:shadow flex items-center justify-center gap-1.5"
                           >
-                            {downloadingId === circular.id ? (
-                              <>
-                                <span className="w-3.5 h-3.5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                                <span>तैयार हो रहा है...</span>
-                              </>
-                            ) : (
-                              <>
-                                <Download className="w-3.5 h-3.5" />
-                                <span>विज्ञप्ति PDF</span>
-                              </>
-                            )}
-                          </button>
+                            <Download className="w-3.5 h-3.5 text-amber-300" />
+                            <span>मूल विज्ञप्ति PDF</span>
+                          </a>
+
+                          {/* Fast Mirror Link */}
+                          {circular.mirrorPdfUrl && (
+                            <a
+                              href={circular.mirrorPdfUrl}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="text-[11px] font-bold text-blue-950 bg-white hover:bg-blue-50 border border-blue-300 px-2.5 py-1.5 rounded-xl transition-colors flex items-center justify-center gap-1"
+                              title="फास्ट एजुकेशनल मिरर"
+                            >
+                              <Download className="w-3 h-3 text-emerald-600" />
+                              <span>मिरर</span>
+                            </a>
+                          )}
                         </div>
                       </div>
 
@@ -675,10 +672,10 @@ export default function NotificationsSection() {
             {/* Modal Bottom Actions */}
             <div className="pt-4 border-t border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-3">
               <div className="text-[11px] text-slate-500">
-                वाटरमार्क: <strong className="text-blue-900">&lsquo;नई सोच, नई पहल | रूपसिंह फनात&rsquo;</strong>
+                सत्यापित स्रोत: <strong className="text-blue-900">{selectedCircular.officialSourcePortal || `${selectedCircular.board.toLowerCase()}.rajasthan.gov.in`}</strong>
               </div>
 
-              <div className="flex items-center gap-2 w-full sm:w-auto">
+              <div className="flex items-center gap-2 w-full sm:w-auto flex-wrap">
                 <button
                   onClick={() => setSelectedCircular(null)}
                   className="flex-1 sm:flex-none px-4 py-2 rounded-xl text-xs font-bold text-slate-600 bg-slate-100 hover:bg-slate-200 transition-colors"
@@ -686,23 +683,27 @@ export default function NotificationsSection() {
                   बंद करें
                 </button>
 
-                <button
-                  onClick={() => handleDownloadCircular(selectedCircular)}
-                  disabled={downloadingId === selectedCircular.id}
+                {selectedCircular.mirrorPdfUrl && (
+                  <a
+                    href={selectedCircular.mirrorPdfUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex-1 sm:flex-none px-4 py-2 rounded-xl text-xs font-bold text-blue-950 bg-white hover:bg-blue-50 border border-blue-300 transition-colors flex items-center justify-center gap-1.5"
+                  >
+                    <Download className="w-3.5 h-3.5 text-emerald-600" />
+                    <span>फास्ट मिरर</span>
+                  </a>
+                )}
+
+                <a
+                  href={selectedCircular.pdfUrl || selectedCircular.mirrorPdfUrl || `/api/pyq-download?circularId=${encodeURIComponent(selectedCircular.id)}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="flex-1 sm:flex-none px-5 py-2 rounded-xl text-xs font-bold text-white bg-blue-900 hover:bg-blue-950 transition-colors flex items-center justify-center gap-1.5 shadow-sm"
                 >
-                  {downloadingId === selectedCircular.id ? (
-                    <>
-                      <span className="w-3.5 h-3.5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                      <span>डाउनलोड हो रहा है...</span>
-                    </>
-                  ) : (
-                    <>
-                      <Download className="w-3.5 h-3.5" />
-                      <span>विज्ञप्ति PDF डाउनलोड करें</span>
-                    </>
-                  )}
-                </button>
+                  <Download className="w-3.5 h-3.5 text-amber-300" />
+                  <span>मूल आदेश PDF (बोर्ड सर्वर)</span>
+                </a>
               </div>
             </div>
 

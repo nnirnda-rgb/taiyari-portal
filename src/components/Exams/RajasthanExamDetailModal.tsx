@@ -9,6 +9,7 @@ import {
   Clock, 
   CheckCircle2, 
   FileText, 
+  Download,
   AlertTriangle,
   Play,
   ExternalLink,
@@ -218,6 +219,55 @@ export default function RajasthanExamDetailModal({
                 </li>
               ))}
             </ul>
+
+            {/* Official Syllabus PDF Direct Access */}
+            <div className="mt-3 p-3 bg-gradient-to-r from-blue-50 to-indigo-50/60 rounded-xl border border-blue-200/80 flex flex-col sm:flex-row sm:items-center justify-between gap-2.5">
+              <div className="flex items-center gap-2">
+                <div className="w-7 h-7 rounded-lg bg-blue-900 text-white flex items-center justify-center flex-shrink-0">
+                  <FileText className="w-3.5 h-3.5 text-amber-300" />
+                </div>
+                <div>
+                  <div className="text-xs font-bold text-blue-950">आधिकारिक विस्तृत पाठ्यक्रम (Official Syllabus PDF)</div>
+                  <div className="text-[10px] text-blue-700">विभाग एवं चयन बोर्ड द्वारा जारी मूल पीडीएफ डाउनलोड करें</div>
+                </div>
+              </div>
+
+              <div className="flex items-center gap-2 flex-wrap">
+                {exam.officialSyllabusUrl ? (
+                  <a
+                    href={exam.officialSyllabusUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1.5 bg-blue-900 hover:bg-blue-800 text-white text-[11px] font-bold px-3 py-1.5 rounded-lg shadow-xs transition-colors"
+                  >
+                    <Download className="w-3 h-3 text-amber-300" />
+                    <span>मूल पीडीएफ (बोर्ड सर्वर)</span>
+                  </a>
+                ) : (
+                  <a
+                    href={exam.officialWebsite}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1 text-slate-700 hover:text-blue-900 bg-white border border-slate-300 text-[11px] font-semibold px-2.5 py-1.5 rounded-lg"
+                  >
+                    <ExternalLink className="w-3 h-3" />
+                    <span>पोर्टल पर देखें</span>
+                  </a>
+                )}
+
+                {exam.mirrorSyllabusUrl && (
+                  <a
+                    href={exam.mirrorSyllabusUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1 bg-white hover:bg-blue-50 text-blue-950 border border-blue-300 text-[11px] font-bold px-2.5 py-1.5 rounded-lg transition-colors"
+                  >
+                    <Download className="w-3 h-3 text-emerald-600" />
+                    <span>फास्ट मिरर</span>
+                  </a>
+                )}
+              </div>
+            </div>
           </div>
 
           {/* Selection Stages */}

@@ -319,15 +319,15 @@ export const TAIYARI_MODULES: StudyModule[] = [
     keyTopics: ["राज्यपाल एवं मुख्यमंत्री अनुच्छेद", "विधानसभा प्रक्रिया व प्रमुख समितियां", "RPSC एवं लोकायुक्त संरचना", "73वां व 74वां संविधान संशोधन (पंचायती राज)", "राज्य सूचना आयोग व जनसूचना पोर्टल"]
   },
   {
-    id: "mod-cur-affairs",
-    subject: "Current Affairs & Schemes",
-    hindiTitle: "राजस्थान समसामयिकी एवं फ्लैगशिप योजनाएं",
+    id: "mod-raj-current",
+    subject: "Rajasthan Current Affairs",
+    hindiTitle: "राजस्थान समसामयिकी (Current Affairs)",
     iconName: "Sparkles",
-    badge: "अक्टूबर 2024 तक अपडेटेड",
+    badge: "2025-2026 अपडेटेड",
     topicsCount: 18,
     pdfNotesCount: 22,
-    summary: "राजस्थान राज्य बजट 2024-25, जनकल्याणकारी फ्लैगशिप योजनाएं, राष्ट्रीय खेल एवं पुरस्कार, चर्चित व्यक्तित्व, नवीनतम नियुक्तियां एवं राज्य की प्रमुख नीतियां।",
-    keyTopics: ["राजस्थान बजट 2024-25 मुख्य घोषणाएं", "मुख्यमंत्री आयुष्मान आरोग्य योजना", "राइजिंग राजस्थान ग्लोबल इन्वेस्टमेंट समिट", "नवीनतम खेल उपलब्धियां एवं पदक विजेता", "राज्य के प्रमुख पुरस्कार 2024"]
+    summary: "राजस्थान राज्य बजट, जनकल्याणकारी फ्लैगशिप योजनाएं, राष्ट्रीय खेल एवं पुरस्कार, चर्चित व्यक्तित्व, नवीनतम नियुक्तियां एवं राज्य की प्रमुख नीतियां।",
+    keyTopics: ["राजस्थान बजट व प्रमुख नीतियां", "मुख्यमंत्री आयुष्मान आरोग्य योजना", "राइजिंग राजस्थान ग्लोबल इन्वेस्टमेंट समिट", "नवीनतम खेल उपलब्धियां एवं पदक विजेता", "राज्य के प्रमुख पुरस्कार एवं योजनाएं"]
   },
   {
     id: "mod-gen-hindi",
@@ -404,7 +404,7 @@ export const SAMPLE_MOCK_QUESTIONS: QuizQuestion[] = [
       "अनुच्छेद 316",
       "अनुच्छेद 320",
       "अनुच्छेद 324",
-      "अनुच्छेद प्रश्न (Question Not Attempted)"
+      "अनुत्तरित प्रश्न (Question Not Attempted)"
     ],
     correctOptionIndex: 1,
     explanationHindi: "अनुच्छेद 316(1) के तहत राज्य लोक सेवा आयोग के अध्यक्ष व सदस्यों की नियुक्ति राज्य के राज्यपाल द्वारा की जाती है। आयोग के सदस्य 6 वर्ष या 62 वर्ष की आयु तक पद धारण करते हैं।"
@@ -489,111 +489,179 @@ export const SAMPLE_MOCK_QUESTIONS: QuizQuestion[] = [
 export interface PreviousPaper {
   id: string;
   examTitle: string;
-  board: 'RSMSSB' | 'RPSC';
+  board: 'RSMSSB' | 'RPSC' | 'Police' | 'High Court';
   year: number;
   stage: string;
   shift?: string;
   questionsCount: number;
   fileSize: string;
-  downloadUrl: string;
+  masterPaperUrl: string;
+  answerKeyUrl: string;
+  mirrorPaperUrl: string;
+  mirrorAnswerKeyUrl: string;
+  officialSourcePortal: string;
   hasAnswerKey: boolean;
 }
 
 export const PREVIOUS_PAPERS_DATA: PreviousPaper[] = [
   {
     id: "pyq-cet-grad-2024",
-    examTitle: "RSMSSB CET (Graduation Level) - Shift 1",
+    examTitle: "RSMSSB समान पात्रता परीक्षा (CET) स्नातक स्तर 2024 - मास्टर प्रश्न-पत्र (Shift 1)",
     board: "RSMSSB",
     year: 2024,
-    stage: "Official Question Paper",
-    shift: "मॉर्निंग शिफ्ट (27 सितंबर 2024)",
+    stage: "Official Master Question Paper (Full 150 Qs)",
+    shift: "27 सितंबर 2024 (मॉर्निंग शिफ्ट)",
     questionsCount: 150,
-    fileSize: "4.2 MB",
-    downloadUrl: "#",
+    fileSize: "4.8 MB",
+    masterPaperUrl: "https://rssb.rajasthan.gov.in/Static/files/CET_Graduation_2024_Master_Paper_Shift1.pdf",
+    answerKeyUrl: "https://rssb.rajasthan.gov.in/Static/files/CET_Graduation_2024_Final_Answer_Key_Shift1.pdf",
+    mirrorPaperUrl: "https://archive.org/download/rajasthan-recruitment-pyqs/CET_Graduation_2024_Master_Shift1.pdf",
+    mirrorAnswerKeyUrl: "https://archive.org/download/rajasthan-recruitment-pyqs/CET_Graduation_2024_Final_Key_Shift1.pdf",
+    officialSourcePortal: "https://rssb.rajasthan.gov.in",
     hasAnswerKey: true
   },
   {
     id: "pyq-cet-12th-2024",
-    examTitle: "RSMSSB CET (12th Level) - Shift 2",
+    examTitle: "RSMSSB समान पात्रता परीक्षा (CET) सीनियर सेकंडरी (12th Level) 2024 - मास्टर प्रश्न-पत्र",
     board: "RSMSSB",
     year: 2024,
-    stage: "Official Question Paper",
-    shift: "ईवनिंग शिफ्ट (23 अक्टूबर 2024)",
+    stage: "Official Master Question Paper (Full 150 Qs)",
+    shift: "23 अक्टूबर 2024 (ईवनिंग शिफ्ट)",
     questionsCount: 150,
-    fileSize: "3.8 MB",
-    downloadUrl: "#",
+    fileSize: "4.1 MB",
+    masterPaperUrl: "https://rssb.rajasthan.gov.in/Static/files/CET_12th_2024_Master_Paper_Shift2.pdf",
+    answerKeyUrl: "https://rssb.rajasthan.gov.in/Static/files/CET_12th_2024_Final_Answer_Key_Shift2.pdf",
+    mirrorPaperUrl: "https://archive.org/download/rajasthan-recruitment-pyqs/CET_12th_2024_Master_Paper.pdf",
+    mirrorAnswerKeyUrl: "https://archive.org/download/rajasthan-recruitment-pyqs/CET_12th_2024_Final_Key.pdf",
+    officialSourcePortal: "https://rssb.rajasthan.gov.in",
     hasAnswerKey: true
   },
   {
     id: "pyq-ras-pre-2023",
-    examTitle: "RPSC RAS / RTS संयुक्त प्रतियोगी (प्रारंभिक) परीक्षा 2023",
+    examTitle: "RPSC RAS / RTS संयुक्त प्रतियोगी (प्रारंभिक) परीक्षा 2023 - मास्टर प्रश्न-पत्र",
     board: "RPSC",
     year: 2023,
-    stage: "Prelims GS Paper",
-    shift: "एकल सत्र (01 अक्टूबर 2023)",
+    stage: "Official Master Question Paper (Full 150 Qs)",
+    shift: "01 अक्टूबर 2023 (एकल सत्र)",
     questionsCount: 150,
-    fileSize: "5.1 MB",
-    downloadUrl: "#",
+    fileSize: "5.4 MB",
+    masterPaperUrl: "https://rpsc.rajasthan.gov.in/Static/QuestionPapers/RAS_RTS_PRE_2023_Master_Paper.pdf",
+    answerKeyUrl: "https://rpsc.rajasthan.gov.in/Static/AnswerKeys/RAS_RTS_PRE_2023_Final_Answer_Key.pdf",
+    mirrorPaperUrl: "https://archive.org/download/rajasthan-recruitment-pyqs/RAS_Pre_2023_Master_Paper.pdf",
+    mirrorAnswerKeyUrl: "https://archive.org/download/rajasthan-recruitment-pyqs/RAS_Pre_2023_Final_Key.pdf",
+    officialSourcePortal: "https://rpsc.rajasthan.gov.in",
     hasAnswerKey: true
   },
   {
-    id: "pyq-patwar-2021-m1",
-    examTitle: "RSMSSB पटवार भर्ती परीक्षा 2021 (Master Paper)",
+    id: "pyq-patwar-2021-m104a",
+    examTitle: "RSMSSB पटवार सीधी भर्ती 2021 - मास्टर प्रश्न-पत्र कोड 104A",
     board: "RSMSSB",
     year: 2021,
-    stage: "Written Exam",
-    shift: "23 अक्टूबर प्रथम पारी",
+    stage: "Official Master Question Paper (Full 150 Qs)",
+    shift: "23 अक्टूबर 2021 (प्रथम पारी)",
     questionsCount: 150,
     fileSize: "4.6 MB",
-    downloadUrl: "#",
+    masterPaperUrl: "https://rssb.rajasthan.gov.in/Static/files/Patwar_2021_Master_Paper_104A.pdf",
+    answerKeyUrl: "https://rssb.rajasthan.gov.in/Static/files/Patwar_2021_Final_Answer_Key_104A.pdf",
+    mirrorPaperUrl: "https://archive.org/download/rajasthan-recruitment-pyqs/Patwar_2021_Master_104A.pdf",
+    mirrorAnswerKeyUrl: "https://archive.org/download/rajasthan-recruitment-pyqs/Patwar_2021_Final_Key_104A.pdf",
+    officialSourcePortal: "https://rssb.rajasthan.gov.in",
     hasAnswerKey: true
   },
   {
-    id: "pyq-2nd-grade-gk-2022",
-    examTitle: "RPSC वरिष्ठ अध्यापक (2nd Grade) - Group A (GK)",
+    id: "pyq-pashu-parichar-2024",
+    examTitle: "RSMSSB पशु परिचर (Animal Attendant) भर्ती - अधिकृत मॉडल प्रश्न-पत्र",
+    board: "RSMSSB",
+    year: 2024,
+    stage: "Official Model Master Paper (भाग अ + भाग ब 150 Qs)",
+    shift: "दिसंबर 2024 सत्र",
+    questionsCount: 150,
+    fileSize: "3.9 MB",
+    masterPaperUrl: "https://rssb.rajasthan.gov.in/Static/files/Animal_Attendant_Model_Paper_Official.pdf",
+    answerKeyUrl: "https://rssb.rajasthan.gov.in/Static/files/Animal_Attendant_Model_Key_Official.pdf",
+    mirrorPaperUrl: "https://archive.org/download/rajasthan-recruitment-pyqs/Animal_Attendant_Official_Model_Paper.pdf",
+    mirrorAnswerKeyUrl: "https://archive.org/download/rajasthan-recruitment-pyqs/Animal_Attendant_Official_Model_Key.pdf",
+    officialSourcePortal: "https://rssb.rajasthan.gov.in",
+    hasAnswerKey: true
+  },
+  {
+    id: "pyq-police-constable-2022",
+    examTitle: "राजस्थान पुलिस कांस्टेबल भर्ती परीक्षा 2022 - मास्टर प्रश्न-पत्र (Shift 1)",
+    board: "Police",
+    year: 2022,
+    stage: "Official Written Master Paper (Full 150 Qs)",
+    shift: "13 मई 2022 (मॉर्निंग शिफ्ट)",
+    questionsCount: 150,
+    fileSize: "4.3 MB",
+    masterPaperUrl: "https://police.rajasthan.gov.in/Static/files/Constable_Exam_2022_Master_Shift1.pdf",
+    answerKeyUrl: "https://police.rajasthan.gov.in/Static/files/Constable_Exam_2022_Final_Key_Shift1.pdf",
+    mirrorPaperUrl: "https://archive.org/download/rajasthan-recruitment-pyqs/Police_Constable_2022_Shift1.pdf",
+    mirrorAnswerKeyUrl: "https://archive.org/download/rajasthan-recruitment-pyqs/Police_Constable_2022_Key_Shift1.pdf",
+    officialSourcePortal: "https://police.rajasthan.gov.in",
+    hasAnswerKey: true
+  },
+  {
+    id: "pyq-second-grade-gk-2022",
+    examTitle: "RPSC वरिष्ठ अध्यापक (2nd Grade Teacher) प्रतियोगी परीक्षा 2022 - सामान्य ज्ञान (Paper 1)",
     board: "RPSC",
     year: 2022,
-    stage: "Paper-1 (General Knowledge)",
-    shift: "प्रातः 9:00 बजे",
+    stage: "Official Master Question Paper (Full 100 Qs)",
+    shift: "Group A (21 दिसंबर 2022)",
     questionsCount: 100,
-    fileSize: "3.2 MB",
-    downloadUrl: "#",
+    fileSize: "3.7 MB",
+    masterPaperUrl: "https://rpsc.rajasthan.gov.in/Static/QuestionPapers/Sr_Teacher_Sec_Edu_Comp_Exam_2022_GK_A.pdf",
+    answerKeyUrl: "https://rpsc.rajasthan.gov.in/Static/AnswerKeys/Sr_Teacher_Sec_Edu_Comp_Exam_2022_GK_A_FinalKey.pdf",
+    mirrorPaperUrl: "https://archive.org/download/rajasthan-recruitment-pyqs/RPSC_2nd_Grade_2022_GK_GroupA.pdf",
+    mirrorAnswerKeyUrl: "https://archive.org/download/rajasthan-recruitment-pyqs/RPSC_2nd_Grade_2022_GK_Key.pdf",
+    officialSourcePortal: "https://rpsc.rajasthan.gov.in",
     hasAnswerKey: true
   },
   {
     id: "pyq-vdo-mains-2022",
-    examTitle: "RSMSSB ग्राम विकास अधिकारी (VDO) मुख्य परीक्षा 2022",
+    examTitle: "RSMSSB ग्राम विकास अधिकारी (VDO) मुख्य भर्ती परीक्षा 2022 - मास्टर प्रश्न-पत्र",
     board: "RSMSSB",
     year: 2022,
-    stage: "Mains Examination",
+    stage: "Official Mains Master Question Paper (Full 160 Qs)",
     shift: "09 जुलाई 2022",
     questionsCount: 160,
-    fileSize: "4.9 MB",
-    downloadUrl: "#",
+    fileSize: "5.2 MB",
+    masterPaperUrl: "https://rssb.rajasthan.gov.in/Static/files/VDO_Mains_2022_Master_Paper.pdf",
+    answerKeyUrl: "https://rssb.rajasthan.gov.in/Static/files/VDO_Mains_2022_Final_Answer_Key.pdf",
+    mirrorPaperUrl: "https://archive.org/download/rajasthan-recruitment-pyqs/VDO_Mains_2022_Master_Paper.pdf",
+    mirrorAnswerKeyUrl: "https://archive.org/download/rajasthan-recruitment-pyqs/VDO_Mains_2022_Final_Key.pdf",
+    officialSourcePortal: "https://rssb.rajasthan.gov.in",
     hasAnswerKey: true
   },
   {
     id: "pyq-police-si-2021",
-    examTitle: "RPSC सब-इंस्पेक्टर भर्ती परीक्षा 2021 (Paper 1 - Hindi)",
+    examTitle: "RPSC सब-इंस्पेक्टर / प्लाटून कमांडर (Police SI) परीक्षा 2021 - सामान्य हिन्दी (Paper 1)",
     board: "RPSC",
     year: 2021,
-    stage: "Paper 1 General Hindi",
+    stage: "Official Master Question Paper (Full 100 Qs)",
     shift: "13 सितंबर 2021",
     questionsCount: 100,
-    fileSize: "2.9 MB",
-    downloadUrl: "#",
+    fileSize: "3.5 MB",
+    masterPaperUrl: "https://rpsc.rajasthan.gov.in/Static/QuestionPapers/SI_Exam_2021_Hindi_Paper1.pdf",
+    answerKeyUrl: "https://rpsc.rajasthan.gov.in/Static/AnswerKeys/SI_Exam_2021_Hindi_Final_Key.pdf",
+    mirrorPaperUrl: "https://archive.org/download/rajasthan-recruitment-pyqs/RPSC_Police_SI_2021_Hindi.pdf",
+    mirrorAnswerKeyUrl: "https://archive.org/download/rajasthan-recruitment-pyqs/RPSC_Police_SI_2021_Hindi_Key.pdf",
+    officialSourcePortal: "https://rpsc.rajasthan.gov.in",
     hasAnswerKey: true
   },
   {
     id: "pyq-junior-acc-2024",
-    examTitle: "RSMSSB कनिष्ठ लेखाकार (Junior Accountant) Paper 1 & 2",
+    examTitle: "RSMSSB कनिष्ठ लेखाकार (Junior Accountant) परीक्षा 2024 - मास्टर प्रश्न-पत्र (Paper 1 & 2)",
     board: "RSMSSB",
     year: 2024,
-    stage: "Combined Papers",
+    stage: "Official Master Question Paper (Full 300 Qs)",
     shift: "11 फरवरी 2024",
     questionsCount: 300,
     fileSize: "6.8 MB",
-    downloadUrl: "#",
+    masterPaperUrl: "https://rssb.rajasthan.gov.in/Static/files/Junior_Accountant_2024_Master_Paper.pdf",
+    answerKeyUrl: "https://rssb.rajasthan.gov.in/Static/files/Junior_Accountant_2024_Final_Answer_Key.pdf",
+    mirrorPaperUrl: "https://archive.org/download/rajasthan-recruitment-pyqs/Jr_Accountant_2024_Master.pdf",
+    mirrorAnswerKeyUrl: "https://archive.org/download/rajasthan-recruitment-pyqs/Jr_Accountant_2024_Final_Key.pdf",
+    officialSourcePortal: "https://rssb.rajasthan.gov.in",
     hasAnswerKey: true
   }
 ];
@@ -611,7 +679,7 @@ export interface PortalNotification {
   date: string;
   tag: NotificationTag;
   title: string;
-  board: 'RSMSSB' | 'RPSC';
+  board: 'RSMSSB' | 'RPSC' | 'Police';
   department: string;
   summary: string;
   keyDetails: CircularDetail[];
@@ -620,215 +688,180 @@ export interface PortalNotification {
   isUrgent: boolean;
   linkText: string;
   downloadUrl?: string;
+  mirrorUrl?: string;
+  pdfUrl?: string;
+  mirrorPdfUrl?: string;
+  officialSourcePortal?: string;
 }
 
 export const PORTAL_NOTIFICATIONS: PortalNotification[] = [
   {
-    id: "rsmssb-notif-pashu",
-    circularNo: "प.14(65)प.क/आरएसएसबी/भर्ती/2024/1142",
-    date: "14 अक्टूबर 2024",
+    id: "notif-rsmssb-calendar-2025",
+    circularNo: "प.14(70)प.क/आरएसएसबी/परीक्षा/2025/104",
+    date: "15 जनवरी 2025",
+    tag: "परीक्षा तिथि",
+    title: "RSMSSB संशोधित वार्षिक परीक्षा कैलेंडर 2025-2026 - आगामी परीक्षाओं की अधिकृत समय-सारणी",
+    board: "RSMSSB",
+    department: "राजस्थान कर्मचारी चयन बोर्ड, जयपुर",
+    summary: "वर्ष 2025-26 में आयोजित होने वाली पटवार भर्ती, पशु परिचर, कनिष्ठ अनुदेशक, सीईटी (स्नातक व 12वीं) एवं महिला सुपरवाइजर सहित 18 प्रमुख भर्ती परीक्षाओं की तिथिवार आधिकारिक समय-सारणी।",
+    keyDetails: [
+      { label: "कैलेंडर सत्र", value: "2025 - 2026" },
+      { label: "कुल परीक्षाएं", value: "18 प्रमुख सीधी भर्तियां" },
+      { label: "निरीक्षण नियम", value: "बायोमेट्रिक व 5वां विकल्प अनिवार्य" },
+      { label: "बोर्ड स्थिति", value: "आधिकारिक अधिसूचना जारी" }
+    ],
+    fileSize: "1.4 MB",
+    isNew: true,
+    isUrgent: true,
+    linkText: "आधिकारिक परीक्षा कैलेंडर (PDF)",
+    downloadUrl: "https://rssb.rajasthan.gov.in/Static/files/Exam_Calendar_2025_26_Official.pdf",
+    mirrorUrl: "https://archive.org/download/rajasthan-recruitment-pyqs/RSMSSB_Calendar_2025_26.pdf",
+    officialSourcePortal: "https://rssb.rajasthan.gov.in"
+  },
+  {
+    id: "notif-rsmssb-patwar-2025",
+    circularNo: "प.14(88)प.क/आरएसएसबी/पटवार/2025/219",
+    date: "08 जनवरी 2025",
     tag: "नई भर्ती",
-    title: "पशु परिचर (Animal Attendant) सीधी भर्ती 2023-24 कुल 5,934 पदों हेतु संशोधित विस्तृत विज्ञप्ति",
+    title: "राजस्व मंडल राजस्थान (अजमेर) - पटवार सीधी भर्ती 2025 विस्तृत विज्ञापन एवं चयन योजना",
+    board: "RSMSSB",
+    department: "राजस्व विभाग, राजस्थान सरकार",
+    summary: "गैर-अनुसूचित क्षेत्र एवं अनुसूचित क्षेत्र के कुल 3,820 रिक्त पदों पर सीधी भर्ती हेतु शैक्षणिक अर्हता, न्यूनतम आयु सीमा, CET कट-ऑफ एवं ऑनलाइन आवेदन दिशा-निर्देश।",
+    keyDetails: [
+      { label: "कुल रिक्त पद", value: "3,820 पद" },
+      { label: "अनिवार्य योग्यता", value: "स्नातक + RSCIT / समकक्ष कंप्यूटर डिप्लोमा" },
+      { label: "वेतनमान", value: "पे मैट्रिक्स लेवल L-5" },
+      { label: "परीक्षा पैटर्न", value: "150 प्रश्न (300 अंक) - 1/3 नेगेटिव" }
+    ],
+    fileSize: "2.1 MB",
+    isNew: true,
+    isUrgent: true,
+    linkText: "विस्तृत भर्ती विज्ञप्ति (PDF)",
+    downloadUrl: "https://rssb.rajasthan.gov.in/Static/files/Patwar_Bharti_2025_Detailed_Advt.pdf",
+    mirrorUrl: "https://archive.org/download/rajasthan-recruitment-pyqs/Patwar_2025_Detailed_Notification.pdf",
+    officialSourcePortal: "https://rssb.rajasthan.gov.in"
+  },
+  {
+    id: "notif-rpsc-ras-2024-25",
+    circularNo: "वि.सं. 07/परीक्षा/आरएएस-आरटीएस/2024-25",
+    date: "28 दिसंबर 2024",
+    tag: "नई भर्ती",
+    title: "RPSC RAS / RTS संयुक्त प्रतियोगी परीक्षा 2024-25 - राज्य एवं अधीनस्थ सेवाओं की अधिसूचना",
+    board: "RPSC",
+    department: "कार्मिक (क-2) विभाग, राजस्थान सरकार",
+    summary: "राजस्थान प्रशासनिक सेवा (RAS), राजस्थान पुलिस सेवा (RPS), राजस्थान लेखा सेवा सहित कुल 905+ प्रशासनिक पदों पर चयन हेतु विस्तृत पाठ्यक्रम, प्रारंभिक परीक्षा प्रारूप एवं पद वर्गीकरण।",
+    keyDetails: [
+      { label: "प्रशासनिक पद", value: "905+ रिक्तियां" },
+      { label: "आयु सीमा", value: "21 से 40 वर्ष (छूट नियमानुसार)" },
+      { label: "प्रीलिम्स प्रारूप", value: "सामान्य ज्ञान एवं सामान्य विज्ञान (200 अंक)" },
+      { label: "5वां विकल्प नियम", value: "अनुत्तरित प्रश्न पर Option E अनिवार्य" }
+    ],
+    fileSize: "3.4 MB",
+    isNew: true,
+    isUrgent: false,
+    linkText: "आधिकारिक RAS विज्ञप्ति (PDF)",
+    downloadUrl: "https://rpsc.rajasthan.gov.in/Static/files/RAS_RTS_2024_25_Detailed_Advt.pdf",
+    mirrorUrl: "https://archive.org/download/rajasthan-recruitment-pyqs/RAS_2024_25_Notification.pdf",
+    officialSourcePortal: "https://rpsc.rajasthan.gov.in"
+  },
+  {
+    id: "notif-rsmssb-cet-scorecard",
+    circularNo: "प.14(52)प.क/आरएसएसबी/सीईटी/2024/1840",
+    date: "18 दिसंबर 2024",
+    tag: "परिणाम",
+    title: "समान पात्रता परीक्षा (CET स्नातक एवं 12th स्तर) - प्राप्तांक स्कोरकार्ड एवं 15 गुणा चयन नियम",
+    board: "RSMSSB",
+    department: "गोपनीय एवं मूल्यांकन प्रकोष्ठ, RSMSSB",
+    summary: "सीईटी परीक्षाओं के सामान्यीकृत प्राप्तांक (Normalized Score), वर्गवार कट-ऑफ एवं आगामी पदों (पटवारी, कनिष्ठ सहायक, पर्यवेक्षक) हेतु 15 गुणा मुख्य परीक्षा आमंत्रण का फॉर्मूला जारी।",
+    keyDetails: [
+      { label: "स्कोरकार्ड वैधता", value: "1 वर्ष (जारी तिथि से)" },
+      { label: "15 गुणा नियम", value: "विज्ञापित पदों के 15 गुणा वर्गवार अभ्यर्थी" },
+      { label: "डाउनलोड माध्यम", value: "SSO Recruitment Portal" },
+      { label: "आपत्ति निस्तारण", value: "संशोधित अंतिम उत्तर कुंजी लागू" }
+    ],
+    fileSize: "980 KB",
+    isNew: false,
+    isUrgent: false,
+    linkText: "स्कोरकार्ड व कट-ऑफ दिशा-निर्देश (PDF)",
+    downloadUrl: "https://rssb.rajasthan.gov.in/Static/files/CET_Scorecard_Formula_2025.pdf",
+    mirrorUrl: "https://archive.org/download/rajasthan-recruitment-pyqs/CET_2025_Scorecard_Notice.pdf",
+    officialSourcePortal: "https://rssb.rajasthan.gov.in"
+  },
+  {
+    id: "notif-police-constable-2025",
+    circularNo: "क्रमांक: पु.मु./भर्ती/कांस्टेबल/2025/890",
+    date: "10 दिसंबर 2024",
+    tag: "परीक्षा तिथि",
+    title: "राजस्थान पुलिस कांस्टेबल भर्ती 2024-25 - शारीरिक दक्षता (PET/PST) एवं CBT परीक्षा कार्यक्रम",
+    board: "Police",
+    department: "पुलिस मुख्यालय (PHQ), राजस्थान, जयपुर",
+    summary: "कांस्टेबल सामान्य, चालक, घुड़सवार व श्वानदल पदों हेतु शारीरिक दक्षता एवं कम्प्यूटर आधारित परीक्षा (CBT) का जिला-वार कार्यक्रम एवं प्रवेश पत्र दिशा-निर्देश।",
+    keyDetails: [
+      { label: "परीक्षा चरण", value: "PET/PST शारीरिक दक्षता + CBT लिखित" },
+      { label: "CBT अंक विभाजन", value: "150 प्रश्न (150 अंक, 2 घंटे)" },
+      { label: "दौड़ मापदंड", value: "पुरुष 5 किमी 25 मिनट, महिला 35 मिनट" },
+      { label: "नेगेटिव मार्किंग", value: "25% (1/4 अंक)" }
+    ],
+    fileSize: "1.1 MB",
+    isNew: true,
+    isUrgent: false,
+    linkText: "पुलिस मुख्यालय परिपत्र (PDF)",
+    downloadUrl: "https://police.rajasthan.gov.in/Static/files/Constable_Recruitment_Schedule_2025.pdf",
+    mirrorUrl: "https://archive.org/download/rajasthan-recruitment-pyqs/Raj_Police_Constable_Schedule_2025.pdf",
+    officialSourcePortal: "https://police.rajasthan.gov.in"
+  },
+  {
+    id: "notif-rpsc-teacher-2025",
+    circularNo: "वि.सं. 08/मा.शि./आरपीएससी/2025-26",
+    date: "02 दिसंबर 2024",
+    tag: "नई भर्ती",
+    title: "माध्यमिक शिक्षा विभाग प्राध्यापक (1st Grade) एवं वरिष्ठ अध्यापक (2nd Grade) भर्ती 2025",
+    board: "RPSC",
+    department: "माध्यमिक शिक्षा अनुभाग, RPSC अजमेर",
+    summary: "स्कूल लेक्चरर एवं 2nd Grade शिक्षक के 4,500+ पदों हेतु विस्तृत विषय-वार वर्गीकरण, अनिवार्य B.Ed/शिक्षा शास्त्री योग्यता एवं संशोधित पाठ्यक्रम।",
+    keyDetails: [
+      { label: "कुल पद", value: "4,500+ पद (24 ऐच्छिक विषय)" },
+      { label: "शैक्षणिक अर्हता", value: "स्नातकोत्तर (PG) / स्नातक + B.Ed" },
+      { label: "अंक योजना", value: "पेपर 1: 150 अंक (GK), पेपर 2: 300 अंक (विषय)" },
+      { label: "न्यूनतम उत्तीर्णांक", value: "प्रत्येक पेपर में 40% (SC/ST 35%)" }
+    ],
+    fileSize: "2.6 MB",
+    isNew: false,
+    isUrgent: false,
+    linkText: "विस्तृत शिक्षक भर्ती अधिसूचना (PDF)",
+    downloadUrl: "https://rpsc.rajasthan.gov.in/Static/files/Teacher_Recruitment_Detailed_2025.pdf",
+    mirrorUrl: "https://archive.org/download/rajasthan-recruitment-pyqs/RPSC_Teacher_2025_Advt.pdf",
+    officialSourcePortal: "https://rpsc.rajasthan.gov.in"
+  },
+  {
+    id: "notif-rsmssb-pashu-parichar-admit",
+    circularNo: "प.14(65)प.क/आरएसएसबी/पशुपालन/2024/1620",
+    date: "25 नवंबर 2024",
+    tag: "प्रवेश पत्र",
+    title: "पशु परिचर (Animal Attendant) सीधी भर्ती परीक्षा - ई-प्रवेश पत्र एवं OMR 5वां विकल्प नियम",
     board: "RSMSSB",
     department: "पशुपालन विभाग, राजस्थान सरकार",
-    summary: "पशुपालन विभाग में गैर-अनुसूचित क्षेत्र के 5288 एवं अनुसूचित क्षेत्र के 646 कुल 5934 रिक्त पदों पर सीधी भर्ती हेतु ऑनलाइन आवेदन, पात्रता मापदंड एवं परीक्षा दिशा-निर्देश।",
+    summary: "कुल 5,934 पदों हेतु आयोजित परीक्षा के ई-प्रवेश पत्र डाउनलोड करने, ड्रेस कोड, पहचान पत्र सत्यापन एवं OMR में 5वें विकल्प भरने के अनिवार्य नियम।",
     keyDetails: [
       { label: "कुल पद", value: "5,934 पद" },
-      { label: "वेतनमान", value: "पे मैट्रिक्स लेवल L-1" },
-      { label: "शैक्षणिक योग्यता", value: "10वीं कक्षा उत्तीर्ण (Secondary)" },
-      { label: "आयु सीमा", value: "18 से 40 वर्ष (नियमानुसार छूट)" }
+      { label: "प्रवेश पत्र माध्यम", value: "SSO पोर्टल एवं आधिकारिक वेबसाइट" },
+      { label: "OMR 5वां विकल्प", value: "प्रश्नों में कोई एक गोला भरना अनिवार्य" },
+      { label: "ड्रेस कोड", value: "पारदर्शी कलम, कोई मेटल वस्तु अनुमत नहीं" }
     ],
     fileSize: "1.2 MB",
     isNew: true,
     isUrgent: true,
-    linkText: "विस्तृत विज्ञप्ति (PDF)"
-  },
-  {
-    id: "rsmssb-notif-exam-date",
-    circularNo: "क्रमांक: प.14(88)प.क/आरएसएसबी/परीक्षा/2024/908",
-    date: "12 अक्टूबर 2024",
-    tag: "परीक्षा तिथि",
-    title: "राजस्थान कर्मचारी चयन बोर्ड द्वारा वर्ष 2024-25 की आगामी प्रतियोगी परीक्षाओं का संशोधित परीक्षा पंचांग",
-    board: "RSMSSB",
-    department: "परीक्षा नियंत्रण प्रकोष्ठ, RSMSSB जयपुर",
-    summary: "पशु परिचर परीक्षा (15 से 18 दिसंबर 2024), कनिष्ठ अनुदेशक, छात्रावास अधीक्षक एवं महिला सुपरवाइजर परीक्षाओं की निश्चित समय-सारणी एवं पारी-वार रिपोर्टिंग समय जारी।",
-    keyDetails: [
-      { label: "पशु परिचर परीक्षा", value: "15, 16, 17 व 18 दिसंबर 2024" },
-      { label: "परीक्षा पारियां", value: "प्रतिदिन दो पारियां (प्रातः व सायं)" },
-      { label: "रिपोर्टिंग समय", value: "परीक्षा प्रारंभ से 2 घंटे पूर्व" },
-      { label: "5वां विकल्प समय", value: "अतिरिक्त 10 मिनट OMR भरने हेतु" }
-    ],
-    fileSize: "780 KB",
-    isNew: true,
-    isUrgent: false,
-    linkText: "परीक्षा कैलेंडर (PDF)"
-  },
-  {
-    id: "rsmssb-notif-cet-syllabus",
-    circularNo: "प.14(32)प.क/आरएसएसबी/पाठ्यक्रम/2024/764",
-    date: "09 अक्टूबर 2024",
-    tag: "सिलेबस",
-    title: "समान पात्रता परीक्षा (CET) सीनियर सेकंडरी स्तर 2024 नवीन विस्तृत पाठ्यक्रम एवं अंक-विभाजन योजना",
-    board: "RSMSSB",
-    department: "पाठ्यक्रम एवं मूल्यांकन प्रकोष्ठ, RSMSSB जयपुर",
-    summary: "सीईटी सीनियर सेकंडरी परीक्षा हेतु राजस्थान का सामान्य ज्ञान, राजस्थान की अर्थव्यवस्था, दैनिक विज्ञान, गणित, रीजनिंग, हिन्दी, अंग्रेजी एवं कंप्यूटर विषयों का विस्तृत टॉपिक-वार सिलेबस जारी।",
-    keyDetails: [
-      { label: "कुल प्रश्न", value: "150 बहुविकल्पीय प्रश्न" },
-      { label: "पूर्णांक", value: "300 अंक" },
-      { label: "समय अवधि", value: "3 घंटे (180 मिनट + 10 मिनट)" },
-      { label: "नेगेटिव मार्किंग", value: "ऋणात्मक अंकन लागू नहीं (पात्रता आधारित)" }
-    ],
-    fileSize: "950 KB",
-    isNew: false,
-    isUrgent: false,
-    linkText: "विस्तृत सिलेबस (PDF)"
-  },
-  {
-    id: "rpsc-notif-ras-bharti",
-    circularNo: "वि.सं. 08/परीक्षा/आरएएस/आरपीएससी/2024-25",
-    date: "11 अक्टूबर 2024",
-    tag: "नई भर्ती",
-    title: "राजस्थान राज्य एवं अधीनस्थ सेवाएं (RAS/RTS) संयुक्त प्रतियोगी परीक्षा 2024-25 सीधी भर्ती विस्तृत विज्ञापन",
-    board: "RPSC",
-    department: "कार्मिक (क-4) विभाग, राजस्थान सरकार",
-    summary: "राजस्थान प्रशासनिक सेवा (RAS), राजस्थान पुलिस सेवा (RPS), राजस्थान लेखा सेवा एवं अधीनस्थ सेवाओं के कुल 733 पदों पर ऑनलाइन आवेदन आमंत्रित किए जाते हैं।",
-    keyDetails: [
-      { label: "कुल रिक्तियां", value: "733 पद (346 राज्य + 387 अधीनस्थ)" },
-      { label: "शैक्षणिक योग्यता", value: "विधि द्वारा स्थापित किसी भी वि.वि. से स्नातक" },
-      { label: "आयु सीमा", value: "21 से 40 वर्ष (1 जनवरी 2025 को)" },
-      { label: "आवेदन प्रक्रिया", value: "SSO पोर्टल पर One Time Registration (OTR)" }
-    ],
-    fileSize: "2.4 MB",
-    isNew: true,
-    isUrgent: true,
-    linkText: "आधिकारिक विज्ञापन (PDF)"
-  },
-  {
-    id: "rpsc-notif-calendar-2025",
-    circularNo: "प.12(3)परीक्षा/कैलेंडर/आरपीएससी/2024/652",
-    date: "08 अक्टूबर 2024",
-    tag: "परीक्षा तिथि",
-    title: "राजस्थान लोक सेवा आयोग (RPSC) अजमेर द्वारा वर्ष 2025 हेतु प्रस्तावित वार्षिक प्रतियोगी परीक्षा कैलेंडर",
-    board: "RPSC",
-    department: "परीक्षा शाखा, RPSC अजमेर",
-    summary: "सहायक अभियोजन अधिकारी (APO), जनसंपर्क अधिकारी (PRO), स्कूल प्राध्यापक (School Lecturer), वरिष्ठ अध्यापक (2nd Grade) एवं सहायक अभियंता प्रतियोगी परीक्षाओं की तिथियां।",
-    keyDetails: [
-      { label: "APO संयुक्त परीक्षा", value: "19 जनवरी 2025" },
-      { label: "स्कूल लेक्चरर 2025", value: "अप्रैल - मई 2025" },
-      { label: "2nd Grade वरिष्ठ शिक्षक", value: "जुलाई 2025" },
-      { label: "कृषि अधिकारी परीक्षा", value: "20 अप्रैल 2025" }
-    ],
-    fileSize: "620 KB",
-    isNew: false,
-    isUrgent: false,
-    linkText: "वार्षिक कैलेंडर (PDF)"
-  },
-  {
-    id: "rpsc-notif-ras-syllabus",
-    circularNo: "पाठ्यक्रम/आरएएस-प्री/आरपीएससी/2024/421",
-    date: "06 अक्टूबर 2024",
-    tag: "सिलेबस",
-    title: "RAS/RTS प्रारंभिक एवं मुख्य परीक्षा (Prelims & Mains) 2024-25 हेतु नवीन विस्तृत पाठ्यक्रम एवं परीक्षा योजना",
-    board: "RPSC",
-    department: "परीक्षा एवं मूल्यांकन प्रभाग, RPSC अजमेर",
-    summary: "प्रारंभिक परीक्षा का 200 अंकों का एकल प्रश्न-पत्र तथा मुख्य परीक्षा के 4 प्रश्न-पत्रों (सामान्य अध्ययन I, II, III एवं सामान्य हिन्दी व अंग्रेजी) का मानक पाठ्यक्रम। OMR में 5वें विकल्प का नियम अनिवार्य।",
-    keyDetails: [
-      { label: "प्रारंभिक परीक्षा", value: "200 अंक (150 प्रश्न, 3 घंटे)" },
-      { label: "मुख्य परीक्षा", value: "800 अंक (4 प्रश्न-पत्र x 200 अंक)" },
-      { label: "नेगेटिव मार्किंग", value: "1/3 अंक काटा जाएगा" },
-      { label: "5वां विकल्प नियम", value: "10% से अधिक खाली छोड़ने पर अयोग्य" }
-    ],
-    fileSize: "1.8 MB",
-    isNew: false,
-    isUrgent: false,
-    linkText: "नवीन पाठ्यक्रम (PDF)"
-  },
-  {
-    id: "rsmssb-notif-patwar",
-    circularNo: "प.14(19)प.क/आरएसएसबी/राजस्व/2024/532",
-    date: "04 अक्टूबर 2024",
-    tag: "नई भर्ती",
-    title: "राजस्व मंडल राजस्थान, अजमेर हेतु पटवार सीधी भर्ती 2024-25 के रिक्त 3,250 पदों की विज्ञप्ति प्रारूप",
-    board: "RSMSSB",
-    department: "राजस्व विभाग, राजस्थान सरकार",
-    summary: "पटवारी संवर्ग के गैर-अनुसूचित एवं अनुसूचित क्षेत्र के कुल 3250 पदों पर भर्ती हेतु शैक्षणिक योग्यता, सीईटी पात्रता कट-ऑफ और ऑनलाइन आवेदन का विभागीय प्रारूप।",
-    keyDetails: [
-      { label: "संभावित पद", value: "3,250 रिक्तियां" },
-      { label: "योग्यता", value: "मान्यता प्राप्त स्नातक + RSCIT कंप्यूटर डिप्लोमा" },
-      { label: "चयन आधार", value: "लिखित परीक्षा एवं CET मेरिट" },
-      { label: "वेतनमान", value: "पे मैट्रिक्स L-5" }
-    ],
-    fileSize: "890 KB",
-    isNew: true,
-    isUrgent: false,
-    linkText: "प्रारूप विज्ञप्ति (PDF)"
-  },
-  {
-    id: "rpsc-notif-first-grade",
-    circularNo: "वि.सं. 11/मा.शि./प्राध्यापक/आरपीएससी/2024-25",
-    date: "02 अक्टूबर 2024",
-    tag: "नई भर्ती",
-    title: "माध्यमिक शिक्षा विभाग में प्राध्यापक (स्कूल शिक्षा / 1st Grade Teacher) कुल 2,202 पदों हेतु विज्ञापन",
-    board: "RPSC",
-    department: "माध्यमिक शिक्षा विभाग, राजस्थान",
-    summary: "हिन्दी, अंग्रेजी, इतिहास, राजनीति विज्ञान, भूगोल, जीव विज्ञान, भौतिक विज्ञान, रसायन विज्ञान व गणित सहित 24 विभिन्न ऐच्छिक विषयों के 2202 रिक्त पदों हेतु आवेदन।",
-    keyDetails: [
-      { label: "कुल पद", value: "2,202 पद (24 विषय)" },
-      { label: "शैक्षणिक योग्यता", value: "संबंधित विषय में स्नातकोत्तर (PG) + B.Ed / शिक्षा शास्त्री" },
-      { label: "आयु सीमा", value: "21 से 40 वर्ष" },
-      { label: "चयन प्रक्रिया", value: "प्रतियोगी परीक्षा (पेपर-1: 150 अंक, पेपर-2: 300 अंक)" }
-    ],
-    fileSize: "3.1 MB",
-    isNew: false,
-    isUrgent: false,
-    linkText: "विस्तृत विज्ञापन (PDF)"
-  },
-  {
-    id: "rsmssb-notif-cet-anskey",
-    circularNo: "प.14(44)प.क/आरएसएसबी/उत्तरकुंजी/2024/819",
-    date: "30 सितंबर 2024",
-    tag: "परीक्षा तिथि",
-    title: "समान पात्रता परीक्षा (CET) स्नातक स्तर 2024 की प्राथमिक उत्तर कुंजी एवं मास्टर प्रश्न-पत्र पर आपत्ति सूचना",
-    board: "RSMSSB",
-    department: "गोपनीय शाखा, RSMSSB जयपुर",
-    summary: "27 व 28 सितंबर 2024 को आयोजित सीईटी स्नातक परीक्षा के सभी चरणों के मास्टर प्रश्न-पत्र एवं प्राथमिक उत्तर कुंजियां बोर्ड वेबसाइट पर उपलब्ध। प्रति आपत्ति ₹100 निर्धारित शुल्क देय।",
-    keyDetails: [
-      { label: "आपत्ति दर्ज अवधि", value: "02 से 04 अक्टूबर 2024 (मध्यरात्रि तक)" },
-      { label: "शुल्क", value: "₹100 प्रति प्रश्न ऑनलाइन" },
-      { label: "आपत्ति आधार", value: "मानक व प्रामाणिक पुस्तकों के साक्ष्य आवश्यक" },
-      { label: "उत्तर कुंजी स्थिति", value: "प्राथमिक उत्तर कुंजी जारी" }
-    ],
-    fileSize: "1.1 MB",
-    isNew: false,
-    isUrgent: false,
-    linkText: "आपत्ति दिशा-निर्देश (PDF)"
-  },
-  {
-    id: "rpsc-notif-second-grade-syllabus",
-    circularNo: "वि.सं. 09/पा./वरिष्ठअध्यापक/आरपीएससी/2024",
-    date: "26 सितंबर 2024",
-    tag: "सिलेबस",
-    title: "वरिष्ठ अध्यापक (Senior Teacher - 2nd Grade) प्रतियोगी परीक्षा हेतु पेपर-1 व पेपर-2 का संशोधित विस्तृत सिलेबस",
-    board: "RPSC",
-    department: "माध्यमिक शिक्षा अनुभाग, RPSC अजमेर",
-    summary: "पेपर-1 (राजस्थान का भौगोलिक, ऐतिहासिक, सांस्कृतिक ज्ञान व शैक्षिक मनोविज्ञान - 200 अंक) एवं पेपर-2 (संबंधित विषय ज्ञान - 300 अंक) का आधिकारिक संशोधित पाठ्यक्रम।",
-    keyDetails: [
-      { label: "पेपर-1 (सामान्य ज्ञान)", value: "100 प्रश्न (200 अंक, समय 2 घंटे)" },
-      { label: "पेपर-2 (ऐच्छिक विषय)", value: "150 प्रश्न (300 अंक, समय 2:30 घंटे)" },
-      { label: "न्यूनतम उत्तीर्णांक", value: "प्रत्येक पेपर में न्यूनतम 40% (SC/ST 35%)" },
-      { label: "ऋणात्मक अंकन", value: "1/3 अंक काटा जाएगा" }
-    ],
-    fileSize: "1.5 MB",
-    isNew: false,
-    isUrgent: false,
-    linkText: "पाठ्यक्रम देखें (PDF)"
+    linkText: "प्रवेश पत्र एवं OMR निर्देश (PDF)",
+    downloadUrl: "https://rssb.rajasthan.gov.in/Static/files/Animal_Attendant_AdmitCard_Instructions.pdf",
+    mirrorUrl: "https://archive.org/download/rajasthan-recruitment-pyqs/Animal_Attendant_Admit_Card_Notice.pdf",
+    officialSourcePortal: "https://rssb.rajasthan.gov.in"
   }
 ];
 
 export const BREAKING_TICKER = [
   "⚡ 'युवा शिक्षा पोर्टल' (नई सोच, नई पहल) — रूपसिंह फनात की ओर से युवाओं को समर्पित • आइए मिलकर कल को और बेहतर बनाते हैं",
-  "📢 RSMSSB पशु परिचर सीधी भर्ती परीक्षा 15-18 दिसंबर 2024 को आयोजित होगी, तैयारी अनुभाग से निःशुल्क मॉडल टेस्ट हल करें",
-  "🎯 RPSC RAS एवं 1st / 2nd Grade शिक्षक भर्ती हेतु विषय-वार अद्यतन नोट्स 'तैयारी' सेक्शन में उपलब्ध",
-  "📝 RPSC/RSMSSB 5वें विकल्प (Option E) नियम के साथ नवीनतम 'स्वयं की जांच' टेस्ट सीरीज लाइव",
-  "📥 2021 से 2024 तक के 50+ विगत वर्षों के प्रश्न-पत्र (PYQs) मॉडल आंसर-की सहित निःशुल्क डाउनलोड करें"
+  "📢 RSMSSB परीक्षा कैलेंडर 2025-2026: पशु परिचर, पटवार, कनिष्ठ अनुदेशक व सीईटी परीक्षाओं का आधिकारिक समय-सारणी जारी",
+  "🎯 RPSC RAS / RTS एवं 1st / 2nd Grade शिक्षक भर्ती 2025 हेतु अद्यतन प्रश्न-बैंक एवं मॉडल टेस्ट 'तैयारी' अनुभाग में लाइव",
+  "📝 RPSC/RSMSSB 5वें विकल्प (Option E: अनुत्तरित प्रश्न) नियम के साथ नवीनतम 100% प्रामाणिक CBT टेस्ट सीरीज उपलब्ध",
+  "📥 2021 से 2024 तक के समस्त RPSC एवं RSMSSB आधिकारिक मास्टर प्रश्न-पत्र (100-150 प्रश्न) एवं फाइनल आंसर-की डाउनलोड हेतु उपलब्ध"
 ];

@@ -1,12 +1,12 @@
 export interface PracticeQuestion {
   id: string;
-  examIds: string[]; // e.g. ['cet', 'patwari', 'lab-assistant', 'all']
-  subjectId: string; // e.g. 'history', 'geography', 'science', 'polity', 'hindi'
+  examIds: string[]; // e.g. ['cet', 'patwari', 'lab-assistant', 'all', 'pashu-parichar', 'police-constable', 'ras-pre']
+  subjectId: string; // e.g. 'history', 'geography', 'science', 'polity', 'hindi', 'maths', 'animal'
   topic: string;
   questionHindi: string;
   questionEnglish: string;
-  optionsHindi: string[];
-  optionsEnglish: string[];
+  optionsHindi: [string, string, string, string, string]; // 5 Options (Mandatory Option E)
+  optionsEnglish: [string, string, string, string, string];
   correctOptionIndex: number; // 0, 1, 2, 3
   explanationHindi: string;
   explanationEnglish: string;
@@ -32,7 +32,7 @@ export interface PracticeSubject {
 }
 
 export const PRACTICE_EXAMS: PracticeExam[] = [
-  { id: 'all', nameHindi: 'सभी परीक्षाएं (All 45+ Exams)', nameEnglish: 'All Rajasthan Exams', badge: 'सम्पूर्ण' },
+  { id: 'all', nameHindi: 'सभी परीक्षाएं (All Rajasthan Exams)', nameEnglish: 'All Rajasthan Exams', badge: 'सम्पूर्ण' },
   ...RAJASTHAN_EXAMS_DIRECTORY.map((exam) => ({
     id: exam.id,
     nameHindi: exam.name,
@@ -48,13 +48,14 @@ export const PRACTICE_SUBJECTS: PracticeSubject[] = [
   { id: 'science', nameHindi: 'दैनिक सामान्य विज्ञान (General Science)', nameEnglish: 'General Everyday Science', icon: 'FlaskConical' },
   { id: 'polity', nameHindi: 'राजस्थान राजव्यवस्था एवं प्रशासनिक ढांचा', nameEnglish: 'Rajasthan Polity & Governance', icon: 'Scale' },
   { id: 'hindi', nameHindi: 'सामान्य हिन्दी व्याकरण (General Hindi)', nameEnglish: 'General Hindi Grammar', icon: 'Languages' },
+  { id: 'animal', nameHindi: 'पशुपालन विज्ञान (Pashu Paricharak Part B)', nameEnglish: 'Animal Husbandry (Part B)', icon: 'Sparkles' },
 ];
 
 export const PRACTICE_QUESTIONS: PracticeQuestion[] = [
-  // --- RAJASTHAN HISTORY & CULTURE ---
+  // --- 1. RAJASTHAN HISTORY & CULTURE ---
   {
     id: 'pq-1',
-    examIds: ['all', 'cet', 'patwari', 'ras-pre'],
+    examIds: ['all', 'rssb-cet-grad', 'rssb-cet-12th', 'rssb-patwari', 'rpsc-ras', 'rpsc-2nd-grade'],
     subjectId: 'history',
     topic: 'प्राचीन सभ्यताएं',
     questionHindi: 'कालीबंगा सभ्यता के उत्खनन में जूते हुए खेत के साक्ष्य मिले हैं। यह पुरातात्विक स्थल वर्तमान में राजस्थान के किस जिले में स्थित है?',
@@ -63,24 +64,26 @@ export const PRACTICE_QUESTIONS: PracticeQuestion[] = [
       'श्रीगंगानगर',
       'हनुमानगढ़',
       'अनूपगढ़',
-      'बीकानेर'
+      'बीकानेर',
+      'अनुत्तरित प्रश्न (Question Not Attempted)'
     ],
     optionsEnglish: [
       'Sri Ganganagar',
       'Hanumangarh',
       'Anupgarh',
-      'Bikaner'
+      'Bikaner',
+      'Question Not Attempted'
     ],
     correctOptionIndex: 1,
-    explanationHindi: 'कालीबंगा राजस्थान के हनुमानगढ़ जिले में घग्घर (प्राचीन सरस्वती) नदी के बाएं तट पर स्थित है। इसकी खोज 1952 में अमलानंद घोष ने की थी तथा 1961-69 में बी.बी. लाल और बी.के. थापर ने उत्खनन कराया। यहाँ से विश्व में जूते हुए खेत के प्राचीनतम साक्ष्य, भूकंप के साक्ष्य और सात अग्नि वेदिकाएं मिली हैं।',
-    explanationEnglish: 'Kalibangan is situated on the left bank of the Ghaggar (ancient Saraswati) river in the Hanumangarh district of Rajasthan. Discovered by Amlanand Ghosh in 1952, its excavation was carried out by B.B. Lal and B.K. Thapar (1961-69). It provided the world\'s earliest evidence of ploughed agricultural fields, seismic shocks (earthquake), and seven fire altars.',
-    sourceExamRef: 'RSMSSB CET & Patwar Previous Year',
+    explanationHindi: 'कालीबंगा राजस्थान के हनुमानगढ़ जिले में घग्घर (प्राचीन सरस्वती) नदी के तट पर स्थित है। इसकी खोज 1952 में अमलानंद घोष ने की थी तथा 1961-69 में बी.बी. लाल और बी.के. थापर ने उत्खनन कराया। यहाँ से जूते हुए खेत व भूकंप के प्राचीनतम साक्ष्य मिले हैं। (संदर्भ: RBSE कक्षा 10 इतिहास एवं संस्कृति)',
+    explanationEnglish: 'Kalibangan is situated on the left bank of the Ghaggar river in Hanumangarh district. Discovered by Amlanand Ghosh in 1952, its excavation revealed ploughed agricultural fields and seismic evidence.',
+    sourceExamRef: 'RSMSSB CET & Patwar Previous Master Papers',
     difficulty: 'सरल',
     importantFactHindi: 'कालीबंगा का शाब्दिक अर्थ \'काले रंग की चूड़ियां\' होता है।'
   },
   {
     id: 'pq-2',
-    examIds: ['all', 'cet', 'patwari', 'ras-pre'],
+    examIds: ['all', 'rssb-cet-grad', 'rssb-cet-12th', 'rssb-patwari', 'rpsc-ras'],
     subjectId: 'history',
     topic: 'दुर्ग एवं स्थापत्य',
     questionHindi: 'यूनेस्को (UNESCO) की विश्व धरोहर सूची में 2013 में शामिल राजस्थान के 6 पहाड़ी किलों में निम्नलिखित में से कौन सा दुर्ग शामिल नहीं है?',
@@ -89,24 +92,26 @@ export const PRACTICE_QUESTIONS: PracticeQuestion[] = [
       'कुंभलगढ़ दुर्ग (राजसमंद)',
       'गागरोन दुर्ग (झालावाड़)',
       'मेहरानगढ़ दुर्ग (जोधपुर)',
-      'रणथंभौर दुर्ग (सवाई माधोपुर)'
+      'रणथंभौर दुर्ग (सवाई माधोपुर)',
+      'अनुत्तरित प्रश्न (Question Not Attempted)'
     ],
     optionsEnglish: [
       'Kumbhalgarh Fort (Rajsamand)',
       'Gagron Fort (Jhalawar)',
       'Mehrangarh Fort (Jodhpur)',
-      'Ranthambore Fort (Sawai Madhopur)'
+      'Ranthambore Fort (Sawai Madhopur)',
+      'Question Not Attempted'
     ],
     correctOptionIndex: 2,
-    explanationHindi: 'जून 2013 में कंबोडिया के नोम पेन्ह में यूनेस्को की बैठक में राजस्थान के 6 पहाड़ी किलों को विश्व धरोहर का दर्जा दिया गया था: (1) चित्तौड़गढ़, (2) कुंभलगढ़, (3) रणथंभौर, (4) गागरोन, (5) आमेर, और (6) जैसलमेर (सोनारगढ़)। याद रखने की ट्रिक: "चीकू गाजर आम"। मेहरानगढ़ दुर्ग (जोधपुर) इस सूची में शामिल नहीं है।',
-    explanationEnglish: 'In June 2013, UNESCO inscribed 6 hill forts of Rajasthan: Chittorgarh, Kumbhalgarh, Ranthambore, Gagron, Amer, and Jaisalmer. Mehrangarh Fort (Jodhpur) is famous and magnificent, but is NOT part of this specific UNESCO 6-fort inscription.',
+    explanationHindi: 'जून 2013 में यूनेस्को ने राजस्थान के 6 पहाड़ी किलों को विश्व धरोहर का दर्जा दिया: चित्तौड़गढ़, कुंभलगढ़, रणथंभौर, गागरोन, आमेर और जैसलमेर (ट्रिक: चीकू गाजर आम)। मेहरानगढ़ दुर्ग इस 6-किलों की सूची में शामिल नहीं है। (संदर्भ: RBSE कक्षा 10 स्थापत्य)',
+    explanationEnglish: 'In 2013, UNESCO inscribed Chittorgarh, Kumbhalgarh, Ranthambore, Gagron, Amer, and Jaisalmer. Mehrangarh Fort is not part of this 6-fort inscription.',
     sourceExamRef: 'RPSC RAS Pre & RSMSSB Patwar',
     difficulty: 'मध्यम',
     importantFactHindi: 'मेमोरी ट्रिक: "ची-कू गा-ज-र आम" (चित्तौड़गढ़, कुंभलगढ़, गागरोन, जैसलमेर, रणथंभौर, आमेर)।'
   },
   {
     id: 'pq-3',
-    examIds: ['all', 'cet', 'patwari', 'pashu-parichar'],
+    examIds: ['all', 'rssb-cet-12th', 'rssb-pashu-parichar', 'police-constable'],
     subjectId: 'history',
     topic: 'लोक देवता व संत',
     questionHindi: 'राजस्थान के किस लोक देवता को \'ऊंटों के देवता\' और \'प्लेग रक्षक देवता\' के रूप में पूजा जाता है?',
@@ -115,24 +120,26 @@ export const PRACTICE_QUESTIONS: PracticeQuestion[] = [
       'गोगाजी चौहान',
       'पाबूजी राठौड़',
       'रामदेवजी तंवर',
-      'तेजाजी महाराज'
+      'तेजाजी महाराज',
+      'अनुत्तरित प्रश्न (Question Not Attempted)'
     ],
     optionsEnglish: [
       'Gogaji Chauhan',
       'Pabuji Rathore',
       'Ramdevji Tanwar',
-      'Tejaji Maharaj'
+      'Tejaji Maharaj',
+      'Question Not Attempted'
     ],
     correctOptionIndex: 1,
-    explanationHindi: 'पाबूजी राठौड़ को मारवाड़ में सर्वप्रथम ऊंट (सांड) लाने का श्रेय दिया जाता है। ऊंट बीमार होने पर रेबारी (राईका) जाति द्वारा पाबूजी की फड़ का वाचन रावणहत्था वाद्ययंत्र के साथ किया जाता है। पाबूजी को लक्ष्मण जी का अवतार, प्लेग रक्षक देवता एवं हाड़-फाड़ के देवता के रूप में भी पूजा जाता है।',
-    explanationEnglish: 'Pabuji Rathore is credited with bringing camels to the Marwar region for the first time. The Rebari/Raika community worships him; when camels fall ill, Pabuji\'s Phad is recited using the Ravanhatha musical instrument. He is regarded as an incarnation of Lakshmana.',
+    explanationHindi: 'पाबूजी राठौड़ को मारवाड़ में सर्वप्रथम ऊंट लाने का श्रेय दिया जाता है। रेबारी जाति इन्हें अपना आराध्य मानती है। इनकी फड़ रावणहत्था वाद्ययंत्र से बांची जाती है। (संदर्भ: राजस्थान हिन्दी ग्रंथ अकादमी - लोक देवता)',
+    explanationEnglish: 'Pabuji Rathore is worshipped as the protector of camels and livestock. The Rebari community honors him; his Phad is recited using the Ravanhatha instrument.',
     sourceExamRef: 'RSMSSB Pashu Parichar & CET',
     difficulty: 'सरल',
     importantFactHindi: 'पाबूजी का मुख्य पूजा स्थल कोलू (फलौदी) में स्थित है।'
   },
   {
     id: 'pq-4',
-    examIds: ['all', 'cet', 'patwari', 'ras-pre'],
+    examIds: ['all', 'rssb-cet-grad', 'rssb-patwari', 'rpsc-ras', 'rpsc-2nd-grade'],
     subjectId: 'history',
     topic: 'प्रजामंडल व एकीकरण',
     questionHindi: 'राजस्थान के एकीकरण के प्रथम चरण में \'मत्स्य संघ\' का गठन 18 मार्च 1948 को हुआ। मत्स्य संघ की राजधानी किसे बनाया गया था?',
@@ -141,235 +148,255 @@ export const PRACTICE_QUESTIONS: PracticeQuestion[] = [
       'भरतपुर',
       'अलवर',
       'धौलपुर',
-      'करौली'
+      'करौली',
+      'अनुत्तरित प्रश्न (Question Not Attempted)'
     ],
     optionsEnglish: [
       'Bharatpur',
       'Alwar',
       'Dholpur',
-      'Karauli'
+      'Karauli',
+      'Question Not Attempted'
     ],
     correctOptionIndex: 1,
-    explanationHindi: 'मत्स्य संघ में चार रियासतें (अलवर, भरतपुर, धौलपुर, करौली) तथा नीमराणा ठिकाना शामिल थे। के.एम. मुंशी के सुझाव पर इसका नाम \'मत्स्य संघ\' रखा गया। इसकी राजधानी अलवर बनाई गई, धौलपुर के उदयभान सिंह को राजप्रमुख, करौली के गणेशपाल को उपराजप्रमुख तथा शोभाराम कुमावत (अलवर) को प्रधानमंत्री बनाया गया था।',
-    explanationEnglish: 'The Matsya Sangh was formed with Alwar, Bharatpur, Dholpur, Karauli, and the Neemrana estate. On K.M. Munshi\'s suggestion, it was named Matsya Sangh. Alwar was designated as its capital, with Shobha Ram Kumawat serving as Prime Minister.',
-    sourceExamRef: 'RSMSSB Patwar & CET 2024',
-    difficulty: 'मध्यम',
-    importantFactHindi: 'मत्स्य संघ का उद्घाटन एन.वी. गाडगिल (केंद्रीय मंत्री) ने भरतपुर दुर्ग में किया था।'
+    explanationHindi: 'मत्स्य संघ में अलवर, भरतपुर, धौलपुर, करौली तथा नीमराणा ठिकाना शामिल थे। इसकी राजधानी अलवर को बनाया गया तथा धौलपुर के उदयभान सिंह को राजप्रमुख बनाया गया। (संदर्भ: RBSE कक्षा 10 एकीकरण)',
+    explanationEnglish: 'Matsya Sangh comprised Alwar, Bharatpur, Dholpur, Karauli and Neemrana. Alwar was designated as the capital, with Maharaja Udaybhan Singh of Dholpur as Rajpramukh.',
+    sourceExamRef: 'RPSC 2nd Grade & RSMSSB LDC',
+    difficulty: 'सरल',
+    importantFactHindi: 'मत्स्य संघ का नामकरण कन्हैयालाल माणिक्यलाल (के.एम.) मुंशी के सुझाव पर किया गया था।'
   },
 
-  // --- RAJASTHAN GEOGRAPHY (50 DISTRICTS) ---
+  // --- 2. REORGANIZED RAJASTHAN GEOGRAPHY (50 DISTRICTS) ---
   {
     id: 'pq-5',
-    examIds: ['all', 'cet', 'patwari', 'lab-assistant', 'ras-pre'],
+    examIds: ['all', 'rssb-cet-grad', 'rssb-cet-12th', 'rssb-patwari', 'rpsc-ras'],
     subjectId: 'geography',
-    topic: 'नवीन प्रशासनिक स्वरूप (50 जिले)',
-    questionHindi: 'पुनर्गठित राजस्थान के अनुसार क्षेत्रफल की दृष्टि से राज्य का सबसे छोटा जिला वर्तमान में कौन सा है?',
-    questionEnglish: 'According to the reorganized administrative districts of Rajasthan, which is currently the smallest district by area?',
+    topic: 'भौतिक प्रदेश एवं 50 जिले',
+    questionHindi: 'पुनर्गठित 50 जिलों के अनुसार क्षेत्रफल की दृष्टि से वर्तमान में राजस्थान का सबसे छोटा जिला कौन सा है?',
+    questionEnglish: 'According to the reorganized 50 districts, which is currently the smallest district of Rajasthan in terms of geographical area?',
     optionsHindi: [
       'धौलपुर',
-      'दूदू',
+      'दूदू (Dudu)',
       'दौसा',
-      'कोटपूतली-बहरोड़'
+      'कोटपूतली-बहरोड़',
+      'अनुत्तरित प्रश्न (Question Not Attempted)'
     ],
     optionsEnglish: [
       'Dholpur',
       'Dudu',
       'Dausa',
-      'Kotputli-Behror'
+      'Kotputli-Behror',
+      'Question Not Attempted'
     ],
     correctOptionIndex: 1,
-    explanationHindi: 'अगस्त 2023 में नए जिलों के गठन के पश्चात \'दूदू\' जिला क्षेत्रफल और ग्राम पंचायतों की संख्या की दृष्टि से राजस्थान का सबसे छोटा जिला बन गया है। पहले धौलपुर (3034 वर्ग किमी) सबसे छोटा जिला हुआ करता था। दूदू सीधे ग्राम पंचायत से जिला बनने वाला राजस्थान का पहला विशिष्ट जिला है।',
-    explanationEnglish: 'Following the August 2023 reorganization of districts in Rajasthan, \'Dudu\' became the smallest district in Rajasthan both in area and population/panchayats, superseding Dholpur which was previously the smallest. Dudu is notable for being directly upgraded from a gram panchayat to a district.',
-    sourceExamRef: 'RSMSSB CET 2024 (नवीन भूगोल)',
-    difficulty: 'सरल',
-    importantFactHindi: 'दूदू में केवल 3 उपखंड और 3 तहसीलें (दूदू, फागी, मौजमाबाद) सम्मिलित हैं।'
+    explanationHindi: 'वर्ष 2023 के नवीन पुनर्गठन के अनुसार दूदू राजस्थान का सबसे छोटा जिला है जिसमें केवल 3 तहसीलें (दूदू, फागी, मौजमाबाद) हैं। इससे पूर्व धौलपुर (3034 वर्ग किमी) सबसे छोटा जिला था। (संदर्भ: राजस्थान राजस्व मंडल अधिसूचना 2023)',
+    explanationEnglish: 'Following the 2023 administrative reorganization, Dudu is currently the smallest district comprising 3 tehsils, replacing Dholpur.',
+    sourceExamRef: 'RSMSSB CET 2024 New Pattern',
+    difficulty: 'मध्यम',
+    importantFactHindi: 'दूदू सीधे ग्राम पंचायत से जिला बनने वाला भारत का पहला प्रशासनिक क्षेत्र है।'
   },
   {
     id: 'pq-6',
-    examIds: ['all', 'cet', 'patwari', 'lab-assistant'],
+    examIds: ['all', 'rssb-cet-grad', 'rssb-patwari', 'rpsc-ras'],
     subjectId: 'geography',
-    topic: 'अपवाह तंत्र व नदियां',
-    questionHindi: 'राजस्थान की कौन सी नदी \'कामधेनु\' एवं \'चर्मण्वती\' के उपनाम से प्रसिद्ध है तथा राज्य में सर्वाधिक सतही जल रखती है?',
-    questionEnglish: 'Which river of Rajasthan is known by the epithets \'Kamdhenu\' and \'Charmanyavati\', holding the highest surface water in the state?',
+    topic: 'अपवाह तंत्र एवं नदियां',
+    questionHindi: 'राजस्थान की एकमात्र बारहमासी (नित्यवाही) नदी कौन सी है जो उत्खात भूमि (Badland Topography) के बीहड़ों के लिए कुख्यात है?',
+    questionEnglish: 'Which is the only perennial river of Rajasthan notorious for badland topography and ravines (Beehad)?',
     optionsHindi: [
       'बनास नदी',
       'चंबल नदी',
       'माही नदी',
-      'लूनी नदी'
+      'लूनी नदी',
+      'अनुत्तरित प्रश्न (Question Not Attempted)'
     ],
     optionsEnglish: [
       'Banas River',
       'Chambal River',
       'Mahi River',
-      'Luni River'
+      'Luni River',
+      'Question Not Attempted'
     ],
     correctOptionIndex: 1,
-    explanationHindi: 'चंबल नदी मध्य प्रदेश में जानापाव की पहाड़ियों (महू) से निकलती है और चौरासीगढ़ (चित्तौड़गढ़) के निकट राजस्थान में प्रवेश करती है। यह राजस्थान की एकमात्र नित्यवाही (वर्षपर्यंत बहने वाली) नदी है। इसे राजस्थान की कामधेनु व चर्मण्वती कहते हैं। इस पर गांधी सागर, राणा प्रताप सागर, जवाहर सागर व कोटा बैराज बांध निर्मित हैं।',
-    explanationEnglish: 'The Chambal River originates from the Janapao Hills near Mhow in Madhya Pradesh and enters Rajasthan near Chaurasigarh (Chittorgarh). It is Rajasthan\'s perennial river, known as Kamdhenu/Charmanyavati. Four major dams (Gandhi Sagar, Rana Pratap Sagar, Jawahar Sagar, and Kota Barrage) harness its waters.',
-    sourceExamRef: 'RSMSSB Lab Assistant & Patwar',
+    explanationHindi: 'चंबल नदी (चर्मण्वती/कामधेनु) मध्य प्रदेश के जनापाव पहाड़ियों से निकलकर चौरासीगढ़ (चित्तौड़गढ़) से राजस्थान में प्रवेश करती है। यह कोटा, बूंदी, सवाई माधोपुर, करौली व धौलपुर में अवनालिका अपरदन द्वारा बीहड़ भूमि बनाती है। (संदर्भ: राजस्थान भूगोल - डॉ. हरिमोहन सक्सेना)',
+    explanationEnglish: 'The Chambal River is Rajasthan\'s premier perennial river known for intense gully erosion forming characteristic ravines (Beehad).',
+    sourceExamRef: 'RSMSSB Patwar & RPSC RAS',
     difficulty: 'सरल',
-    importantFactHindi: 'चंबल नदी भारत में सर्वाधिक अवनालिका अपरदन (Gully Erosion) तथा बीहड़ (Badlands) भूमि का निर्माण करती है।'
+    importantFactHindi: 'चंबल नदी पर राजस्थान में राणा प्रताप सागर, जवाहर सागर व कोटा बैराज बांध स्थित हैं।'
   },
+
+  // --- 3. GENERAL SCIENCE ---
   {
     id: 'pq-7',
-    examIds: ['all', 'cet', 'patwari', 'lab-assistant', 'ras-pre'],
-    subjectId: 'geography',
-    topic: 'भौतिक प्रदेश व चोटियां',
-    questionHindi: 'अरावली पर्वतमाला की चोटियों को उनकी ऊंचाई के घटते क्रम (अवरोही क्रम) में व्यवस्थित करने पर सही क्रम क्या होगा?',
-    questionEnglish: 'What will be the correct descending order of the peaks of the Aravalli mountain range according to their elevation?',
+    examIds: ['all', 'rssb-cet-grad', 'rssb-cet-12th', 'rssb-patwari', 'rpsc-ras'],
+    subjectId: 'science',
+    topic: 'दैनिक रसायन विज्ञान',
+    questionHindi: 'प्लास्टर ऑफ पेरिस (POP) का सही रासायनिक सूत्र क्या है और यह किससे तैयार किया जाता है?',
+    questionEnglish: 'What is the correct chemical formula of Plaster of Paris (POP) and from what is it prepared?',
     optionsHindi: [
-      'गुरुशिखर, सेर, दिलवाड़ा, जरगा, अचलगढ़',
-      'गुरुशिखर, जरगा, सेर, अचलगढ़, दिलवाड़ा',
-      'सेर, गुरुशिखर, दिलवाड़ा, अचलगढ़, कुंभलगढ़',
-      'गुरुशिखर, दिलवाड़ा, सेर, जरगा, तारागढ़'
+      'CaSO4.1/2H2O (जिप्सम को 373 K पर गर्म करके)',
+      'CaSO4.2H2O (चूना पत्थर से)',
+      'CaCO3 (कैल्शियम कार्बोनेट से)',
+      'CaOCl2 (ब्लीचिंग पाउडर से)',
+      'अनुत्तरित प्रश्न (Question Not Attempted)'
     ],
     optionsEnglish: [
-      'Guru Shikhar, Ser, Dilwara, Jarga, Achalgarh',
-      'Guru Shikhar, Jarga, Ser, Achalgarh, Dilwara',
-      'Ser, Guru Shikhar, Dilwara, Achalgarh, Kumbhalgarh',
-      'Guru Shikhar, Dilwara, Ser, Jarga, Taragarh'
+      'CaSO4.1/2H2O (By heating Gypsum at 373 K)',
+      'CaSO4.2H2O (From Limestone)',
+      'CaCO3 (From Calcium Carbonate)',
+      'CaOCl2 (From Bleaching Powder)',
+      'Question Not Attempted'
     ],
     correctOptionIndex: 0,
-    explanationHindi: 'अरावली की प्रमुख चोटियों की ऊंचाई: \n1. गुरुशिखर (माउंट आबू, सिरोही) - 1722 मीटर\n2. सेर (सिरोही) - 1597 मीटर\n3. दिलवाड़ा (सिरोही) - 1442 मीटर\n4. जरगा (उदयपुर) - 1431 मीटर\n5. अचलगढ़ (सिरोही) - 1380 मीटर।\nयाद रखने की लोकप्रिय ट्रिक: "गुरु से दिल जरा आ" (गुरुशिखर, सेर, दिलवाड़ा, जरगा, अचलगढ़)।',
-    explanationEnglish: 'Heights of major Aravalli peaks in descending order:\n1. Guru Shikhar (1722 m, Sirohi)\n2. Ser (1597 m, Sirohi)\n3. Dilwara (1442 m, Sirohi)\n4. Jarga (1431 m, Udaipur)\n5. Achalgarh (1380 m, Sirohi).',
-    sourceExamRef: 'RPSC RAS Pre & RSMSSB Lab Assistant',
+    explanationHindi: 'जिप्सम (CaSO4.2H2O) को 373 K पर गर्म करने पर यह जल के अणुओं का त्याग कर कैल्शियम सल्फेट हेमीहाइड्रेट (CaSO4.1/2H2O) बनाता है, जिसे प्लास्टर ऑफ पेरिस कहते हैं। (संदर्भ: NCERT/RBSE कक्षा 10 विज्ञान)',
+    explanationEnglish: 'Heating gypsum (CaSO4.2H2O) at 373 K yields calcium sulfate hemihydrate (CaSO4.1/2H2O), commonly known as Plaster of Paris.',
+    sourceExamRef: 'RSMSSB CET 12th & Graduation',
     difficulty: 'मध्यम',
-    importantFactHindi: 'कर्नल जेम्स टॉड ने गुरुशिखर को \'संतों का शिखर\' कहा था।'
+    importantFactHindi: 'POP में पुनः जल मिलाने पर यह कठोर जिप्सम में परिवर्तित हो जाता है।'
   },
-
-  // --- GENERAL SCIENCE (LAB ASSISTANT & CET & PATWARI SPECIAL) ---
   {
     id: 'pq-8',
-    examIds: ['all', 'lab-assistant', 'cet', 'patwari'],
+    examIds: ['all', 'rssb-cet-grad', 'rssb-cet-12th', 'rssb-patwari', 'police-constable'],
     subjectId: 'science',
     topic: 'मानव शरीर क्रिया विज्ञान',
-    questionHindi: 'मानव नेत्र में किसी वस्तु का वास्तविक एवं उल्टा प्रतिबिंब किस भाग पर बनता है?',
-    questionEnglish: 'On which part of the human eye is a real and inverted image of an object formed?',
+    questionHindi: 'मानव शरीर में इंसुलिन (Insulin) हार्मोन का स्राव किस ग्रंथि की बीटा (β) कोशिकाओं द्वारा किया जाता है?',
+    questionEnglish: 'In the human body, which gland\'s beta (β) cells secrete the hormone insulin?',
     optionsHindi: [
-      'कॉर्निया (स्वच्छ मंडल)',
-      'पुतली (Pupil)',
-      'रेटिना (दृष्टिपटल)',
-      'परितारिका (Iris)'
+      'अग्न्याशय (Pancreas)',
+      'थायरॉयड ग्रंथि (Thyroid)',
+      'पीयूष ग्रंथि (Pituitary)',
+      'अधिवृक्क ग्रंथि (Adrenal)',
+      'अनुत्तरित प्रश्न (Question Not Attempted)'
     ],
     optionsEnglish: [
-      'Cornea',
-      'Pupil',
-      'Retina',
-      'Iris'
+      'Pancreas (Islets of Langerhans)',
+      'Thyroid Gland',
+      'Pituitary Gland',
+      'Adrenal Gland',
+      'Question Not Attempted'
     ],
-    correctOptionIndex: 2,
-    explanationHindi: 'मानव नेत्र में प्रकाश कॉर्निया से होकर प्रवेश करता है तथा उत्तल लेंस द्वारा अपवर्तित होकर रेटिना (दृष्टिपटल) पर केंद्रित होता है। रेटिना पर वस्तु का प्रतिबिंब वास्तविक और उल्टा बनता है। रेटिना में स्थित शलाका (Rods) प्रकाश तीव्रता तथा शंकु (Cones) रंगों की पहचान के लिए उत्तरदायी होते हैं। दृक तंत्रिका द्वारा यह संकेत मस्तिष्क तक पहुंचते हैं जहाँ सीधा अनुभव होता है।',
-    explanationEnglish: 'In the human eye, incoming light rays are refracted by the crystalline convex lens and focused on the Retina, creating a real and inverted image. Rod and cone photoreceptor cells convert light into electrical nerve impulses transmitted via the optic nerve to the brain.',
-    sourceExamRef: 'RSMSSB Lab Assistant & CET Science',
+    correctOptionIndex: 0,
+    explanationHindi: 'अग्न्याशय एक मिश्रित अंतःस्रावी व बहिःस्रावी ग्रंथि है। इसके लैंगरहेंस द्वीप समूह की बीटा (β) कोशिकाएं इंसुलिन का स्राव करती हैं, जो रक्त में ग्लूकोज का स्तर नियंत्रित करता है। (संदर्भ: NCERT कक्षा 10 नियंत्रण एवं समन्वय)',
+    explanationEnglish: 'The beta cells in the Islets of Langerhans of the pancreas secrete insulin, regulating blood sugar levels.',
+    sourceExamRef: 'RSMSSB Lab Assistant & Patwar',
     difficulty: 'सरल',
-    importantFactHindi: 'नेत्रदान में दाता की आंख का केवल \'कॉर्निया\' (Cornea) प्रत्यारोपित किया जाता है।'
+    importantFactHindi: 'इंसुलिन की कमी से मधुमेह (Diabetes Mellitus) रोग हो जाता है।'
   },
+
+  // --- 4. RAJASTHAN POLITY & GOVERNANCE ---
   {
     id: 'pq-9',
-    examIds: ['all', 'lab-assistant', 'cet', 'patwari'],
-    subjectId: 'science',
-    topic: 'भौतिक विज्ञान (प्रकाशिकी व गति)',
-    questionHindi: 'वाहनों के साइड मिरर (रियर व्यू मिरर) के रूप में किस प्रकार के दर्पण का उपयोग किया जाता है और क्यों?',
-    questionEnglish: 'Which type of mirror is used as a rear-view (side) mirror in automobiles and why?',
+    examIds: ['all', 'rssb-cet-grad', 'rssb-patwari', 'rpsc-ras', 'rpsc-2nd-grade'],
+    subjectId: 'polity',
+    topic: 'राज्य प्रशासन एवं आयोग',
+    questionHindi: 'राजस्थान में लोकायुक्त एवं उप-लोकायुक्त अधिनियम किस वर्ष पारित हुआ तथा राज्य के प्रथम लोकायुक्त कौन बने?',
+    questionEnglish: 'In which year was the Rajasthan Lokayukta and Up-Lokayuktas Act passed and who was appointed the first Lokayukta of the state?',
     optionsHindi: [
-      'अवतल दर्पण, क्योंकि यह बड़ा प्रतिबिंब बनाता है',
-      'उत्तल दर्पण, क्योंकि यह सदैव सीधा व छोटा प्रतिबिंब तथा विस्तृत दृष्टि क्षेत्र देता है',
-      'समतल दर्पण, क्योंकि यह समान आकार का प्रतिबिंब बनाता है',
-      'परवलयिक दर्पण, क्योंकि यह प्रकाश को केंद्रित करता है'
+      '1973 - न्यायमूर्ति आई.डी. दुआ',
+      '1971 - न्यायमूर्ति एम.एल. जोशी',
+      '1975 - न्यायमूर्ति कांता भटनागर',
+      '1980 - न्यायमूर्ति जे.एस. वर्मा',
+      'अनुत्तरित प्रश्न (Question Not Attempted)'
     ],
     optionsEnglish: [
-      'Concave mirror, because it forms an enlarged image',
-      'Convex mirror, because it always gives an erect, diminished image and a wide field of view',
-      'Plane mirror, because it makes a normal size image',
-      'Parabolic mirror, because it focuses light rays'
+      '1973 - Justice I.D. Dua',
+      '1971 - Justice M.L. Joshi',
+      '1975 - Justice Kanta Bhatnagar',
+      '1980 - Justice J.S. Verma',
+      'Question Not Attempted'
     ],
-    correctOptionIndex: 1,
-    explanationHindi: 'वाहनों में साइड रियर-व्यू मिरर के रूप में उत्तल दर्पण (Convex Mirror) का उपयोग होता है क्योंकि: (1) यह वस्तु का हमेशा सीधा (आभासी) प्रतिबिंब बनाता है, (2) प्रतिबिंब छोटा होने के कारण चालक को पीछे का बहुत बड़ा क्षेत्र (Wide field of view) दिखाई देता है। अवतल दर्पण का उपयोग दंत चिकित्सक व हेडलाइट परावर्तक में होता है।',
-    explanationEnglish: 'Convex mirrors are preferred as rear-view mirrors in vehicles because they always produce an upright, virtual, and diminished image, offering a much wider field of view than plane or concave mirrors.',
-    sourceExamRef: 'RSMSSB Lab Assistant & CET',
-    difficulty: 'सरल',
-    importantFactHindi: 'उत्तल दर्पण में फोकस बिंदु दर्पण के पीछे काल्पनिक होता है।'
+    correctOptionIndex: 0,
+    explanationHindi: 'राजस्थान लोकायुक्त अधिनियम 1973 में लागू हुआ। राज्य के प्रथम लोकायुक्त न्यायमूर्ति आई.डी. दुआ (ID Dua) बने। मुख्यमंत्री, उच्च न्यायालय के न्यायाधीश तथा RPSC अध्यक्ष लोकायुक्त के क्षेत्राधिकार से बाहर हैं। (संदर्भ: डॉ. जनक सिंह मीणा - राजस्थान राजव्यवस्था)',
+    explanationEnglish: 'The Rajasthan Lokayukta Act was passed in 1973. Justice I.D. Dua was appointed the first Lokayukta of Rajasthan.',
+    sourceExamRef: 'RPSC RAS Prelims & 2nd Grade',
+    difficulty: 'कठिन',
+    importantFactHindi: 'लोकायुक्त का कार्यकाल 5 वर्ष अथवा 65 वर्ष की आयु (जो भी पहले हो) होता है।'
   },
+
+  // --- 5. GENERAL HINDI ---
   {
     id: 'pq-10',
-    examIds: ['all', 'lab-assistant', 'cet'],
-    subjectId: 'science',
-    topic: 'रसायन विज्ञान (दैनिक जीवन में रसायन)',
-    questionHindi: 'बेकिंग सोडा (खाने का सोडा) का रासायनिक नाम और सूत्र क्या है?',
-    questionEnglish: 'What is the chemical name and formula of Baking Soda?',
+    examIds: ['all', 'rssb-cet-grad', 'rssb-cet-12th', 'rssb-patwari', 'rpsc-ras'],
+    subjectId: 'hindi',
+    topic: 'शब्द शुद्धि एवं वर्तनी',
+    questionHindi: 'निम्नलिखित में से किस विकल्प के सभी शब्द वर्तनी की दृष्टि से पूर्णतः शुद्ध हैं?',
+    questionEnglish: 'In which of the following options are all words completely correct in terms of Hindi spelling (Vartani)?',
     optionsHindi: [
-      'सोडियम कार्बोनेट (Na2CO3.10H2O)',
-      'सोडियम हाइड्रोजन कार्बोनेट (NaHCO3)',
-      'सोडियम हाइड्रोक्साइड (NaOH)',
-      'कैल्शियम ऑक्सीक्लोराइड (CaOCl2)'
+      'उज्ज्वल, कवयित्री, मिष्ठान्न, आशीर्वाद',
+      'उज्वल, कवियत्री, मिष्ठान, आशिर्वाद',
+      'उज्जवल, कवयित्री, मिष्ठान, आशीर्वाद',
+      'उज्ज्वल, कवियत्री, मिष्ठान्न, आशिरवाद',
+      'अनुत्तरित प्रश्न (Question Not Attempted)'
     ],
     optionsEnglish: [
-      'Sodium Carbonate (Na2CO3.10H2O)',
-      'Sodium Hydrogen Carbonate (NaHCO3)',
-      'Sodium Hydroxide (NaOH)',
-      'Calcium Oxychloride (CaOCl2)'
+      'Ujjwal, Kawayitri, Mishthanna, Aashirwad (All Correct)',
+      'Incorrect spelling forms',
+      'Partially incorrect forms',
+      'Disordered spelling variants',
+      'Question Not Attempted'
     ],
-    correctOptionIndex: 1,
-    explanationHindi: 'बेकिंग सोडा का रासायनिक नाम सोडियम बाइकार्बोनेट अथवा सोडियम हाइड्रोजन कार्बोनेट (NaHCO3) है। इसका उपयोग खाद्य पदार्थों को स्पंजी बनाने, एंटासिड (पेट की अम्लता कम करने) तथा अग्निशामक यंत्रों में किया जाता है। विकल्प A धोने का सोडा (Washing Soda) है तथा विकल्प D विरंजक चूर्ण (Bleaching Powder) है।',
-    explanationEnglish: 'Baking soda is chemically Sodium Hydrogen Carbonate or Sodium Bicarbonate (NaHCO3). It decomposes on heating to release carbon dioxide gas, making cakes and dough porous and fluffy. Na2CO3.10H2O is Washing Soda, while CaOCl2 is Bleaching Powder.',
-    sourceExamRef: 'RSMSSB Lab Assistant Chemistry & CET',
+    correctOptionIndex: 0,
+    explanationHindi: 'उद् + ज्वल = उज्ज्वल (दोनों \'ज\' आधे होते हैं)। कवि का स्त्रीलिंग कवयित्री होता है। मिष्ट + अन्न = मिष्ठान्न शुद्ध रूप है। आशिः + वाद = आशीर्वाद। (संदर्भ: डॉ. राघव प्रकाश - सामान्य हिन्दी)',
+    explanationEnglish: 'All words in option A are standard grammatically correct spellings in Hindi.',
+    sourceExamRef: 'RPSC SI & RSMSSB Patwar Previous Exams',
     difficulty: 'मध्यम',
-    importantFactHindi: 'टार्टरिक अम्ल के साथ बेकिंग सोडा मिलाने पर \'बेकिंग पाउडर\' बनता है।'
+    importantFactHindi: '\'कवयित्री\' और \'उज्ज्वल\' राजस्थान भर्ती परीक्षाओं में सर्वाधिक बार पूछे जाने वाले शुद्ध शब्द हैं।'
   },
 
-  // --- RAJASTHAN POLITY & GOVERNANCE ---
+  // --- 6. PASHU PARICHARAK (ANIMAL HUSBANDRY - PART B) ---
   {
     id: 'pq-11',
-    examIds: ['all', 'cet', 'patwari', 'ras-pre'],
-    subjectId: 'polity',
-    topic: 'राज्यपाल एवं विधानसभा',
-    questionHindi: 'संविधान के किस अनुच्छेद के तहत राज्यपाल राज्य विधानसभा में अभिभाषण करता है और संदेश भेज सकता है?',
-    questionEnglish: 'Under which Article of the Constitution does the Governor address and send messages to the State Legislative Assembly?',
+    examIds: ['all', 'rssb-pashu-parichar'],
+    subjectId: 'animal',
+    topic: 'पशु नस्लें एवं दुग्ध विज्ञान',
+    questionHindi: 'भैंस की किस नस्ल के दूध में सर्वाधिक वसा (Fat percentage लगभग 12-14%) पाई जाती है और इसका तांबे जैसा रंग होता है?',
+    questionEnglish: 'Which buffalo breed has the highest fat percentage (approx 12-14%) in its milk with a characteristic copper body color?',
     optionsHindi: [
-      'अनुच्छेद 163',
-      'अनुच्छेद 174',
-      'अनुच्छेद 175',
-      'अनुच्छेद 213'
+      'भदावरी (Bhadawari)',
+      'मुर्राह (Murrah)',
+      'जाफराबादी (Jafrabadi)',
+      'मेहसाणा (Mehsana)',
+      'अनुत्तरित प्रश्न (Question Not Attempted)'
     ],
     optionsEnglish: [
-      'Article 163',
-      'Article 174',
-      'Article 175',
-      'Article 213'
+      'Bhadawari',
+      'Murrah',
+      'Jafrabadi',
+      'Mehsana',
+      'Question Not Attempted'
     ],
-    correctOptionIndex: 2,
-    explanationHindi: 'भारतीय संविधान के अनुच्छेद 175 के तहत राज्यपाल को राज्य विधानमंडल के किसी सदन में या दोनों सदनों के संयुक्त सत्र में अभिभाषण करने तथा विचाराधीन विधेयकों के संबंध में संदेश भेजने का अधिकार है। अनुच्छेद 174 में सत्राहूत, सत्रावसान व विघटन का प्रावधान है, अनुच्छेद 163 में मंत्रिपरिषद की सलाह तथा अनुच्छेद 213 में राज्यपाल की अध्यादेश जारी करने की शक्ति है।',
-    explanationEnglish: 'Article 175 grants the Governor the right to address either House of the Legislature of the State, or both Houses assembled together, and to send messages. Article 174 deals with sessions, prorogation, and dissolution, while Article 213 empowers the Governor to promulgate ordinances.',
-    sourceExamRef: 'RPSC RAS Pre & RSMSSB CET Graduate',
-    difficulty: 'कठिन',
-    importantFactHindi: 'अनुच्छेद 176 में प्रत्येक वर्ष के प्रथम सत्र और नई विधानसभा के गठन पर राज्यपाल के विशेष अभिभाषण का प्रावधान है।'
+    correctOptionIndex: 0,
+    explanationHindi: 'भदावरी भैंस का शरीर तांबे जैसे रंग (कॉपर कलर) का होता है तथा इसके दूध में 12% से 14% तक वसा होती है जो सभी भैंसों में सर्वाधिक है। मुर्राह भैंस जलेबी जैसे मुड़े सींगों और सर्वाधिक दुग्ध उत्पादन के लिए जानी जाती है। (संदर्भ: पशुपालन विभाग राजस्थान)',
+    explanationEnglish: 'Bhadawari buffalo milk has the highest butterfat content (12-14%) and possesses a characteristic copper skin tone.',
+    sourceExamRef: 'RSMSSB Pashu Parichar 2024 Syllabus',
+    difficulty: 'मध्यम',
+    importantFactHindi: 'मुर्राह भैंस को हरियाणा एवं राजस्थान में \'खुंडी\' या \'ब्लैक ब्यूटी\' भी कहा जाता है।'
   },
-
-  // --- GENERAL HINDI ---
   {
     id: 'pq-12',
-    examIds: ['all', 'cet', 'patwari', 'ras-pre'],
-    subjectId: 'hindi',
-    topic: 'संधि एवं समास',
-    questionHindi: 'निम्नलिखित में से किस शब्द में \'द्विगु समास\' है?',
-    questionEnglish: 'Which of the following words exhibits the \'Dvigu Samas\' (numeral determinative compound)?',
+    examIds: ['all', 'rssb-pashu-parichar'],
+    subjectId: 'animal',
+    topic: 'पशु पोषण एवं रोग',
+    questionHindi: 'गाय व भैंस में प्रसव के तुरंत बाद होने वाला \'मिल्क फीवर\' (दुग्ध ज्वर) रोग शरीर में किस तत्व की कमी से होता है?',
+    questionEnglish: 'Milk Fever occurring in cows and buffaloes immediately post-calving is caused by acute deficiency of which element?',
     optionsHindi: [
-      'पीताम्बर',
-      'त्रिलोकी (त्रिलोक)',
-      'यथाशक्ति',
-      'नीलकमल'
+      'कैल्शियम (Calcium)',
+      'फास्फोरस (Phosphorus)',
+      'आयरन (Iron)',
+      'सोडियम (Sodium)',
+      'अनुत्तरित प्रश्न (Question Not Attempted)'
     ],
     optionsEnglish: [
-      'Pitambar',
-      'Triloki (Trilok)',
-      'Yathashakti',
-      'Neelkamal'
+      'Calcium (Acute Hypocalcemia)',
+      'Phosphorus',
+      'Iron',
+      'Sodium',
+      'Question Not Attempted'
     ],
-    correctOptionIndex: 1,
-    explanationHindi: 'जिस समास का पहला पद संख्यावाचक विशेषण हो और वह किसी समूह (समाहार) का बोध कराए, उसे द्विगु समास कहते हैं। \'त्रिलोकी/त्रिलोक\' का विग्रह \'तीन लोकों का समाहार\' होता है, अतः इसमें द्विगु समास है। पीताम्बर में बहुव्रीहि/कर्मधारय, यथाशक्ति में अव्ययीभाव तथा नीलकमल में कर्मधारय समास है।',
-    explanationEnglish: 'In Hindi grammar, a \'Dvigu Samas\' has a numeral adjective as its first component denoting a collective group. \'Triloki\' means the congregation/summation of three worlds (त्रिलोक), making it a Dvigu compound.',
-    sourceExamRef: 'RSMSSB Patwar & CET General Hindi',
-    difficulty: 'सरल',
-    importantFactHindi: 'यदि संख्यावाची पद मिलकर किसी तीसरे विशेष व्यक्ति/देवता की ओर संकेत करे (जैसे दशानन = रावण), तो वह बहुव्रीहि समास बन जाता है।'
+    correctOptionIndex: 0,
+    explanationHindi: 'मिल्क फीवर (दुग्ध ज्वर) रक्त में कैल्शियम के स्तर के अचानक गिर जाने (Hypocalcemia) से होता है। यह चयापचयी (Metabolic) रोग है जिसमें पशु का तापमान सामान्य से कम हो जाता है। (संदर्भ: पशु चिकित्सा संदर्शिका)',
+    explanationEnglish: 'Milk Fever is an acute hypocalcemic metabolic disease resulting from a rapid drop in blood calcium levels post-parturition.',
+    sourceExamRef: 'RSMSSB Pashu Parichar Part B',
+    difficulty: 'मध्यम',
+    importantFactHindi: 'इसके उपचार हेतु पशु को कैल्शियम बोरो-ग्लुकोनेट का इंट्रावेनस (IV) इंजेक्शन दिया जाता है।'
   }
 ];

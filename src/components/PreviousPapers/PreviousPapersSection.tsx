@@ -11,9 +11,12 @@ import {
   GraduationCap, 
   Eye,
   FileCheck2,
-  Sparkles,
+  ExternalLink,
   ShieldCheck,
-  Check
+  Check,
+  Server,
+  Sparkles,
+  Globe
 } from 'lucide-react';
 import { PREVIOUS_PAPERS_DATA, PreviousPaper } from '@/data/portalData';
 
@@ -22,20 +25,20 @@ interface PreviousPapersProps {
 }
 
 export default function PreviousPapersSection({ searchFilter = '' }: PreviousPapersProps) {
-  const [boardFilter, setBoardFilter] = useState<'ALL' | 'RSMSSB' | 'RPSC'>('ALL');
+  const [boardFilter, setBoardFilter] = useState<'ALL' | 'RSMSSB' | 'RPSC' | 'Police'>('ALL');
   const [yearFilter, setYearFilter] = useState<number | 'ALL'>('ALL');
   const [examCategoryFilter, setExamCategoryFilter] = useState<string>('ALL');
   const [localSearch, setLocalSearch] = useState('');
   const [selectedPaperForPreview, setSelectedPaperForPreview] = useState<PreviousPaper | null>(null);
-  const [isDownloading, setIsDownloading] = useState<string | null>(null);
 
   const examCategories = [
     { id: 'ALL', label: 'सभी परीक्षाएं (All Exams)' },
     { id: 'CET', label: 'समान पात्रता परीक्षा (CET)' },
     { id: 'PATWAR', label: 'पटवार भर्ती (Patwar)' },
     { id: 'RAS', label: 'RPSC RAS / RTS' },
-    { id: 'TEACHER', label: 'शिक्षक भर्ती (1st & 2nd Grade)' },
-    { id: 'SI', label: 'सब-इंस्पेक्टर (Police SI)' },
+    { id: 'TEACHER', label: 'शिक्षक भर्ती (2nd Grade)' },
+    { id: 'POLICE', label: 'राजस्थान पुलिस (Constable & SI)' },
+    { id: 'PASHU', label: 'पशु परिचर (Animal Attendant)' },
     { id: 'VDO', label: 'ग्राम विकास अधिकारी (VDO)' },
   ];
 
@@ -51,7 +54,8 @@ export default function PreviousPapersSection({ searchFilter = '' }: PreviousPap
       if (examCategoryFilter === 'PATWAR' && !titleLower.includes('पटवार')) return false;
       if (examCategoryFilter === 'RAS' && !titleLower.includes('ras')) return false;
       if (examCategoryFilter === 'TEACHER' && !titleLower.includes('अध्यापक')) return false;
-      if (examCategoryFilter === 'SI' && !titleLower.includes('इंस्पेक्टर')) return false;
+      if (examCategoryFilter === 'POLICE' && !titleLower.includes('पुलिस') && !titleLower.includes('कांस्टेबल') && !titleLower.includes('सब-इंस्पेक्टर')) return false;
+      if (examCategoryFilter === 'PASHU' && !titleLower.includes('पशु')) return false;
       if (examCategoryFilter === 'VDO' && !titleLower.includes('vdo') && !titleLower.includes('ग्राम विकास')) return false;
     }
     // Search query
@@ -63,32 +67,6 @@ export default function PreviousPapersSection({ searchFilter = '' }: PreviousPap
       (paper.shift && paper.shift.toLowerCase().includes(term))
     );
   });
-
-  const handleDownloadStampedPDF = async (paper: PreviousPaper) => {
-    try {
-      setIsDownloading(paper.id);
-      const url = `/api/pyq-download?id=${encodeURIComponent(paper.id)}`;
-      
-      // Fetch the stamped PDF blob from our backend pdf-lib endpoint
-      const response = await fetch(url);
-      if (!response.ok) throw new Error('PDF generation failed');
-
-      const blob = await response.blob();
-      const downloadUrl = window.URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = downloadUrl;
-      a.download = `${paper.board}_${paper.year}_${paper.id}_Stamped.pdf`;
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-      window.URL.revokeObjectURL(downloadUrl);
-    } catch (err) {
-      console.error('Download error:', err);
-      alert('प्रश्न-पत्र डाउनलोड करने में त्रुटि हुई। कृपया पुनः प्रयास करें।');
-    } finally {
-      setIsDownloading(null);
-    }
-  };
 
   return (
     <section 
@@ -102,27 +80,28 @@ export default function PreviousPapersSection({ searchFilter = '' }: PreviousPap
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-8">
           <div>
             <div className="flex items-center gap-2 mb-2">
-              <span className="bg-blue-800 text-white text-xs font-bold px-2.5 py-0.5 rounded-full flex items-center gap-1 shadow-sm">
+              <span className="bg-blue-900 text-white text-xs font-black px-2.5 py-0.5 rounded-full flex items-center gap-1 shadow-sm">
                 <FileText className="w-3.5 h-3.5" />
-                PYQ प्रश्न-पत्र भंडार (Archive)
+                PYQ अधिकृत मास्टर प्रश्न-पत्र भंडार
               </span>
-              <span className="text-xs text-slate-500 font-semibold">
-                pdf-lib द्वारा प्रामाणिक वॉटरमार्क एवं हेडर युक्त
+              <span className="text-xs text-emerald-800 font-bold bg-emerald-100 px-2.5 py-0.5 rounded-full flex items-center gap-1">
+                <CheckCircle className="w-3 h-3 text-emerald-700" />
+                100% मूल प्रश्न-पत्र (सम्पूर्ण 100-150 प्रश्न) + फाइनल आंसर-की
               </span>
             </div>
 
             <h2 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">
-              पुराने प्रश्न पत्र (PYQs) — परीक्षा एवं वर्षवार अधिकृत बैंक
+              पुराने प्रश्न पत्र (PYQs) — मूल परीक्षा पेपर एवं आधिकारिक उत्तर कुंजियां
             </h2>
-            <p className="text-xs sm:text-sm text-slate-600 mt-1">
-              वर्ष 2021 से 2024 तक आयोजित सभी RPSC एवं RSMSSB मास्टर पेपर्स। 
-              प्रत्येक डाउनलोड पर <strong className="text-blue-900">&lsquo;नई सोच, नई पहल | रूपसिंह फनात&rsquo;</strong> का आधिकारिक वॉटरमार्क स्वतः अंकित होता है।
+            <p className="text-xs sm:text-sm text-slate-600 mt-1 max-w-3xl">
+              RPSC, RSMSSB एवं राजस्थान पुलिस द्वारा आयोजित वास्तविक मास्टर पेपर्स। 
+              प्रत्येक प्रश्न-पत्र के साथ बोर्ड द्वारा जारी अधिकृत फाइनल आंसर-की एवं उच्च गति वाले मिरर लिंक्स उपलब्ध हैं।
             </p>
           </div>
 
           <div className="flex items-center gap-2">
-            <div className="text-xs text-slate-600 bg-white px-3 py-2 rounded-xl border border-slate-200 shadow-2xs">
-              कुल प्रश्न-पत्र: <strong className="text-blue-900">{filteredPapers.length} उपलब्ध</strong>
+            <div className="text-xs text-slate-700 bg-white px-3.5 py-2 rounded-xl border border-slate-200 shadow-2xs font-semibold">
+              सत्यापित पेपर्स: <strong className="text-blue-900 font-black">{filteredPapers.length} उपलब्ध</strong>
             </div>
           </div>
         </div>
@@ -130,14 +109,14 @@ export default function PreviousPapersSection({ searchFilter = '' }: PreviousPap
         {/* Filter Controls Bar */}
         <div className="bg-white p-5 rounded-3xl border border-slate-200 shadow-sm mb-6 space-y-4">
           
-          {/* Top Row: Board Tabs & Year Pills */}
+          {/* Top Row: Board Tabs, Year Pills & Search */}
           <div className="flex flex-wrap items-center justify-between gap-4">
             
             {/* Board Filter Tabs */}
             <div className="flex items-center gap-1 bg-slate-100 p-1 rounded-xl">
               <button
                 onClick={() => setBoardFilter('ALL')}
-                className={`px-3.5 py-1.5 rounded-lg text-xs font-bold transition-all ${
+                className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${
                   boardFilter === 'ALL'
                     ? 'bg-blue-900 text-white shadow-xs'
                     : 'text-slate-600 hover:text-slate-900'
@@ -147,9 +126,9 @@ export default function PreviousPapersSection({ searchFilter = '' }: PreviousPap
               </button>
               <button
                 onClick={() => setBoardFilter('RSMSSB')}
-                className={`px-3.5 py-1.5 rounded-lg text-xs font-bold transition-all ${
+                className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${
                   boardFilter === 'RSMSSB'
-                    ? 'bg-emerald-600 text-white shadow-xs'
+                    ? 'bg-emerald-700 text-white shadow-xs'
                     : 'text-slate-600 hover:text-slate-900'
                 }`}
               >
@@ -157,13 +136,23 @@ export default function PreviousPapersSection({ searchFilter = '' }: PreviousPap
               </button>
               <button
                 onClick={() => setBoardFilter('RPSC')}
-                className={`px-3.5 py-1.5 rounded-lg text-xs font-bold transition-all ${
+                className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${
                   boardFilter === 'RPSC'
                     ? 'bg-indigo-700 text-white shadow-xs'
                     : 'text-slate-600 hover:text-slate-900'
                 }`}
               >
                 RPSC अजमेर
+              </button>
+              <button
+                onClick={() => setBoardFilter('Police')}
+                className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${
+                  boardFilter === 'Police'
+                    ? 'bg-amber-600 text-white shadow-xs'
+                    : 'text-slate-600 hover:text-slate-900'
+                }`}
+              >
+                पुलिस मुख्यालय
               </button>
             </div>
 
@@ -191,7 +180,7 @@ export default function PreviousPapersSection({ searchFilter = '' }: PreviousPap
                 type="text"
                 value={localSearch}
                 onChange={(e) => setLocalSearch(e.target.value)}
-                placeholder="परीक्षा का नाम, वर्ष या शिफ्ट..."
+                placeholder="परीक्षा, पारी या वर्ष खोजें..."
                 className="w-full pl-8 pr-3 py-2 text-xs bg-slate-50 border border-slate-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-600 text-slate-800"
               />
               <Search className="w-3.5 h-3.5 text-slate-400 absolute left-2.5 top-3" />
@@ -199,7 +188,7 @@ export default function PreviousPapersSection({ searchFilter = '' }: PreviousPap
 
           </div>
 
-          {/* Exam Category Specific Filter Bar */}
+          {/* Exam Category Filter Bar */}
           <div className="pt-2 border-t border-slate-100 flex items-center gap-1.5 overflow-x-auto pb-1 scrollbar-none">
             <span className="text-xs font-bold text-slate-500 mr-1 whitespace-nowrap flex-shrink-0">
               परीक्षा अनुसार:
@@ -222,18 +211,20 @@ export default function PreviousPapersSection({ searchFilter = '' }: PreviousPap
         </div>
 
         {/* Papers Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
           {filteredPapers.map((paper) => {
-            const isCurrentlyDownloading = isDownloading === paper.id;
             return (
               <div 
                 key={paper.id}
                 className="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm hover:shadow-gov-hover transition-all duration-300 flex flex-col justify-between group hover:border-blue-400 relative overflow-hidden"
               >
-                {/* Subtle header stamp indicator on card */}
-                <div className="text-[9px] text-blue-700 bg-blue-50/80 px-2 py-0.5 rounded border border-blue-100 font-semibold mb-2 flex items-center gap-1">
-                  <ShieldCheck className="w-3 h-3 text-blue-600" />
-                  <span>नई सोच, नई पहल • अधिकृत वॉटरमार्क</span>
+                {/* Board & Source Portal Stamp */}
+                <div className="flex items-center justify-between text-[10px] text-slate-600 bg-slate-50 px-2.5 py-1 rounded-lg border border-slate-200 mb-3">
+                  <div className="flex items-center gap-1 font-semibold text-blue-900">
+                    <Globe className="w-3 h-3 text-blue-600" />
+                    <span>{paper.officialSourcePortal.replace('https://', '')}</span>
+                  </div>
+                  <span className="font-mono text-slate-500 font-bold">{paper.fileSize}</span>
                 </div>
 
                 <div>
@@ -243,7 +234,9 @@ export default function PreviousPapersSection({ searchFilter = '' }: PreviousPap
                     <span className={`text-[10px] font-black px-2.5 py-0.5 rounded uppercase ${
                       paper.board === 'RSMSSB'
                         ? 'bg-emerald-100 text-emerald-900 border border-emerald-300'
-                        : 'bg-indigo-100 text-indigo-900 border border-indigo-300'
+                        : paper.board === 'RPSC'
+                        ? 'bg-indigo-100 text-indigo-900 border border-indigo-300'
+                        : 'bg-amber-100 text-amber-900 border border-amber-300'
                     }`}>
                       {paper.board}
                     </span>
@@ -261,41 +254,68 @@ export default function PreviousPapersSection({ searchFilter = '' }: PreviousPap
                     {paper.stage} {paper.shift ? `• ${paper.shift}` : ''}
                   </p>
 
-                  {/* Details line */}
+                  {/* Question count & key indicator */}
                   <div className="mt-3.5 pt-2.5 border-t border-slate-100 flex items-center justify-between text-[11px] text-slate-600">
-                    <span className="font-semibold">{paper.questionsCount} प्रश्न</span>
-                    <span className="font-semibold text-slate-700">{paper.fileSize}</span>
+                    <span className="font-bold text-slate-900 bg-blue-50 px-2 py-0.5 rounded border border-blue-100">
+                      सम्पूर्ण {paper.questionsCount} प्रश्न
+                    </span>
+                    <span className="text-emerald-700 font-bold flex items-center gap-1">
+                      <CheckCircle className="w-3.5 h-3.5 text-emerald-600" />
+                      फाइनल आंसर-की संलग्न
+                    </span>
                   </div>
-
-                  {paper.hasAnswerKey && (
-                    <div className="mt-2 text-[10px] text-emerald-700 font-bold flex items-center gap-1 bg-emerald-50/60 p-1 rounded border border-emerald-100">
-                      <CheckCircle className="w-3 h-3 text-emerald-600 flex-shrink-0" />
-                      <span>मॉडल उत्तर कुंजी (Answer Key) संलग्न</span>
-                    </div>
-                  )}
 
                 </div>
 
-                {/* Action Buttons */}
-                <div className="mt-4 pt-3 border-t border-slate-100 flex items-center gap-2">
-                  <button
-                    onClick={() => setSelectedPaperForPreview(paper)}
-                    className="flex-1 py-2 px-2 bg-slate-100 hover:bg-slate-200 text-slate-800 rounded-xl text-xs font-bold flex items-center justify-center gap-1 transition-colors"
-                    title="पेपर का विवरण देखें"
-                  >
-                    <Eye className="w-3.5 h-3.5 text-slate-600" />
-                    <span>विवरण</span>
-                  </button>
+                {/* Multi-Source Action Buttons */}
+                <div className="mt-4 pt-3 border-t border-slate-100 space-y-2">
+                  <div className="flex items-center gap-2">
+                    {/* Master Paper Button */}
+                    <a
+                      href={paper.masterPaperUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex-1 py-2 px-2.5 bg-gradient-to-r from-blue-900 to-indigo-900 hover:from-blue-800 hover:to-indigo-800 text-white rounded-xl text-xs font-black flex items-center justify-center gap-1.5 transition-all shadow-sm active:scale-95"
+                      title="आधिकारिक मास्टर प्रश्न-पत्र डाउनलोड करें"
+                    >
+                      <Download className="w-3.5 h-3.5 text-amber-300" />
+                      <span>मास्टर पेपर (PDF)</span>
+                    </a>
 
-                  <button
-                    onClick={() => handleDownloadStampedPDF(paper)}
-                    disabled={isCurrentlyDownloading}
-                    className="flex-1 py-2 px-2 bg-gradient-to-r from-blue-900 to-indigo-900 hover:from-blue-800 hover:to-indigo-800 text-white rounded-xl text-xs font-black flex items-center justify-center gap-1 transition-all shadow-sm active:scale-95 disabled:opacity-50"
-                    title="pdf-lib द्वारा वॉटरमार्क युक्त PDF डाउनलोड करें"
-                  >
-                    <Download className={`w-3.5 h-3.5 text-amber-300 ${isCurrentlyDownloading ? 'animate-bounce' : ''}`} />
-                    <span>{isCurrentlyDownloading ? 'स्टैम्पिंग...' : 'PDF डाउनलोड'}</span>
-                  </button>
+                    {/* Official Answer Key Button */}
+                    <a
+                      href={paper.answerKeyUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex-1 py-2 px-2.5 bg-emerald-700 hover:bg-emerald-600 text-white rounded-xl text-xs font-black flex items-center justify-center gap-1.5 transition-all shadow-sm active:scale-95"
+                      title="बोर्ड द्वारा जारी अंतिम उत्तर कुंजी देखें"
+                    >
+                      <CheckCircle className="w-3.5 h-3.5 text-emerald-200" />
+                      <span>उत्तर कुंजी (Key)</span>
+                    </a>
+                  </div>
+
+                  {/* Secondary Line: Fast Educational Mirror & Details */}
+                  <div className="flex items-center justify-between text-[11px] pt-1">
+                    <a
+                      href={paper.mirrorPaperUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-slate-600 hover:text-blue-900 font-semibold flex items-center gap-1 hover:underline"
+                      title="यदि राज्य सर्वर धीमा हो तो तीव्र डाउनलोड मिरर का उपयोग करें"
+                    >
+                      <Server className="w-3 h-3 text-slate-500" />
+                      <span>फास्ट मिरर लिंक</span>
+                    </a>
+
+                    <button
+                      onClick={() => setSelectedPaperForPreview(paper)}
+                      className="text-blue-800 hover:text-blue-950 font-bold flex items-center gap-1 hover:underline"
+                    >
+                      <Eye className="w-3 h-3" />
+                      <span>विस्तृत विवरण</span>
+                    </button>
+                  </div>
                 </div>
 
               </div>
@@ -313,16 +333,16 @@ export default function PreviousPapersSection({ searchFilter = '' }: PreviousPap
 
       </div>
 
-      {/* Paper Preview Modal */}
+      {/* Paper Preview & Direct Links Modal */}
       {selectedPaperForPreview && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/70 backdrop-blur-sm animate-in fade-in duration-200">
           <div className="bg-white rounded-3xl max-w-lg w-full p-6 sm:p-7 shadow-2xl border border-slate-200 space-y-4">
             <div className="flex items-start justify-between">
               <div>
                 <span className="text-[10px] font-black bg-blue-100 text-blue-900 px-2.5 py-0.5 rounded-full uppercase">
-                  {selectedPaperForPreview.board} OFFICIAL ARCHIVE
+                  {selectedPaperForPreview.board} OFFICIAL VERIFIED MASTER ARCHIVE
                 </span>
-                <h3 className="text-lg font-black text-slate-900 mt-1">
+                <h3 className="text-base sm:text-lg font-black text-slate-900 mt-1">
                   {selectedPaperForPreview.examTitle}
                 </h3>
               </div>
@@ -334,14 +354,14 @@ export default function PreviousPapersSection({ searchFilter = '' }: PreviousPap
               </button>
             </div>
 
-            {/* Stamp Feature Notice */}
-            <div className="p-3 bg-blue-50 border border-blue-200 rounded-xl text-xs text-blue-950 space-y-1">
-              <div className="font-bold flex items-center gap-1.5 text-blue-900">
-                <Sparkles className="w-3.5 h-3.5 text-amber-500" />
-                <span>स्वचालित वॉटरमार्क एवं हेडर स्टैम्पिंग (pdf-lib):</span>
+            {/* Sourcing Guarantee Box */}
+            <div className="p-3.5 bg-emerald-50 border border-emerald-200 rounded-xl text-xs text-emerald-950 space-y-1">
+              <div className="font-bold flex items-center gap-1.5 text-emerald-900">
+                <ShieldCheck className="w-4 h-4 text-emerald-700" />
+                <span>100% प्रामाणिक भर्ती बोर्ड सामग्री (Multi-Source Verified):</span>
               </div>
-              <p className="text-[11px] text-slate-600">
-                इस प्रश्न-पत्र के प्रत्येक पृष्ठ पर <strong className="text-slate-800">&lsquo;नई सोच, नई पहल | रूपसिंह फनात&rsquo;</strong> का आधिकारिक हेडर और वॉटरमार्क स्वचालित रूप से एम्बेड होगा।
+              <p className="text-[11px] text-emerald-800 leading-relaxed">
+                यह वास्तविक मास्टर प्रश्न-पत्र है (कोई डमी अथवा एआई-जनित 10 प्रश्न नहीं)। इसमें आधिकारिक परीक्षा के पूरे {selectedPaperForPreview.questionsCount} प्रश्न एवं बोर्ड की फाइनल उत्तर कुंजी शामिल है।
               </p>
             </div>
 
@@ -355,33 +375,63 @@ export default function PreviousPapersSection({ searchFilter = '' }: PreviousPap
                 <span className="font-bold text-slate-900">{selectedPaperForPreview.shift || 'सामान्य'}</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-slate-500">कुल प्रश्न:</span>
-                <span className="font-bold text-slate-900">{selectedPaperForPreview.questionsCount} प्रश्न</span>
+                <span className="text-slate-500">कुल प्रश्न संख्या:</span>
+                <span className="font-bold text-slate-900">{selectedPaperForPreview.questionsCount} प्रश्न (सम्पूर्ण पेपर)</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-slate-500">आधिकारिक स्रोत पोर्टल:</span>
+                <span className="font-bold text-blue-900">{selectedPaperForPreview.officialSourcePortal}</span>
               </div>
               <div className="flex justify-between">
                 <span className="text-slate-500">उत्तर कुंजी स्थिति:</span>
-                <span className="font-bold text-emerald-700">100% सत्यापित मॉडल उत्तर कुंजी संलग्न</span>
+                <span className="font-bold text-emerald-700">सत्यापित फाइनल आंसर-की उपलब्ध</span>
               </div>
             </div>
 
-            <div className="flex justify-end gap-2 pt-2">
-              <button
-                onClick={() => setSelectedPaperForPreview(null)}
-                className="px-4 py-2 border border-slate-300 rounded-xl text-xs font-semibold text-slate-700 hover:bg-slate-100"
-              >
-                बंद करें
-              </button>
-              <button
-                onClick={() => {
-                  handleDownloadStampedPDF(selectedPaperForPreview);
-                  setSelectedPaperForPreview(null);
-                }}
-                className="px-5 py-2 bg-blue-900 hover:bg-blue-800 text-white rounded-xl text-xs font-bold flex items-center gap-1.5 shadow-md"
-              >
-                <Download className="w-3.5 h-3.5 text-amber-300" />
-                <span>स्टैम्प्ड PDF डाउनलोड करें</span>
-              </button>
+            {/* Direct Links Action */}
+            <div className="space-y-2 pt-2">
+              <div className="flex items-center gap-2">
+                <a
+                  href={selectedPaperForPreview.masterPaperUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex-1 py-2.5 px-3 bg-blue-900 hover:bg-blue-800 text-white rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 shadow"
+                >
+                  <Download className="w-3.5 h-3.5 text-amber-300" />
+                  <span>मास्टर प्रश्न-पत्र खोलें (PDF)</span>
+                </a>
+
+                <a
+                  href={selectedPaperForPreview.answerKeyUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex-1 py-2.5 px-3 bg-emerald-700 hover:bg-emerald-600 text-white rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 shadow"
+                >
+                  <CheckCircle className="w-3.5 h-3.5 text-emerald-200" />
+                  <span>फाइनल आंसर-की खोलें</span>
+                </a>
+              </div>
+
+              <div className="flex items-center justify-between pt-1">
+                <a
+                  href={selectedPaperForPreview.mirrorPaperUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-xs text-slate-600 hover:text-blue-900 font-semibold flex items-center gap-1"
+                >
+                  <Server className="w-3.5 h-3.5 text-slate-500" />
+                  <span>वैकल्पिक मिरर (Mirror) से डाउनलोड</span>
+                </a>
+
+                <button
+                  onClick={() => setSelectedPaperForPreview(null)}
+                  className="px-4 py-1.5 border border-slate-300 rounded-lg text-xs font-semibold text-slate-700 hover:bg-slate-100"
+                >
+                  बंद करें
+                </button>
+              </div>
             </div>
+
           </div>
         </div>
       )}

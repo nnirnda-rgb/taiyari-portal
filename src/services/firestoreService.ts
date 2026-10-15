@@ -11,7 +11,10 @@ import {
   limit 
 } from 'firebase/firestore';
 import { db, isFirebaseConfigured } from '@/lib/firebase';
-import { CBT_MOCK_TEST_CET, CbtQuestion } from '@/data/cbtExamData';
+import { CBT_MOCK_TEST_CET, CbtQuestion, getExamQuestions, FULL_100_CBT_QUESTIONS } from '@/data/cbtExamData';
+import { PRACTICE_QUESTIONS } from '@/data/practiceQuestionsData';
+import { PREVIOUS_PAPERS_DATA, PORTAL_NOTIFICATIONS } from '@/data/portalData';
+import { RAJASTHAN_EXAMS } from '@/data/rajasthanExams';
 
 export interface MockTestModel {
   id: string;
@@ -273,14 +276,25 @@ export async function fetchTestQuestions(testId: string): Promise<CbtQuestion[]>
     }
   }
 
-  // Return static CET mock questions
-  return CBT_MOCK_TEST_CET.questions;
+  // Return exam-specific authentic questions matching blueprint
+  return getExamQuestions(testId);
 }
 
 // =========================================================================
-// 5. SEED INITIAL MOCK TEST AND QUESTIONS TO FIRESTORE
+// 5. SEED INITIAL MOCK TESTS, QUESTIONS, PYQS, NOTICES, & SYLLABI TO FIRESTORE
 // =========================================================================
-export async function seedInitialDataToFirestore(): Promise<{ success: boolean; message: string }> {
+export async function seedInitialDataToFirestore(): Promise<{ 
+  success: boolean; 
+  message: string; 
+  stats?: {
+    mockTests: number;
+    questions: number;
+    practiceQuestions: number;
+    pyqs: number;
+    notifications: number;
+    syllabi: number;
+  };
+}> {
   if (!db || !isFirebaseConfigured()) {
     return { 
       success: false, 
@@ -289,35 +303,179 @@ export async function seedInitialDataToFirestore(): Promise<{ success: boolean; 
   }
 
   try {
-    // 1. Seed Mock Test meta
-    const testDoc = doc(db, 'mock_tests', CBT_MOCK_TEST_CET.id);
-    await setDoc(testDoc, {
-      id: CBT_MOCK_TEST_CET.id,
-      title: CBT_MOCK_TEST_CET.title,
-      examBoard: CBT_MOCK_TEST_CET.board,
-      examCategory: CBT_MOCK_TEST_CET.category,
-      totalQuestions: CBT_MOCK_TEST_CET.totalQuestions,
-      durationMinutes: CBT_MOCK_TEST_CET.durationMinutes,
-      totalMarks: CBT_MOCK_TEST_CET.totalMarks,
-      negativeMarking: CBT_MOCK_TEST_CET.negativeMarking,
-      hasFifthOption: CBT_MOCK_TEST_CET.hasFifthOption,
-      subjectBreakdown: CBT_MOCK_TEST_CET.subjectBreakdown,
-      updatedAt: serverTimestamp(),
-    }, { merge: true });
+    let mockTestsCount = 0;
+    let questionsCount = 0;
+    let practiceCount = 0;
+    let pyqCount = 0;
+    let notifCount = 0;
+    let syllabiCount = 0;
 
-    // 2. Seed Questions
-    for (const q of CBT_MOCK_TEST_CET.questions) {
-      const qDoc = doc(db, 'questions', `${CBT_MOCK_TEST_CET.id}_q_${q.id}`);
-      await setDoc(qDoc, {
-        ...q,
-        testId: CBT_MOCK_TEST_CET.id,
+    // 1. Seed Mock Tests
+    const mockTests = [
+      {
+        id: CBT_MOCK_TEST_CET.id,
+        title: CBT_MOCK_TEST_CET.title,
+        examBoard: CBT_MOCK_TEST_CET.board,
+        examCategory: CBT_MOCK_TEST_CET.category,
+        totalQuestions: CBT_MOCK_TEST_CET.totalQuestions,
+        durationMinutes: CBT_MOCK_TEST_CET.durationMinutes,
+        totalMarks: CBT_MOCK_TEST_CET.totalMarks,
+        negativeMarking: CBT_MOCK_TEST_CET.negativeMarking,
+        hasFifthOption: CBT_MOCK_TEST_CET.hasFifthOption,
+        subjectBreakdown: CBT_MOCK_TEST_CET.subjectBreakdown,
+      },
+      {
+        id: 'mock-test-patwar-2025',
+        title: 'RSMSSB पटवार सीधी भर्ती 2025 फुल लेंथ मॉडल टेस्ट',
+        examBoard: 'RSMSSB',
+        examCategory: 'राजस्व विभाग सीधी भर्ती',
+        totalQuestions: 100,
+        durationMinutes: 120,
+        totalMarks: 200,
+        negativeMarking: '1/3 अंक (0.66 अंक)',
+        hasFifthOption: true,
+      },
+      {
+        id: 'mock-test-pashu-parichar-2025',
+        title: 'RSMSSB पशु परिचर (Animal Attendant) भर्ती परीक्षा 2025 मॉडल पेपर',
+        examBoard: 'RSMSSB',
+        examCategory: 'पशुपालन विभाग सीधी भर्ती',
+        totalQuestions: 20,
+        durationMinutes: 30,
+        totalMarks: 20,
+        negativeMarking: '1/4 अंक',
+        hasFifthOption: true,
+      },
+      {
+        id: 'mock-test-ras-pre-2025',
+        title: 'RPSC RAS/RTS संयुक्त प्रतियोगी (प्रारंभिक) परीक्षा 2025 टेस्ट',
+        examBoard: 'RPSC',
+        examCategory: 'राजस्थान राज्य एवं अधीनस्थ सेवाएं',
+        totalQuestions: 100,
+        durationMinutes: 120,
+        totalMarks: 200,
+        negativeMarking: '1/3 अंक',
+        hasFifthOption: true,
+      },
+      {
+        id: 'mock-test-police-constable-2025',
+        title: 'राजस्थान पुलिस कांस्टेबल भर्ती परीक्षा 2025 सीबीटी टेस्ट',
+        examBoard: 'Police',
+        examCategory: 'गृह (पुलिस) विभाग',
+        totalQuestions: 100,
+        durationMinutes: 120,
+        totalMarks: 150,
+        negativeMarking: '1/4 अंक',
+        hasFifthOption: true,
+      },
+      {
+        id: 'mock-test-2nd-grade-2025',
+        title: 'RPSC वरिष्ठ अध्यापक (2nd Grade) पेपर-1 सामान्य ज्ञान मॉडल टेस्ट',
+        examBoard: 'RPSC',
+        examCategory: 'माध्यमिक शिक्षा विभाग',
+        totalQuestions: 100,
+        durationMinutes: 120,
+        totalMarks: 200,
+        negativeMarking: '1/3 अंक',
+        hasFifthOption: true,
+      }
+    ];
+
+    for (const test of mockTests) {
+      const testDoc = doc(db, 'mock_tests', test.id);
+      await setDoc(testDoc, {
+        ...test,
         updatedAt: serverTimestamp(),
       }, { merge: true });
+      mockTestsCount++;
     }
+
+    // 2. Seed CBT Questions for tests
+    const cetQuestions = getExamQuestions('mock-test-cet-grad-2024');
+    for (const q of cetQuestions) {
+      const qDoc = doc(db, 'questions', `cet_q_${q.id}`);
+      await setDoc(qDoc, {
+        ...q,
+        testId: 'mock-test-cet-grad-2024',
+        updatedAt: serverTimestamp(),
+      }, { merge: true });
+      questionsCount++;
+    }
+
+    const pashuQuestions = getExamQuestions('mock-test-pashu-parichar-2025');
+    for (const q of pashuQuestions) {
+      const qDoc = doc(db, 'questions', `pashu_q_${q.id}`);
+      await setDoc(qDoc, {
+        ...q,
+        testId: 'mock-test-pashu-parichar-2025',
+        updatedAt: serverTimestamp(),
+      }, { merge: true });
+      questionsCount++;
+    }
+
+    // 3. Seed Practice Questions collection
+    for (const pq of PRACTICE_QUESTIONS) {
+      const pqDoc = doc(db, 'practice_questions', `pq_${pq.id}`);
+      await setDoc(pqDoc, {
+        ...pq,
+        publishedAt: serverTimestamp(),
+        hasFifthOption: true,
+      }, { merge: true });
+      practiceCount++;
+    }
+
+    // 4. Seed Master PYQs (with original 100-150 question master PDF & answer key links)
+    for (const pyq of PREVIOUS_PAPERS_DATA) {
+      const pyqDoc = doc(db, 'pyqs', `pyq_${pyq.id}`);
+      await setDoc(pyqDoc, {
+        ...pyq,
+        isOriginalMasterPaper: true,
+        publishedAt: serverTimestamp(),
+      }, { merge: true });
+      pyqCount++;
+    }
+
+    // 5. Seed Real 2025-2026 Notifications & Circulars
+    for (const notif of PORTAL_NOTIFICATIONS) {
+      const notifDoc = doc(db, 'circular_notifications', `notif_${notif.id}`);
+      await setDoc(notifDoc, {
+        ...notif,
+        publishedAt: serverTimestamp(),
+      }, { merge: true });
+      notifCount++;
+    }
+
+    // 6. Seed Official Syllabi from Rajasthan Exams Directory
+    for (const exam of RAJASTHAN_EXAMS) {
+      const syllabusDoc = doc(db, 'syllabi', `syllabus_${exam.id}`);
+      await setDoc(syllabusDoc, {
+        examId: exam.id,
+        examNameHindi: exam.name,
+        examNameEnglish: exam.nameEnglish,
+        board: exam.board,
+        department: exam.department,
+        officialSyllabusUrl: exam.officialSyllabusUrl || null,
+        mirrorSyllabusUrl: exam.mirrorSyllabusUrl || null,
+        syllabusHighlights: exam.syllabusHighlights,
+        negativeMarking: exam.negativeMarking,
+        updatedAt: serverTimestamp(),
+      }, { merge: true });
+      syllabiCount++;
+    }
+
+    const stats = {
+      mockTests: mockTestsCount,
+      questions: questionsCount,
+      practiceQuestions: practiceCount,
+      pyqs: pyqCount,
+      notifications: notifCount,
+      syllabi: syllabiCount,
+    };
 
     return { 
       success: true, 
-      message: `Successfully seeded test '${CBT_MOCK_TEST_CET.title}' and ${CBT_MOCK_TEST_CET.questions.length} questions to Cloud Firestore.` 
+      message: `Successfully seeded genuine Rajasthan recruitment data to Cloud Firestore!`,
+      stats
     };
   } catch (err: any) {
     console.error('Error seeding data to Firestore:', err);
@@ -326,7 +484,7 @@ export async function seedInitialDataToFirestore(): Promise<{ success: boolean; 
 }
 
 // =========================================================================
-// 6. FETCH AUTO-PUBLISHED PRACTICE QUESTIONS (AGENT 2 PIPELINE)
+// 6. FETCH AUTO-PUBLISHED PRACTICE QUESTIONS (AGENT PIPELINE + FALLBACK)
 // =========================================================================
 export async function fetchAutoPublishedPracticeQuestions(): Promise<any[]> {
   if (db && isFirebaseConfigured()) {
@@ -334,7 +492,7 @@ export async function fetchAutoPublishedPracticeQuestions(): Promise<any[]> {
       const q = query(
         collection(db, 'practice_questions'),
         orderBy('publishedAt', 'desc'),
-        limit(30)
+        limit(50)
       );
       const snapshot = await getDocs(q);
       if (!snapshot.empty) {
@@ -348,11 +506,11 @@ export async function fetchAutoPublishedPracticeQuestions(): Promise<any[]> {
       console.warn('Firestore practice_questions read fallback:', e);
     }
   }
-  return [];
+  return PRACTICE_QUESTIONS;
 }
 
 // =========================================================================
-// 7. FETCH AUTO-PUBLISHED CIRCULARS & NOTIFICATIONS (AGENT 3 PIPELINE)
+// 7. FETCH AUTO-PUBLISHED CIRCULARS & NOTIFICATIONS (AGENT PIPELINE + FALLBACK)
 // =========================================================================
 export async function fetchAutoPublishedCirculars(): Promise<any[]> {
   if (db && isFirebaseConfigured()) {
@@ -360,7 +518,7 @@ export async function fetchAutoPublishedCirculars(): Promise<any[]> {
       const q = query(
         collection(db, 'circular_notifications'),
         orderBy('publishedAt', 'desc'),
-        limit(15)
+        limit(20)
       );
       const snapshot = await getDocs(q);
       if (!snapshot.empty) {
@@ -374,19 +532,19 @@ export async function fetchAutoPublishedCirculars(): Promise<any[]> {
       console.warn('Firestore circular_notifications read fallback:', e);
     }
   }
-  return [];
+  return PORTAL_NOTIFICATIONS;
 }
 
 // =========================================================================
-// 8. FETCH AUTO-PUBLISHED WATERMARKED PYQS (AGENT 5 PIPELINE)
+// 8. FETCH AUTO-PUBLISHED MASTER PYQS (AGENT PIPELINE + FALLBACK)
 // =========================================================================
 export async function fetchAutoPublishedPYQs(): Promise<any[]> {
   if (db && isFirebaseConfigured()) {
     try {
       const q = query(
-        collection(db, 'pyq_repository'),
+        collection(db, 'pyqs'),
         orderBy('publishedAt', 'desc'),
-        limit(20)
+        limit(30)
       );
       const snapshot = await getDocs(q);
       if (!snapshot.empty) {
@@ -397,9 +555,9 @@ export async function fetchAutoPublishedPYQs(): Promise<any[]> {
         return list;
       }
     } catch (e) {
-      console.warn('Firestore pyq_repository read fallback:', e);
+      console.warn('Firestore pyqs read fallback:', e);
     }
   }
-  return [];
+  return PREVIOUS_PAPERS_DATA;
 }
 
