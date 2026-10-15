@@ -13,6 +13,7 @@ import RajasthanExamHubs from '@/components/Exams/RajasthanExamHubs';
 import TaiyariSection from '@/components/Taiyari/TaiyariSection';
 import GovFooter from '@/components/Footer/GovFooter';
 import AdSenseBanner from '@/components/Ads/AdSenseBanner';
+import StudentDoubtSolverWidget from '@/components/DoubtSolver/StudentDoubtSolverWidget';
 
 // Low-Bandwidth 4G Mobile Optimization: Dynamic Lazy Loading for Below-the-Fold Heavy Interactive Modules
 const SelfAssessmentSection = dynamic(
@@ -167,6 +168,9 @@ export default function Home() {
 
       {/* 7. Official Government Footer */}
       <GovFooter />
+
+      {/* 8. Floating AI Student Helper & Doubt Solver (Agent 7: संशय निवारक मित्र) */}
+      <StudentDoubtSolverWidget />
 
     </div>
   );

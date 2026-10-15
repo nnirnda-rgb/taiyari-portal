@@ -24,7 +24,8 @@ import {
   AlertOctagon,
   ArrowRight,
   Home,
-  Check
+  Check,
+  HelpCircle
 } from 'lucide-react';
 import { 
   AgentReport, 
@@ -248,7 +249,7 @@ export default function AdminControlHubPage() {
     }
   };
 
-  // Execute all 6 agents
+  // Execute all 7 agents
   const handleRunAll = async () => {
     setIsRunningAll(true);
     setRecentOutput(null);
@@ -256,7 +257,7 @@ export default function AdminControlHubPage() {
     try {
       const res = await executeAgent('all');
       setAgents(getStoredAgentReports());
-      setRecentOutput(`समस्त 6 एजेंटों का निष्पादन एवं डायरेक्ट ऑटो-पब्लिश ('published') सफलतापूर्वक संपन्न हुआ।`);
+      setRecentOutput(`समस्त 7 एजेंटों (संशय निवारक सहित) का निष्पादन एवं डायरेक्ट ऑटो-पब्लिश ('published') सफलतापूर्वक संपन्न हुआ।`);
       
       if (res.results[6]) {
         setAuditLog(res.results[6] as AgentAuditLog);
@@ -274,7 +275,8 @@ export default function AdminControlHubPage() {
     <Bell key="3" className="w-5 h-5 text-rose-500" />,
     <FileText key="4" className="w-5 h-5 text-emerald-600" />,
     <Database key="5" className="w-5 h-5 text-indigo-600" />,
-    <ShieldCheck key="6" className="w-5 h-5 text-teal-600" />
+    <ShieldCheck key="6" className="w-5 h-5 text-teal-600" />,
+    <HelpCircle key="7" className="w-5 h-5 text-violet-600" />
   ];
 
   // =========================================================================
