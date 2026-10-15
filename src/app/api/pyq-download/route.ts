@@ -202,13 +202,19 @@ export async function GET(request: NextRequest) {
     const type = searchParams.get('type'); // 'paper' | 'key' | 'answerkey' | 'mirror' | 'circular' | 'note' | 'syllabus'
     const isDownload = searchParams.get('download') === 'true' || searchParams.get('attachment') === 'true';
     const isView = searchParams.get('view') === 'true';
+    const fileParam = searchParams.get('file');
     const customFilename = searchParams.get('filename');
 
     let targetFilename = 'CET_12th_2024_Shift1_Master_Paper.pdf';
     let docLabel = 'Rajasthan Study Document';
 
+    // 0. DIRECT FILE NAME SPECIFIED
+    if (fileParam) {
+      targetFilename = path.basename(fileParam);
+      docLabel = customFilename || targetFilename;
+    }
     // 1. REVISION NOTES
-    if (type === 'note' || noteId) {
+    else if (type === 'note' || noteId) {
       const targetId = noteId || paperId || '';
       targetFilename = PDF_FILE_MAP[targetId]?.file || 'Notes_Rajasthan_41_Districts_7_Divisions.pdf';
       docLabel = 'Rajasthan Revision Notes';
