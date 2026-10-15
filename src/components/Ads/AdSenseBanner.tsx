@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Sparkles, Info, X, ExternalLink, ShieldCheck } from 'lucide-react';
 
 interface AdSenseBannerProps {
@@ -14,9 +14,20 @@ export default function AdSenseBanner({
   placement,
   className = '',
   adSlot = '8923471029',
-  adClient = 'ca-pub-demo-rajasthan-edu'
+  adClient = 'ca-pub-4361999133480039'
 }: AdSenseBannerProps) {
   const [isDismissed, setIsDismissed] = useState(false);
+
+  useEffect(() => {
+    try {
+      if (typeof window !== 'undefined' && !isDismissed) {
+        ((window as unknown as { adsbygoogle: unknown[] }).adsbygoogle = 
+          (window as unknown as { adsbygoogle: unknown[] }).adsbygoogle || []).push({});
+      }
+    } catch (err) {
+      console.debug('AdSense request status:', err);
+    }
+  }, [isDismissed]);
 
   if (isDismissed) return null;
 

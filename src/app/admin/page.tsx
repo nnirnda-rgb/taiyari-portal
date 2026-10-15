@@ -66,6 +66,16 @@ export default function AdminControlHubPage() {
   const [recentOutput, setRecentOutput] = useState<string | null>(null);
   const [auditLog, setAuditLog] = useState<AgentAuditLog | null>(null);
 
+  // Ad-Free Security Guarantee: Clean up any AdSense artifacts on admin route
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const adScripts = document.querySelectorAll('script[src*="adsbygoogle"], script[src*="pagead2"]');
+      adScripts.forEach((s) => s.remove());
+      const adIframes = document.querySelectorAll('iframe[id*="google_ads"], ins.adsbygoogle');
+      adIframes.forEach((el) => el.remove());
+    }
+  }, []);
+
   // Check initial authentication state
   useEffect(() => {
     // 1. Check local session storage first
