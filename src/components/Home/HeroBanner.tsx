@@ -81,7 +81,7 @@ export default function HeroBanner({ onNavigate }: HeroBannerProps) {
               </div>
               <div className="flex items-center gap-2">
                 <CheckCircle className="w-4 h-4 text-emerald-400 flex-shrink-0" />
-                <span>50 जिलों के अनुसार नवीन राजस्थान भूगोल</span>
+                <span>नवीनतम 41 जिले व 7 संभाग (पुनर्गठित राजस्थान भूगोल)</span>
               </div>
               <div className="flex items-center gap-2">
                 <CheckCircle className="w-4 h-4 text-emerald-400 flex-shrink-0" />

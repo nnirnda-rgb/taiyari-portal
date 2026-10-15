@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { Eye, Type, Volume2, Calendar, PhoneCall, Globe } from 'lucide-react';
+import { Eye, Type, Volume2, Calendar, Sparkles, Globe } from 'lucide-react';
 
 export default function TopAccessibilityBar() {
   const [fontSizeLevel, setFontSizeLevel] = useState<number>(0);
@@ -71,10 +71,10 @@ export default function TopAccessibilityBar() {
 
           {/* Right: Accessibility Controls */}
           <div className="flex items-center gap-2 sm:gap-4 flex-wrap">
-            {/* Student Helpline */}
-            <div className="hidden lg:flex items-center gap-1 text-slate-300 bg-slate-800/80 px-2 py-0.5 rounded border border-slate-700">
-              <PhoneCall className="w-3 h-3 text-amber-400" />
-              <span>विद्यार्थी हेल्पलाइन: <strong className="text-white">181 / 1800-180-6127</strong></span>
+            {/* Clean Dedication Tag */}
+            <div className="hidden lg:flex items-center gap-1.5 text-amber-300 bg-slate-800/80 px-3 py-1 rounded-full border border-slate-700/80 font-bold text-[11px] shadow-xs">
+              <Sparkles className="w-3.5 h-3.5 text-amber-400" />
+              <span>॥ निःशुल्क जन-शिक्षा संकल्प — समर्पित ग्रामीण युवा शक्ति को ॥</span>
             </div>
 
             {/* Screen Reader skip */}

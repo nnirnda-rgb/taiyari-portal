@@ -484,7 +484,7 @@ export async function seedInitialDataToFirestore(): Promise<{
         negativeMarking: "लागू नहीं (पात्रता आधारित)",
         subjectDistribution: [
           { subject: "राजस्थान का इतिहास, कला, सांस्कृतिक विरासत, साहित्य, परंपराएं व मेले-त्योहार", questions: 35, marks: 70 },
-          { subject: "भारत एवं राजस्थान का भूगोल (नवीन 50 जिलों के अनुसार)", questions: 30, marks: 60 },
+          { subject: "भारत एवं राजस्थान का भूगोल (नवीन 41 जिलों एवं 7 संभागों के अनुसार)", questions: 30, marks: 60 },
           { subject: "राजस्थान पर विशेष बल के साथ भारतीय राजनीतिक व्यवस्था", questions: 20, marks: 40 },
           { subject: "दैनिक विज्ञान (Everyday Science)", questions: 20, marks: 40 },
           { subject: "तार्किक विवेचन एवं मानसिक योग्यता (Reasoning)", questions: 15, marks: 30 },

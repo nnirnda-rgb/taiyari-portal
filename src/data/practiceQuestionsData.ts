@@ -44,7 +44,7 @@ export const PRACTICE_EXAMS: PracticeExam[] = [
 export const PRACTICE_SUBJECTS: PracticeSubject[] = [
   { id: 'all', nameHindi: 'सभी विषय (All Subjects)', nameEnglish: 'All Subjects', icon: 'BookOpen' },
   { id: 'history', nameHindi: 'राजस्थान का इतिहास एवं कला संस्कृति', nameEnglish: 'Rajasthan History & Culture', icon: 'Castle' },
-  { id: 'geography', nameHindi: 'नवीन राजस्थान भूगोल (50 जिले)', nameEnglish: 'Rajasthan Geography (50 Districts)', icon: 'Mountain' },
+  { id: 'geography', nameHindi: 'नवीनतम 41 जिले व 7 संभाग (पुनर्गठित राजस्थान भूगोल)', nameEnglish: 'Rajasthan Geography (41 Districts & 7 Divisions)', icon: 'Mountain' },
   { id: 'science', nameHindi: 'दैनिक सामान्य विज्ञान (General Science)', nameEnglish: 'General Everyday Science', icon: 'FlaskConical' },
   { id: 'polity', nameHindi: 'राजस्थान राजव्यवस्था एवं प्रशासनिक ढांचा', nameEnglish: 'Rajasthan Polity & Governance', icon: 'Scale' },
   { id: 'hindi', nameHindi: 'सामान्य हिन्दी व्याकरण (General Hindi)', nameEnglish: 'General Hindi Grammar', icon: 'Languages' },
@@ -166,34 +166,34 @@ export const PRACTICE_QUESTIONS: PracticeQuestion[] = [
     importantFactHindi: 'मत्स्य संघ का नामकरण कन्हैयालाल माणिक्यलाल (के.एम.) मुंशी के सुझाव पर किया गया था।'
   },
 
-  // --- 2. REORGANIZED RAJASTHAN GEOGRAPHY (50 DISTRICTS) ---
+  // --- 2. REORGANIZED RAJASTHAN GEOGRAPHY (41 DISTRICTS & 7 DIVISIONS) ---
   {
     id: 'pq-5',
     examIds: ['all', 'rssb-cet-grad', 'rssb-cet-12th', 'rssb-patwari', 'rpsc-ras'],
     subjectId: 'geography',
-    topic: 'भौतिक प्रदेश एवं 50 जिले',
-    questionHindi: 'पुनर्गठित 50 जिलों के अनुसार क्षेत्रफल की दृष्टि से वर्तमान में राजस्थान का सबसे छोटा जिला कौन सा है?',
-    questionEnglish: 'According to the reorganized 50 districts, which is currently the smallest district of Rajasthan in terms of geographical area?',
+    topic: 'भौतिक प्रदेश एवं 41 जिले',
+    questionHindi: 'राजस्थान सरकार द्वारा 2023 के जिला पुनर्गठन की समीक्षा उपरांत 9 असंवहनीय जिलों के मूल जिलों में पुनर्विलय के बाद, वर्तमान में राजस्थान में कुल कितने जिले एवं संभाग विधिवत कार्यरत हैं?',
+    questionEnglish: 'Following the review and re-merger of 9 unviable districts into their parent districts, how many districts and divisions are currently active in Rajasthan?',
     optionsHindi: [
-      'धौलपुर',
-      'दूदू (Dudu)',
-      'दौसा',
-      'कोटपूतली-बहरोड़',
+      '41 जिले एवं 7 संभाग',
+      '50 जिले एवं 10 संभाग',
+      '33 जिले एवं 7 संभाग',
+      '45 जिले एवं 8 संभाग',
       'अनुत्तरित प्रश्न (Question Not Attempted)'
     ],
     optionsEnglish: [
-      'Dholpur',
-      'Dudu',
-      'Dausa',
-      'Kotputli-Behror',
+      '41 Districts and 7 Divisions',
+      '50 Districts and 10 Divisions',
+      '33 Districts and 7 Divisions',
+      '45 Districts and 8 Divisions',
       'Question Not Attempted'
     ],
-    correctOptionIndex: 1,
-    explanationHindi: 'वर्ष 2023 के नवीन पुनर्गठन के अनुसार दूदू राजस्थान का सबसे छोटा जिला है जिसमें केवल 3 तहसीलें (दूदू, फागी, मौजमाबाद) हैं। इससे पूर्व धौलपुर (3034 वर्ग किमी) सबसे छोटा जिला था। (संदर्भ: राजस्थान राजस्व मंडल अधिसूचना 2023)',
-    explanationEnglish: 'Following the 2023 administrative reorganization, Dudu is currently the smallest district comprising 3 tehsils, replacing Dholpur.',
-    sourceExamRef: 'RSMSSB CET 2024 New Pattern',
+    correctOptionIndex: 0,
+    explanationHindi: 'मंत्रिमंडलीय उप-समिति (ललित के. पंवार समिति) की समीक्षा उपरांत 9 नवगठित असंवहनीय जिलों (दूदू, जयपुर ग्रामीण, जोधपुर ग्रामीण, केकड़ी, शाहपुरा, सांचौर, गंगापुर सिटी, अनूपगढ़, सलूंबर) को पुनः उनके मूल जिलों में विलीन कर दिया गया। इसके फलस्वरूप राज्य में अब 41 जिले (33 मूल + 8 संपुष्ट नए जिले) तथा 7 संभाग स्थापित हैं। दूदू के जयपुर में विलय के बाद धौलपुर (3034 वर्ग किमी) पुनः सबसे छोटा जिला है। (संदर्भ: राजस्थान राजस्व मंडल समीक्षा एवं हिन्दी ग्रंथ अकादमी)',
+    explanationEnglish: 'Post-review of the 2023 reorganization, 9 unviable districts were re-merged into parent districts, establishing 41 districts (33 original + 8 confirmed new) and 7 divisions in Rajasthan.',
+    sourceExamRef: 'RSMSSB CET / Patwari 2025-26 Standard',
     difficulty: 'मध्यम',
-    importantFactHindi: 'दूदू सीधे ग्राम पंचायत से जिला बनने वाला भारत का पहला प्रशासनिक क्षेत्र है।'
+    importantFactHindi: 'दूदू के जयपुर में विलय के बाद धौलपुर (3034 वर्ग किमी) पुनः राज्य का सबसे छोटा जिला बन गया है।'
   },
   {
     id: 'pq-6',

@@ -33,7 +33,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({
       initiative: '॥ निःशुल्क जन-शिक्षा संकल्प ॥ • युवा शिक्षा संबल पहल',
       patron: 'रूपसिंह फनात - नई सोच, नई पहल',
-      message: `एजेंट ${agentId === 'all' ? '1 से 6 (समस्त)' : agentId} का निष्पादन एवं डायरेक्ट ऑटो-पब्लिश ('published') सफलतापूर्वक पूर्ण हुआ।`,
+      message: `एजेंट ${agentId === 'all' ? '1 से 7 (समस्त स्वायत्त कार्यकर्ता)' : agentId} का निष्पादन एवं डायरेक्ट ऑटो-पब्लिश ('published') सफलतापूर्वक पूर्ण हुआ।`,
       ...executionResult,
     });
   } catch (error: any) {

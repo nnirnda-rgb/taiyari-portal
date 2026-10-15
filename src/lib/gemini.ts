@@ -115,17 +115,17 @@ export function ensureOptionE(options: { key: string; hindi: string; english?: s
 function getCuratedRajasthanQuestions(examName: string, subject: string, count: number): GeneratedQuestion[] {
   const bank: GeneratedQuestion[] = [
     {
-      questionHindi: 'राजस्थान में 50 जिलों के पुनर्गठन के बाद क्षेत्रफल की दृष्टि से सबसे छोटा जिला कौन सा है?',
+      questionHindi: 'राजस्थान में 9 असंवहनीय जिलों के मूल जिलों में विलय (समीक्षा रिपोर्ट) उपरांत क्षेत्रफल की दृष्टि से सबसे छोटा जिला पुनः कौन सा है?',
       options: [
-        { key: 'A', hindi: 'धौलपुर' },
+        { key: 'A', hindi: 'धौलपुर (3,034 वर्ग किमी)' },
         { key: 'B', hindi: 'दूदू' },
         { key: 'C', hindi: 'कोटपूतली-बहरोड़' },
         { key: 'D', hindi: 'सांचौर' },
         { key: 'E', hindi: 'अनुत्तरित प्रश्न (Not attempted)' },
       ],
-      correctOption: 'B',
-      explanationHindi: 'नवीनतम जिला पुनर्गठन के अनुसार दूदू राजस्थान का क्षेत्रफल एवं उपखंडों की दृष्टि से सबसे छोटा जिला बन गया है। इससे पहले धौलपुर सबसे छोटा जिला था।',
-      subject: 'राजस्थान का भूगोल (50 नवीन जिले)',
+      correctOption: 'A',
+      explanationHindi: 'मंत्रिमंडलीय समीक्षा उपरांत दूदू को पुनः जयपुर में विलीन करने के बाद धौलपुर (3034 वर्ग किमी) पुनः राजस्थान का सबसे छोटा जिला बन गया है। राज्य में अब 41 जिले व 7 संभाग हैं।',
+      subject: 'नवीनतम 41 जिले व 7 संभाग (पुनर्गठित राजस्थान भूगोल)',
     },
     {
       questionHindi: 'राजस्थान कर्मचारी चयन बोर्ड एवं RPSC की परीक्षा में प्रश्न खाली छोड़ने पर 5वां विकल्प (E) न भरने पर कितना नकारात्मक अंक काटा जाता है?',

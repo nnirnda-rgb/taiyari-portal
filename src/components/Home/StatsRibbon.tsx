@@ -9,7 +9,7 @@ export default function StatsRibbon() {
       icon: <Users className="w-5 h-5 text-blue-600" />,
       number: "50,000+",
       label: "सक्रिय विद्यार्थी",
-      detail: "राजस्थान के 50 जिलों से जुड़े"
+      detail: "राजस्थान के 41 जिलों से जुड़े"
     },
     {
       icon: <FileCheck2 className="w-5 h-5 text-emerald-600" />,
@@ -25,9 +25,9 @@ export default function StatsRibbon() {
     },
     {
       icon: <MapPin className="w-5 h-5 text-indigo-600" />,
-      number: "50 जिले",
-      label: "नवीन राजस्थान भूगोल",
-      detail: "पुनर्गठित संभाग एवं सीमाएं"
+      number: "41 जिले",
+      label: "नवीनतम 41 जिले व 7 संभाग",
+      detail: "पुनर्गठित राजस्थान भूगोल"
     },
     {
       icon: <Award className="w-5 h-5 text-rose-600" />,

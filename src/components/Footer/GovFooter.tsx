@@ -6,9 +6,8 @@ import {
   ArrowUp, 
   ExternalLink, 
   ShieldCheck, 
-  PhoneCall, 
-  Mail, 
-  MapPin, 
+  Sparkles,
+  BookOpen,
   Award,
   Heart
 } from 'lucide-react';
@@ -50,8 +49,8 @@ export default function GovFooter() {
 
           <div className="flex items-center gap-3">
             <div className="text-right hidden sm:block">
-              <span className="text-white font-bold block text-xs">सम्पर्क एवं मार्गदर्शन प्रकोष्ठ</span>
-              <span className="text-slate-400 text-[11px]">राजस्थान के सभी 50 जिलों के युवाओं हेतु</span>
+              <span className="text-white font-bold block text-xs">॥ निःशुल्क जन-शिक्षा संकल्प ॥</span>
+              <span className="text-slate-400 text-[11px]">समर्पित राजस्थान के सभी 41 जिलों के ग्रामीण युवाओं को</span>
             </div>
             <button
               onClick={scrollToTop}
@@ -173,41 +172,32 @@ export default function GovFooter() {
             </h4>
             <ul className="space-y-1.5 text-slate-300">
               <li><a href="#rajasthan-exams-hub" className="hover:text-white">✓ राजस्थान भर्ती महा-संग्रह (5 बोर्ड डायरेक्टरी)</a></li>
-              <li><a href="#taiyari-section" className="hover:text-white">✓ तैयारी (राजस्थान इतिहास, 50 जिले भूगोल, राजव्यवस्था)</a></li>
+              <li><a href="#taiyari-section" className="hover:text-white">✓ तैयारी (राजस्थान इतिहास, नवीनतम 41 जिले व 7 संभाग भूगोल, राजव्यवस्था)</a></li>
               <li><a href="#self-assessment-section" className="hover:text-white">✓ स्वयं की जांच (ऑनलाइन CBT मॉक टेस्ट एवं 5वां विकल्प)</a></li>
               <li><a href="#previous-papers-section" className="hover:text-white">✓ पुराने पेपर (वाटरमार्क युक्त प्रश्न-पत्र एवं उत्तर कुंजी)</a></li>
               <li><a href="#notifications-section" className="hover:text-white">✓ सूचनाएं एवं आगामी भर्ती कैलेंडर</a></li>
             </ul>
           </div>
 
-          {/* Col 4: Helpline & Support */}
+          {/* Col 4: Clean Dedication & Rural Empowerment */}
           <div className="space-y-3">
-            <h4 className="font-bold text-white text-sm uppercase tracking-wider text-amber-400 border-b border-slate-800 pb-2">
-              छात्र संबल एवं मार्गदर्शन प्रकोष्ठ
+            <h4 className="font-bold text-white text-sm uppercase tracking-wider text-amber-400 border-b border-slate-800 pb-2 flex items-center gap-1.5">
+              <Sparkles className="w-4 h-4 text-amber-400" />
+              जन-शिक्षा संकल्प
             </h4>
-            <div className="space-y-2.5 text-slate-300 text-xs">
-              <div className="flex items-start gap-2">
-                <PhoneCall className="w-4 h-4 text-emerald-400 flex-shrink-0 mt-0.5" />
-                <div>
-                  <span className="font-semibold block text-white">छात्र संबल हेल्पलाइन:</span>
-                  <span>1800-180-6127 (टोल फ्री)</span>
-                </div>
+            <div className="space-y-2.5 text-slate-300 text-xs leading-relaxed">
+              <div className="bg-slate-800/80 p-3 rounded-xl border border-slate-700/60 space-y-1.5">
+                <p className="text-amber-300 font-bold">
+                  ॥ निःशुल्क जन-शिक्षा संकल्प — समर्पित ग्रामीण युवा शक्ति को ॥
+                </p>
+                <p className="text-slate-300 text-[11px] leading-relaxed">
+                  गाँव, ढाणी और दूरस्थ अंचलों में प्रतियोगी परीक्षाओं की तैयारी कर रहे प्रत्येक छात्र को बिना किसी शुल्क के सर्वोत्तम अध्ययन सामग्री, प्रामाणिक नोट्स और CBT टेस्ट उपलब्ध कराना ही इस पहल का मुख्य उद्देश्य है।
+                </p>
               </div>
 
-              <div className="flex items-start gap-2">
-                <Mail className="w-4 h-4 text-blue-400 flex-shrink-0 mt-0.5" />
-                <div>
-                  <span className="font-semibold block text-white">ई-मेल सहायता:</span>
-                  <span>contact@taiyari-portal.in</span>
-                </div>
-              </div>
-
-              <div className="flex items-start gap-2">
-                <MapPin className="w-4 h-4 text-rose-400 flex-shrink-0 mt-0.5" />
-                <div>
-                  <span className="font-semibold block text-white">संबल केंद्र:</span>
-                  <span>रूपसिंह फनात जन-शिक्षा संबल केंद्र, राजस्थान</span>
-                </div>
+              <div className="flex items-center gap-2 text-emerald-400 font-semibold text-[11px]">
+                <ShieldCheck className="w-4 h-4 flex-shrink-0" />
+                <span>100% निःशुल्क • कोई शुल्क नहीं • शुद्ध जन-कल्याण</span>
               </div>
             </div>
           </div>

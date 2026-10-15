@@ -121,7 +121,7 @@ export default function NotesReadingRoom({ searchFilter = '' }: NotesReadingRoom
   // Get color styles for subject chips
   const getSubjectBadgeStyle = (subject: string) => {
     switch (subject) {
-      case 'नया राजस्थान भूगोल (50 जिले)':
+      case 'नवीनतम 41 जिले व 7 संभाग (पुनर्गठित राजस्थान भूगोल)':
         return 'bg-emerald-100 text-emerald-900 border-emerald-300';
       case 'कला एवं संस्कृति':
         return 'bg-amber-100 text-amber-950 border-amber-300';
@@ -161,7 +161,7 @@ export default function NotesReadingRoom({ searchFilter = '' }: NotesReadingRoom
             </h3>
             <p className="text-xs sm:text-sm text-blue-100/90 max-w-3xl leading-relaxed">
               बिना भारी भरकम पीडीएफ डाउनलोड किए सीधे मोबाइल ब्राउज़र पर संपूर्ण प्रामाणिक नोट्स पढ़ें। 
-              नवीनतम 50 जिलों के आंकड़े, परीक्षा-उपयोगी स्मरण सूत्र एवं विषय-वार त्वरित पुनरावलोकन।
+              नवीनतम 41 जिले व 7 संभाग के प्रामाणिक आंकड़े, परीक्षा-उपयोगी स्मरण सूत्र एवं विषय-वार त्वरित पुनरावलोकन।
             </p>
           </div>
 
@@ -227,7 +227,7 @@ export default function NotesReadingRoom({ searchFilter = '' }: NotesReadingRoom
               type="text"
               value={localSearch}
               onChange={(e) => setLocalSearch(e.target.value)}
-              placeholder="नोट्स शीर्षक, अध्याय या कीवर्ड (जैसे: 50 जिले, अरावली, बणी-ठणी, हल्दीघाटी)..."
+              placeholder="नोट्स शीर्षक, अध्याय या कीवर्ड (जैसे: 41 जिले, 7 संभाग, अरावली, बणी-ठणी, हल्दीघाटी)..."
               className="w-full pl-9 pr-8 py-2 text-xs sm:text-sm bg-slate-50 border border-slate-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-600 text-slate-900"
             />
             <Search className="w-4 h-4 text-slate-400 absolute left-3 top-2.5 sm:top-3" />
