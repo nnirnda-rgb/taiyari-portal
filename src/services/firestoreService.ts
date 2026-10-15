@@ -15,7 +15,7 @@ import {
 import { db, isFirebaseConfigured } from '@/lib/firebase';
 import { CBT_MOCK_TEST_CET, CbtQuestion, getExamQuestions, FULL_100_CBT_QUESTIONS } from '@/data/cbtExamData';
 import { PRACTICE_QUESTIONS } from '@/data/practiceQuestionsData';
-import { PREVIOUS_PAPERS_DATA, PORTAL_NOTIFICATIONS, PreviousPaper } from '@/data/portalData';
+import { PREVIOUS_PAPERS_DATA, PORTAL_NOTIFICATIONS, PreviousPaper, PortalNotification } from '@/data/portalData';
 import { RAJASTHAN_EXAMS_DIRECTORY as RAJASTHAN_EXAMS, RajasthanExam } from '@/data/rajasthanExams';
 import { AUTHENTIC_STUDY_NOTES, StudyNoteTopic } from '@/data/notesData';
 import { RAJASTHAN_REVISION_NOTES, RevisionNote } from '@/data/rajasthanNotesData';
@@ -469,8 +469,8 @@ export async function seedInitialDataToFirestore(): Promise<{
           { subject: "सामान्य हिन्दी एवं General English", questions: 10, marks: 20 },
           { subject: "कम्प्यूटर ज्ञान एवं समसामयिक घटनाएं (Current Affairs)", questions: 10, marks: 20 }
         ],
-        officialPdfUrl: "https://archive.org/download/rajasthan-recruitment-pyqs/CET_Graduation_Syllabus.pdf",
-        downloadMirrorUrl: "https://raw.githubusercontent.com/rajasthan-open-data/exam-repository/main/syllabi/CET_Graduate_Syllabus.pdf",
+        officialPdfUrl: "/storage/pdfs/Syllabus_CET_Graduate.pdf",
+        downloadMirrorUrl: "/api/pyq-download?type=syllabus&id=rssb-cet-grad",
         isVerified: true
       },
       {
@@ -492,8 +492,8 @@ export async function seedInitialDataToFirestore(): Promise<{
           { subject: "General English", questions: 8, marks: 16 },
           { subject: "कम्प्यूटर ज्ञान एवं समसामयिकी (Current Affairs)", questions: 10, marks: 20 }
         ],
-        officialPdfUrl: "https://archive.org/download/rajasthan-recruitment-pyqs/CET_12th_Syllabus.pdf",
-        downloadMirrorUrl: "https://raw.githubusercontent.com/rajasthan-open-data/exam-repository/main/syllabi/CET_12th_Syllabus.pdf",
+        officialPdfUrl: "/storage/pdfs/Syllabus_CET_12th.pdf",
+        downloadMirrorUrl: "/api/pyq-download?type=syllabus&id=rssb-cet-12th",
         isVerified: true
       },
       {
@@ -512,8 +512,8 @@ export async function seedInitialDataToFirestore(): Promise<{
           { subject: "Mental ability and Reasoning, Basic Numerical efficiency", weightage: "30%", questions: 45, marks: 90 },
           { subject: "Basic Computer", weightage: "10%", questions: 15, marks: 30 }
         ],
-        officialPdfUrl: "https://archive.org/download/rajasthan-recruitment-pyqs/Patwari_Official_Syllabus.pdf",
-        downloadMirrorUrl: "https://raw.githubusercontent.com/rajasthan-open-data/exam-repository/main/syllabi/Patwari_Official_Syllabus.pdf",
+        officialPdfUrl: "/storage/pdfs/Syllabus_Patwari.pdf",
+        downloadMirrorUrl: "/api/pyq-download?type=syllabus&id=rssb-patwari",
         isVerified: true
       },
       {
@@ -529,8 +529,8 @@ export async function seedInitialDataToFirestore(): Promise<{
           { part: "भाग 'अ' (भारांक 70%)", subject: "राजस्थान का भूगोल, इतिहास, संस्कृति, दैनिक विज्ञान एवं गणित (माध्यमिक स्तर)", questions: 105, marks: 105 },
           { part: "भाग 'ब' (भारांक 30%)", subject: "पशुपालन, देशी नस्लें, दुग्ध दोहन, कृत्रिम गर्भाधान, पशु रोग, टीकाकरण, चारा एवं पशु गणना", questions: 45, marks: 45 }
         ],
-        officialPdfUrl: "https://archive.org/download/rajasthan-recruitment-pyqs/Pashu_Paricharak_Official_Syllabus.pdf",
-        downloadMirrorUrl: "https://raw.githubusercontent.com/rajasthan-open-data/exam-repository/main/syllabi/Pashu_Paricharak_Syllabus.pdf",
+        officialPdfUrl: "/storage/pdfs/Syllabus_Pashu_Paricharak.pdf",
+        downloadMirrorUrl: "/api/pyq-download?type=syllabus&id=rssb-animal-attendant",
         isVerified: true
       },
       {
@@ -547,8 +547,8 @@ export async function seedInitialDataToFirestore(): Promise<{
           { subject: "सामान्य ज्ञान, सामान्य विज्ञान, सामाजिक विज्ञान एवं समसामयिक विषय तथा महिला एवं बाल अपराध", questions: 45, marks: 45 },
           { subject: "राजस्थान के इतिहास, संस्कृति, कला, भूगोल, राजनीति एवं आर्थिक स्थिति", questions: 45, marks: 45 }
         ],
-        officialPdfUrl: "https://archive.org/download/rajasthan-recruitment-pyqs/Police_Constable_Syllabus.pdf",
-        downloadMirrorUrl: "https://raw.githubusercontent.com/rajasthan-open-data/exam-repository/main/syllabi/Police_Constable_Syllabus.pdf",
+        officialPdfUrl: "/storage/pdfs/Syllabus_Police_Constable.pdf",
+        downloadMirrorUrl: "/api/pyq-download?type=syllabus&id=police-constable",
         isVerified: true
       },
       {
@@ -572,8 +572,8 @@ export async function seedInitialDataToFirestore(): Promise<{
           { subject: "तार्किक विवेचन एवं मानसिक योग्यता (Reasoning & Mental Ability)", questions: 20, marks: 26.6 },
           { subject: "समसामयिक घटनाएं (Current Affairs)", questions: 15, marks: 20.0 }
         ],
-        officialPdfUrl: "https://archive.org/download/rajasthan-recruitment-pyqs/RAS_RTS_Official_Syllabus.pdf",
-        downloadMirrorUrl: "https://raw.githubusercontent.com/rajasthan-open-data/exam-repository/main/syllabi/RAS_Prelims_Syllabus.pdf",
+        officialPdfUrl: "/storage/pdfs/Syllabus_RAS_Prelims.pdf",
+        downloadMirrorUrl: "/api/pyq-download?type=syllabus&id=rpsc-ras",
         isVerified: true
       },
       {
@@ -591,8 +591,8 @@ export async function seedInitialDataToFirestore(): Promise<{
           { subject: "General Knowledge of World and India", questions: 30, marks: 60 },
           { subject: "Educational Psychology (शिक्षा मनोविज्ञान)", questions: 20, marks: 40 }
         ],
-        officialPdfUrl: "https://archive.org/download/rajasthan-recruitment-pyqs/2nd_Grade_Teacher_Syllabus.pdf",
-        downloadMirrorUrl: "https://raw.githubusercontent.com/rajasthan-open-data/exam-repository/main/syllabi/2nd_Grade_Teacher_Syllabus.pdf",
+        officialPdfUrl: "/storage/pdfs/Syllabus_2nd_Grade.pdf",
+        downloadMirrorUrl: "/api/pyq-download?type=syllabus&id=rpsc-second-grade",
         isVerified: true
       },
       {
@@ -608,8 +608,8 @@ export async function seedInitialDataToFirestore(): Promise<{
           { part: "प्रश्न पत्र-I", subject: "राजस्थान का सामान्य ज्ञान (भूगोल, इतिहास, संस्कृति) एवं समसामयिकी तथा शिक्षा मनोविज्ञान", questions: 100, marks: 200 },
           { part: "प्रश्न पत्र-II", subject: "भौतिक विज्ञान, रसायन विज्ञान एवं जीव विज्ञान (सीनियर सैकण्डरी स्तर)", questions: 100, marks: 200 }
         ],
-        officialPdfUrl: "https://archive.org/download/rajasthan-recruitment-pyqs/Lab_Assistant_Official_Syllabus.pdf",
-        downloadMirrorUrl: "https://raw.githubusercontent.com/rajasthan-open-data/exam-repository/main/syllabi/Lab_Assistant_Syllabus.pdf",
+        officialPdfUrl: "/storage/pdfs/Syllabus_Lab_Assistant.pdf",
+        downloadMirrorUrl: "/api/pyq-download?type=syllabus&id=rssb-lab-assistant",
         isVerified: true
       }
     ];
@@ -922,6 +922,80 @@ export function subscribeToSyllabi(
   } catch (err) {
     console.warn('Realtime syllabi setup failed, using local directory:', err);
     callback(RAJASTHAN_EXAMS);
+    return () => {};
+  }
+}
+
+// =========================================================================
+// 13. REAL-TIME LISTENER: RAJASTHAN RECRUITMENT CIRCULARS & NOTIFICATIONS
+// =========================================================================
+export function subscribeToCirculars(
+  callback: (circulars: PortalNotification[]) => void,
+  onError?: (err: any) => void
+): Unsubscribe {
+  if (!db || !isFirebaseConfigured() || typeof window === 'undefined') {
+    callback(PORTAL_NOTIFICATIONS);
+    return () => {};
+  }
+
+  try {
+    const q = query(
+      collection(db, 'circular_notifications'),
+      orderBy('publishedAt', 'desc'),
+      limit(25)
+    );
+    const unsubscribe = onSnapshot(
+      q,
+      (snapshot) => {
+        if (!snapshot.empty) {
+          const cloudList: PortalNotification[] = [];
+          snapshot.forEach(docSnap => {
+            const data = docSnap.data();
+            cloudList.push({
+              id: docSnap.id,
+              circularNo: data.circularNo || `CIRCULAR/2025/${docSnap.id.substring(0, 8)}`,
+              date: data.date || (data.publishedAt ? new Date(data.publishedAt).toLocaleDateString('hi-IN') : 'अद्यतन 2025'),
+              tag: data.tag || 'परीक्षा तिथि',
+              title: data.title || 'राजस्थान भर्ती परिपत्र',
+              board: (data.board === 'RPSC' ? 'RPSC' : (data.board === 'Police' ? 'Police' : 'RSMSSB')) as 'RSMSSB' | 'RPSC' | 'Police',
+              department: data.department || 'राजस्थान कर्मचारी चयन बोर्ड / कार्मिक विभाग',
+              summary: data.summary || data.title,
+              keyDetails: data.keyDetails || [
+                { label: 'स्थिति', value: 'आधिकारिक विज्ञप्ति' },
+                { label: 'सत्र', value: '2025-26' }
+              ],
+              fileSize: data.fileSize || '1.5 MB',
+              isNew: data.isNew ?? true,
+              isUrgent: data.isUrgent ?? (data.urgent ?? false),
+              linkText: data.linkText || 'आधिकारिक परिपत्र एवं परीक्षा विवरण',
+              pdfUrl: data.pdfUrl || `/api/pyq-download?circularId=${encodeURIComponent(docSnap.id)}`,
+              mirrorPdfUrl: data.mirrorPdfUrl,
+              officialSourcePortal: data.officialSourcePortal,
+            });
+          });
+
+          // Merge with static PORTAL_NOTIFICATIONS
+          const combined = [...cloudList];
+          for (const staticNotif of PORTAL_NOTIFICATIONS) {
+            if (!combined.some(n => n.id === staticNotif.id || n.title === staticNotif.title)) {
+              combined.push(staticNotif);
+            }
+          }
+          callback(combined);
+        } else {
+          callback(PORTAL_NOTIFICATIONS);
+        }
+      },
+      (error) => {
+        console.warn('Realtime circulars listener warning, fallback to static circulars:', error);
+        if (onError) onError(error);
+        callback(PORTAL_NOTIFICATIONS);
+      }
+    );
+    return unsubscribe;
+  } catch (err) {
+    console.warn('Realtime circulars setup failed, using static circulars:', err);
+    callback(PORTAL_NOTIFICATIONS);
     return () => {};
   }
 }

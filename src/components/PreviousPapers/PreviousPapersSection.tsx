@@ -24,7 +24,8 @@ import {
 } from 'lucide-react';
 import { PREVIOUS_PAPERS_DATA, PreviousPaper } from '@/data/portalData';
 import { subscribeToPYQs } from '@/services/firestoreService';
-import { downloadWithFallback } from '@/lib/downloadEngine';
+import { downloadWithFallback, triggerNativeAttachmentDownload } from '@/lib/downloadEngine';
+import InAppPdfViewerModal from '@/components/Modals/InAppPdfViewerModal';
 
 interface PreviousPapersProps {
   searchFilter?: string;
@@ -38,6 +39,17 @@ export default function PreviousPapersSection({ searchFilter = '' }: PreviousPap
   const [examCategoryFilter, setExamCategoryFilter] = useState<string>('ALL');
   const [localSearch, setLocalSearch] = useState('');
   const [selectedPaperForPreview, setSelectedPaperForPreview] = useState<PreviousPaper | null>(null);
+
+  // In-App PDF Viewer State
+  const [pdfModalData, setPdfModalData] = useState<{
+    isOpen: boolean;
+    title: string;
+    subtitle?: string;
+    badge?: string;
+    pdfUrl: string;
+    downloadUrl?: string;
+    fileName?: string;
+  } | null>(null);
 
   // Download status feedback
   const [downloadToast, setDownloadToast] = useState<{
@@ -126,7 +138,9 @@ export default function PreviousPapersSection({ searchFilter = '' }: PreviousPap
       primaryUrl: targetPrimary,
       mirrorUrl: targetMirror,
       fileName: `${paper.id}_Master_Paper.pdf`,
-      title: `${paper.examTitle} (मास्टर पेपर)`
+      title: `${paper.examTitle} (मास्टर पेपर)`,
+      id: paper.id,
+      type: forceMirror ? 'mirror' : 'paper'
     });
 
     setActiveDownloadId(null);
@@ -163,7 +177,9 @@ export default function PreviousPapersSection({ searchFilter = '' }: PreviousPap
       primaryUrl: targetPrimary,
       mirrorUrl: targetMirror,
       fileName: `${paper.id}_Answer_Key.pdf`,
-      title: `${paper.examTitle} (उत्तर कुंजी)`
+      title: `${paper.examTitle} (उत्तर कुंजी)`,
+      id: paper.id,
+      type: forceMirror ? 'mirror-key' : 'key'
     });
 
     setActiveDownloadId(null);
@@ -446,6 +462,27 @@ export default function PreviousPapersSection({ searchFilter = '' }: PreviousPap
 
                   {/* Resilient Download Engine Buttons */}
                   <div className="mt-4 pt-3 border-t border-slate-100 space-y-2">
+                    {/* In-App Online PDF Viewer Button (Google Docs Embedded - 0 MB mobile storage) */}
+                    <button
+                      onClick={() => {
+                        const targetUrl = paper.mirrorPaperUrl || paper.masterPaperUrl;
+                        setPdfModalData({
+                          isOpen: true,
+                          title: paper.examTitle,
+                          subtitle: `${paper.board} • ${paper.shift || paper.stage} • सम्पूर्ण ${paper.questionsCount} प्रश्न`,
+                          badge: `${paper.board} मास्टर पेपर`,
+                          pdfUrl: targetUrl,
+                          downloadUrl: `/api/pyq-download?id=${encodeURIComponent(paper.id)}&type=paper&download=true`,
+                          fileName: `${paper.id}_Master_QP.pdf`
+                        });
+                      }}
+                      className="w-full py-2 px-3 bg-blue-50 hover:bg-blue-100 text-blue-900 border border-blue-200 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 transition-colors shadow-2xs"
+                      title="मोबाइल मेमोरी खर्च किए बिना गूगल व्यूअर में सीधे पढ़ें"
+                    >
+                      <Eye className="w-3.5 h-3.5 text-blue-700" />
+                      <span>ऑनलाइन पेपर पढ़ें (0 MB स्टोरेज)</span>
+                    </button>
+
                     <div className="flex items-center gap-2">
                       
                       {/* Master Paper Resilient Download Button */}
@@ -490,7 +527,7 @@ export default function PreviousPapersSection({ searchFilter = '' }: PreviousPap
                         onClick={() => setSelectedPaperForPreview(paper)}
                         className="text-blue-800 hover:text-blue-950 font-bold flex items-center gap-1 hover:underline"
                       >
-                        <Eye className="w-3 h-3" />
+                        <FileText className="w-3 h-3" />
                         <span>विस्तृत विवरण</span>
                       </button>
                     </div>
@@ -576,6 +613,52 @@ export default function PreviousPapersSection({ searchFilter = '' }: PreviousPap
 
             {/* Direct Links Action using Resilient Downloader */}
             <div className="space-y-2 pt-2">
+              {/* In-App Online Viewing Options */}
+              <div className="grid grid-cols-2 gap-2">
+                <button
+                  onClick={() => {
+                    const target = selectedPaperForPreview;
+                    const targetUrl = target.mirrorPaperUrl || target.masterPaperUrl;
+                    setSelectedPaperForPreview(null);
+                    setPdfModalData({
+                      isOpen: true,
+                      title: target.examTitle,
+                      subtitle: `${target.board} • ${target.shift || target.stage} • ${target.fileSize}`,
+                      badge: 'मास्टर प्रश्न-पत्र',
+                      pdfUrl: targetUrl,
+                      downloadUrl: `/api/pyq-download?id=${encodeURIComponent(target.id)}&type=paper&download=true`,
+                      fileName: `${target.id}_Master_QP.pdf`
+                    });
+                  }}
+                  className="py-2.5 px-2 bg-blue-50 hover:bg-blue-100 text-blue-950 border border-blue-200 rounded-xl text-xs font-bold flex items-center justify-center gap-1 shadow-2xs"
+                >
+                  <Eye className="w-3.5 h-3.5 text-blue-700" />
+                  <span>ऑनलाइन पेपर पढ़ें</span>
+                </button>
+
+                <button
+                  onClick={() => {
+                    const target = selectedPaperForPreview;
+                    const targetUrl = target.mirrorAnswerKeyUrl || target.answerKeyUrl;
+                    setSelectedPaperForPreview(null);
+                    setPdfModalData({
+                      isOpen: true,
+                      title: `${target.examTitle} (फाइनल उत्तर कुंजी)`,
+                      subtitle: `${target.board} अधिकृत अंतिम उत्तर कुंजी`,
+                      badge: 'उत्तर कुंजी (Key)',
+                      pdfUrl: targetUrl,
+                      downloadUrl: `/api/pyq-download?id=${encodeURIComponent(target.id)}&type=key&download=true`,
+                      fileName: `${target.id}_Final_Key.pdf`
+                    });
+                  }}
+                  className="py-2.5 px-2 bg-emerald-50 hover:bg-emerald-100 text-emerald-950 border border-emerald-200 rounded-xl text-xs font-bold flex items-center justify-center gap-1 shadow-2xs"
+                >
+                  <Eye className="w-3.5 h-3.5 text-emerald-700" />
+                  <span>उत्तर कुंजी देखें</span>
+                </button>
+              </div>
+
+              {/* Direct Attachment Download Buttons */}
               <div className="flex items-center gap-2">
                 <button
                   onClick={() => {
@@ -593,8 +676,8 @@ export default function PreviousPapersSection({ searchFilter = '' }: PreviousPap
                   }}
                   className="flex-1 py-2.5 px-3 bg-emerald-700 hover:bg-emerald-600 text-white rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 shadow"
                 >
-                  <CheckCircle className="w-3.5 h-3.5 text-emerald-200" />
-                  <span>फाइनल आंसर-की खोलें</span>
+                  <Download className="w-3.5 h-3.5 text-emerald-200" />
+                  <span>उत्तर कुंजी डाउनलोड</span>
                 </button>
               </div>
 
@@ -620,6 +703,20 @@ export default function PreviousPapersSection({ searchFilter = '' }: PreviousPap
 
           </div>
         </div>
+      )}
+
+      {/* In-App Google Docs PDF Viewer Modal */}
+      {pdfModalData && (
+        <InAppPdfViewerModal
+          isOpen={pdfModalData.isOpen}
+          onClose={() => setPdfModalData(null)}
+          title={pdfModalData.title}
+          subtitle={pdfModalData.subtitle}
+          badge={pdfModalData.badge}
+          pdfUrl={pdfModalData.pdfUrl}
+          downloadUrl={pdfModalData.downloadUrl}
+          fileName={pdfModalData.fileName}
+        />
       )}
 
     </section>

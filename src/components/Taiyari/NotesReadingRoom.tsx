@@ -32,6 +32,7 @@ import {
 } from '@/data/notesData';
 import { subscribeToStudyNotes } from '@/services/firestoreService';
 import { downloadWithFallback } from '@/lib/downloadEngine';
+import InAppPdfViewerModal from '@/components/Modals/InAppPdfViewerModal';
 
 interface NotesReadingRoomProps {
   searchFilter?: string;
@@ -43,6 +44,17 @@ export default function NotesReadingRoom({ searchFilter = '' }: NotesReadingRoom
   const [selectedSubject, setSelectedSubject] = useState<NotesSubjectFilter>('सभी');
   const [localSearch, setLocalSearch] = useState<string>('');
   const [activeReadingNote, setActiveReadingNote] = useState<StudyNoteTopic | null>(null);
+
+  // In-App PDF Viewer Modal State
+  const [pdfModalData, setPdfModalData] = useState<{
+    isOpen: boolean;
+    title: string;
+    subtitle?: string;
+    badge?: string;
+    pdfUrl: string;
+    downloadUrl?: string;
+    fileName?: string;
+  } | null>(null);
 
   // Reader customization state
   const [fontSize, setFontSize] = useState<'normal' | 'large' | 'xlarge'>('normal');
@@ -95,7 +107,7 @@ export default function NotesReadingRoom({ searchFilter = '' }: NotesReadingRoom
     });
   }, [notes, selectedSubject, searchFilter, localSearch]);
 
-  // Handle PDF Download with resilient fallback
+  // Handle PDF Download with resilient fallback & attachment headers
   const handlePdfDownload = async (note: StudyNoteTopic, e?: React.MouseEvent) => {
     if (e) e.stopPropagation();
     setDownloadStatus(`'${note.title}' की प्रमाणित पीडीएफ डाउनलोड हो रही है...`);
@@ -105,6 +117,8 @@ export default function NotesReadingRoom({ searchFilter = '' }: NotesReadingRoom
       mirrorUrl: note.mirrorPdfUrl,
       fileName: `${note.id}.pdf`,
       title: note.title,
+      id: note.id,
+      type: 'note',
     });
 
     if (result.usedMirror) {
@@ -376,23 +390,45 @@ export default function NotesReadingRoom({ searchFilter = '' }: NotesReadingRoom
                 </div>
 
                 {/* Card Bottom Actions */}
-                <div className="bg-slate-50 px-5 py-3.5 border-t border-slate-200 flex items-center justify-between gap-2">
+                <div className="bg-slate-50 px-4 py-3.5 border-t border-slate-200 flex flex-wrap items-center justify-between gap-2">
                   
                   {/* Read In-Browser (Modal / Expandable view for village mobile users) */}
                   <button
                     onClick={() => setActiveReadingNote(note)}
-                    className="flex-1 py-2 px-3 bg-blue-900 hover:bg-blue-800 text-white rounded-xl text-xs font-black flex items-center justify-center gap-1.5 shadow-sm transition-all active:scale-95"
+                    className="flex-1 min-w-[90px] py-2 px-2.5 bg-blue-900 hover:bg-blue-800 text-white rounded-xl text-xs font-black flex items-center justify-center gap-1 shadow-sm transition-all active:scale-95"
                     title="बिना डाउनलोड किए सीधे मोबाइल पर पूरा अध्याय पढ़ें"
                   >
-                    <Eye className="w-3.5 h-3.5 text-amber-300" />
-                    <span>ऑनलाइन पढ़ें</span>
+                    <BookOpen className="w-3.5 h-3.5 text-amber-300" />
+                    <span>ई-नोट्स पढ़ें</span>
+                  </button>
+
+                  {/* In-App Google Docs PDF Viewer Button */}
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      const targetUrl = note.pdfDownloadUrl || note.mirrorPdfUrl;
+                      setPdfModalData({
+                        isOpen: true,
+                        title: note.title,
+                        subtitle: `${note.subject} • ${note.pageCount} पृष्ठ • ${note.fileSize}`,
+                        badge: note.badge || 'तैयारी नोट्स',
+                        pdfUrl: targetUrl,
+                        downloadUrl: `/api/pyq-download?id=${encodeURIComponent(note.id)}&type=note&download=true`,
+                        fileName: `${note.id}.pdf`
+                      });
+                    }}
+                    className="py-2 px-2.5 bg-blue-50 hover:bg-blue-100 text-blue-900 border border-blue-200 rounded-xl text-xs font-bold flex items-center justify-center gap-1 shadow-2xs transition-colors"
+                    title="गूगल क्लाउड व्यूअर में मूल PDF देखें (0 MB स्टोरेज खर्च)"
+                  >
+                    <Eye className="w-3.5 h-3.5 text-blue-700" />
+                    <span>PDF देखें</span>
                   </button>
 
                   {/* Green PDF Download Button wired to CDN / Storage mirror */}
                   <button
                     onClick={(e) => handlePdfDownload(note, e)}
-                    className="flex-1 py-2 px-3 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl text-xs font-black flex items-center justify-center gap-1.5 shadow-sm transition-all active:scale-95 border border-emerald-700"
-                    title="प्रमाणित नोट्स की संपूर्ण पीडीएफ फाइल डाउनलोड करें"
+                    className="flex-1 min-w-[100px] py-2 px-2.5 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl text-xs font-black flex items-center justify-center gap-1 shadow-sm transition-all active:scale-95 border border-emerald-700"
+                    title="प्रमाणित नोट्स की संपूर्ण पीडीएफ फाइल सीधे मोबाइल में डाउनलोड करें"
                   >
                     <Download className="w-3.5 h-3.5 text-white" />
                     <span>PDF डाउनलोड</span>
@@ -654,7 +690,28 @@ export default function NotesReadingRoom({ searchFilter = '' }: NotesReadingRoom
                 संकलन: <strong className="text-slate-900 dark:text-white">{activeReadingNote.authorPatron}</strong> • अद्यतन: {activeReadingNote.lastUpdated}
               </div>
 
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-2 flex-wrap">
+                <button
+                  onClick={() => {
+                    const target = activeReadingNote;
+                    const targetUrl = target.pdfDownloadUrl || target.mirrorPdfUrl;
+                    setPdfModalData({
+                      isOpen: true,
+                      title: target.title,
+                      subtitle: `${target.subject} • ${target.pageCount} पृष्ठ • ${target.fileSize}`,
+                      badge: target.badge || 'तैयारी नोट्स',
+                      pdfUrl: targetUrl,
+                      downloadUrl: `/api/pyq-download?id=${encodeURIComponent(target.id)}&type=note&download=true`,
+                      fileName: `${target.id}.pdf`
+                    });
+                  }}
+                  className="px-3 py-2 bg-blue-50 dark:bg-blue-900/40 border border-blue-200 dark:border-blue-700 text-blue-900 dark:text-blue-200 rounded-xl text-xs font-black flex items-center gap-1.5 shadow-2xs hover:bg-blue-100 transition-colors"
+                  title="गूगल क्लाउड व्यूअर में मूल PDF देखें"
+                >
+                  <Eye className="w-3.5 h-3.5 text-blue-700 dark:text-blue-300" />
+                  <span>PDF व्यूअर में खोलें</span>
+                </button>
+
                 <button
                   onClick={() => {
                     if (typeof window !== 'undefined') {
@@ -688,6 +745,20 @@ export default function NotesReadingRoom({ searchFilter = '' }: NotesReadingRoom
 
           </div>
         </div>
+      )}
+
+      {/* In-App Google Docs PDF Viewer Modal */}
+      {pdfModalData && (
+        <InAppPdfViewerModal
+          isOpen={pdfModalData.isOpen}
+          onClose={() => setPdfModalData(null)}
+          title={pdfModalData.title}
+          subtitle={pdfModalData.subtitle}
+          badge={pdfModalData.badge}
+          pdfUrl={pdfModalData.pdfUrl}
+          downloadUrl={pdfModalData.downloadUrl}
+          fileName={pdfModalData.fileName}
+        />
       )}
 
     </div>

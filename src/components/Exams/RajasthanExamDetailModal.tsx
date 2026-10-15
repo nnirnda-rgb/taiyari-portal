@@ -17,10 +17,12 @@ import {
   Building,
   Award,
   BookOpen,
-  Sparkles
+  Sparkles,
+  Eye
 } from 'lucide-react';
 import { RajasthanExam } from '@/data/rajasthanExams';
 import { downloadWithFallback } from '@/lib/downloadEngine';
+import InAppPdfViewerModal from '@/components/Modals/InAppPdfViewerModal';
 
 interface RajasthanExamDetailModalProps {
   exam: RajasthanExam | null;
@@ -37,6 +39,16 @@ export default function RajasthanExamDetailModal({
   onStartPractice, 
   onStartQuiz 
 }: RajasthanExamDetailModalProps) {
+  const [pdfModalData, setPdfModalData] = React.useState<{
+    isOpen: boolean;
+    title: string;
+    subtitle?: string;
+    badge?: string;
+    pdfUrl: string;
+    downloadUrl?: string;
+    fileName?: string;
+  } | null>(null);
+
   if (!isOpen || !exam) return null;
 
   const getBoardBadgeClass = (board: string) => {
@@ -236,13 +248,36 @@ export default function RajasthanExamDetailModal({
               <div className="flex items-center gap-2 flex-wrap">
                 {exam.officialSyllabusUrl || exam.mirrorSyllabusUrl ? (
                   <>
+                    {/* In-App Online Syllabus Viewer */}
+                    <button
+                      onClick={() => {
+                        const targetUrl = exam.officialSyllabusUrl || exam.mirrorSyllabusUrl || '/storage/pdfs/Syllabus_CET_Graduate.pdf';
+                        setPdfModalData({
+                          isOpen: true,
+                          title: `${exam.name} - आधिकारिक पाठ्यक्रम`,
+                          subtitle: `${exam.board} • ${exam.department}`,
+                          badge: 'आधिकारिक पाठ्यक्रम (Syllabus)',
+                          pdfUrl: targetUrl,
+                          downloadUrl: `/api/pyq-download?id=${encodeURIComponent(exam.id)}&type=syllabus&download=true`,
+                          fileName: `${exam.id}_Official_Syllabus.pdf`
+                        });
+                      }}
+                      className="inline-flex items-center gap-1.5 bg-blue-50 hover:bg-blue-100 text-blue-900 border border-blue-200 text-[11px] font-bold px-3 py-1.5 rounded-lg transition-colors shadow-2xs"
+                      title="मोबाइल मेमोरी खर्च किए बिना गूगल व्यूअर में सीधे पाठ्यक्रम पढ़ें"
+                    >
+                      <Eye className="w-3.5 h-3.5 text-blue-700" />
+                      <span>ऑनलाइन देखें</span>
+                    </button>
+
                     <button
                       onClick={async () => {
                         await downloadWithFallback({
                           primaryUrl: exam.officialSyllabusUrl || exam.mirrorSyllabusUrl!,
                           mirrorUrl: exam.mirrorSyllabusUrl,
                           fileName: `${exam.id}_Official_Syllabus.pdf`,
-                          title: `${exam.name} पाठ्यक्रम (Syllabus)`
+                          title: `${exam.name} पाठ्यक्रम (Syllabus)`,
+                          id: exam.id,
+                          type: 'syllabus'
                         });
                       }}
                       className="inline-flex items-center gap-1.5 bg-blue-900 hover:bg-blue-800 text-white text-[11px] font-bold px-3 py-1.5 rounded-lg shadow-xs transition-colors"
@@ -259,7 +294,9 @@ export default function RajasthanExamDetailModal({
                             primaryUrl: exam.mirrorSyllabusUrl!,
                             mirrorUrl: exam.officialSyllabusUrl,
                             fileName: `${exam.id}_Syllabus_Mirror.pdf`,
-                            title: `${exam.name} पाठ्यक्रम (फास्ट मिरर)`
+                            title: `${exam.name} पाठ्यक्रम (फास्ट मिरर)`,
+                            id: exam.id,
+                            type: 'syllabus'
                           });
                         }}
                         className="inline-flex items-center gap-1 bg-white hover:bg-blue-50 text-blue-950 border border-blue-300 text-[11px] font-bold px-2.5 py-1.5 rounded-lg transition-colors"
@@ -353,6 +390,21 @@ export default function RajasthanExamDetailModal({
         </div>
 
       </div>
+
+      {/* In-App Google Docs PDF Viewer Modal */}
+      {pdfModalData && (
+        <InAppPdfViewerModal
+          isOpen={pdfModalData.isOpen}
+          onClose={() => setPdfModalData(null)}
+          title={pdfModalData.title}
+          subtitle={pdfModalData.subtitle}
+          badge={pdfModalData.badge}
+          pdfUrl={pdfModalData.pdfUrl}
+          downloadUrl={pdfModalData.downloadUrl}
+          fileName={pdfModalData.fileName}
+        />
+      )}
+
     </div>
   );
 }

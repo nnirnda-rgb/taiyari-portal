@@ -79,8 +79,8 @@ export const AUTHENTIC_STUDY_NOTES: StudyNoteTopic[] = [
       'दूदू के जयपुर में विलय के उपरांत धौलपुर (3034 वर्ग किमी) पुनः सबसे छोटा जिला',
       'अंतरराष्ट्रीय सीमा (रेडक्लिफ रेखा) पर अनूपगढ़ के विलय बाद पुनः 4 जिले: श्रीगंगानगर, बीकानेर, जैसलमेर, बाड़मेर',
     ],
-    pdfDownloadUrl: 'https://archive.org/download/rajasthan-study-capsules/Rajasthan_41_Districts_7_Divisions.pdf',
-    mirrorPdfUrl: 'https://raw.githubusercontent.com/taiyari-portal/study-notes-mirror/main/geography/41_districts_complete.pdf',
+    pdfDownloadUrl: '/storage/pdfs/Notes_Rajasthan_41_Districts_7_Divisions.pdf',
+    mirrorPdfUrl: '/api/pyq-download?type=note&id=note_geo_41_districts_7_divisions',
     content: {
       introduction: 'राजस्थान सरकार द्वारा मंत्रिमंडलीय उप-समिति (ललित के. पंवार समिति) की समीक्षा रिपोर्ट के आधार पर 2023 में घोषित 19 नवीन जिलों में से 9 असंवहनीय जिलों को निरस्त कर उनके मूल जिलों में मिला दिया गया है। इसके फलस्वरूप राज्य में अब कुल 41 जिले (33 मूल + 8 संपुष्ट नए जिले) तथा 7 संभाग (सीकर, पाली, बांसवाड़ा 3 संभागों के स्थान पर मूल 7 संभाग) विधिवत बहाल हैं।',
       sections: [
@@ -158,8 +158,8 @@ export const AUTHENTIC_STUDY_NOTES: StudyNoteTopic[] = [
       'चंबल नदी का कोटा बैराज व चूलिया जलप्रपात',
       'थार मरुस्थल की लाठी सीरीज एवं आकल वुड फॉसिल पार्क',
     ],
-    pdfDownloadUrl: 'https://archive.org/download/rajasthan-recruitment-pyqs/Aravalli_Physical_Divisions_Rivers_Notes.pdf',
-    mirrorPdfUrl: 'https://raw.githubusercontent.com/taiyari-portal/study-notes-mirror/main/geography/aravalli_rivers.pdf',
+    pdfDownloadUrl: '/storage/pdfs/Notes_Rajasthan_41_Districts_7_Divisions.pdf',
+    mirrorPdfUrl: '/api/pyq-download?type=note&id=note_geo_physical_divisions_climate_rivers',
     content: {
       introduction: 'राजस्थान भूगर्भिक दृष्टि से गोंडवाना लैंड और टेथिस सागर का अवशेष है। राज्य को 4 प्राकृतिक भौतिक विभागों में बांटा गया है: (1) उत्तर-पश्चिमी मरुस्थलीय प्रदेश (61.11%), (2) मध्यवर्ती अरावली पर्वतीय प्रदेश (9%), (3) पूर्वी मैदानी प्रदेश (23%), और (4) दक्षिणी-पूर्वी हाड़ौती पठार (6.89%)।',
       sections: [
@@ -236,8 +236,8 @@ export const AUTHENTIC_STUDY_NOTES: StudyNoteTopic[] = [
       'गागरोन दुर्ग: कालीसिंध व आहू नदियों के संगम पर स्थित सर्वश्रेष्ठ जलदुर्ग',
       'चित्तौड़गढ़ के 3 ऐतिहासिक शाके (1303, 1534, 1568)',
     ],
-    pdfDownloadUrl: 'https://archive.org/download/rajasthan-recruitment-pyqs/Rajasthan_Forts_Architecture_Culture_Notes.pdf',
-    mirrorPdfUrl: 'https://raw.githubusercontent.com/taiyari-portal/study-notes-mirror/main/culture/rajasthan_forts.pdf',
+    pdfDownloadUrl: '/storage/pdfs/Notes_Rajasthan_History_Culture_Forts.pdf',
+    mirrorPdfUrl: '/api/pyq-download?type=note&id=note_history_forts_culture_deities',
     content: {
       introduction: 'राजस्थान स्थापत्य कला का अनुपम केंद्र है। शुक्र नीति में दुर्गों के 9 प्रकार बताए गए हैं (ऐरण, पारिख, पारिध, वन, धान्वन, जल, गिरि, सैन्य व सहाय दुर्ग)। जून 2013 में कंबोडिया के नोम पेन्ह में राजस्थान के 6 पहाड़ी दुर्गों को यूनेस्को की विश्व धरोहर सूची में सम्मिलित किया गया।',
       sections: [
@@ -294,8 +294,8 @@ export const AUTHENTIC_STUDY_NOTES: StudyNoteTopic[] = [
       'बणी-ठणी: भारत की मोनालिसा (एरिक डिक्सन द्वारा संज्ञान)',
       'बूंदी शैली: पशु-पक्षियों के चित्रण हेतु विश्व प्रसिद्ध चित्रकला शैली',
     ],
-    pdfDownloadUrl: 'https://archive.org/download/rajasthan-recruitment-pyqs/Folk_Deities_Paintings_Rajasthan_Notes.pdf',
-    mirrorPdfUrl: 'https://raw.githubusercontent.com/taiyari-portal/study-notes-mirror/main/culture/folk_deities_paintings.pdf',
+    pdfDownloadUrl: '/storage/pdfs/Notes_Rajasthan_History_Culture_Forts.pdf',
+    mirrorPdfUrl: '/api/pyq-download?type=note&id=note_history_culture_forts_palaces_fairs',
     content: {
       introduction: 'राजस्थान की पावन धरा लोक देवताओं और लोक देवियों की तपोभूमि रही है, जिन्होंने गोरक्षा, समाज सुधार और जन-कल्याण हेतु प्राण न्यौछावर किए। साथ ही राजस्थानी चित्रकला शैलियों ने अपनी मौलिकता व रंगों की जीवंतता से वैश्विक ख्याति अर्जित की है।',
       sections: [
@@ -355,8 +355,8 @@ export const AUTHENTIC_STUDY_NOTES: StudyNoteTopic[] = [
       'महाराणा कुंभा: अभिनव भरताचार्य, 32 दुर्गों के निर्माता व 5 कोशों वाला संगीतराज',
       'हल्दीघाटी युद्ध (18 जून 1576) एवं दिवेर युद्ध (1582 - मेवाड़ का मैराथन)',
     ],
-    pdfDownloadUrl: 'https://archive.org/download/rajasthan-recruitment-pyqs/Rajasthan_Ancient_Civilizations_Mewar_Notes.pdf',
-    mirrorPdfUrl: 'https://raw.githubusercontent.com/taiyari-portal/study-notes-mirror/main/history/civilizations_mewar.pdf',
+    pdfDownloadUrl: '/storage/pdfs/Notes_Rajasthan_History_Culture_Forts.pdf',
+    mirrorPdfUrl: '/api/pyq-download?type=note&id=note_history_1857_prajamandal_integration',
     content: {
       introduction: 'राजस्थान की प्राचीन सभ्यताएं सरस्वती-दृषद्वती और बनास-कांतली नदियों के तट पर पल्लवित हुईं। वहीं मध्यकाल में मेवाड़ राजवंश ने स्वाभिमान, स्वतंत्रता और मातृभूमि की रक्षा का स्वर्णिम अध्याय लिखा जो पूरे भारतवर्ष में अद्वितीय है।',
       sections: [
@@ -421,8 +421,8 @@ export const AUTHENTIC_STUDY_NOTES: StudyNoteTopic[] = [
       'RPSC: अनुच्छेद 315, 1 अध्यक्ष + 7 सदस्य, मुख्यालय अजमेर',
       'पंचायती राज का शुभारंभ: 2 अक्टूबर 1959 को बगदरी गांव (नागौर) से',
     ],
-    pdfDownloadUrl: 'https://archive.org/download/rajasthan-recruitment-pyqs/Rajasthan_Polity_Governor_PanchayatiRaj_Notes.pdf',
-    mirrorPdfUrl: 'https://raw.githubusercontent.com/taiyari-portal/study-notes-mirror/main/polity/governor_panchayat.pdf',
+    pdfDownloadUrl: '/storage/pdfs/Notes_Rajasthan_Polity_Governor_CM.pdf',
+    mirrorPdfUrl: '/api/pyq-download?type=note&id=note_polity_governor_cm_shrc_lokayukta_panchayat',
     content: {
       introduction: 'राज्य शासन व्यवस्था संसदीय प्रणाली पर आधारित है जिसमें राज्यपाल राज्य का संवैधानिक प्रमुख तथा मुख्यमंत्री वास्तविक कार्यपालिका प्रमुख होते हैं। राजस्थान पंचायती राज का अग्रदूत रहा है जहां देश में पहली बार लोकतांत्रिक विकेंद्रीकरण की शुरुआत हुई।',
       sections: [
@@ -491,8 +491,8 @@ export const AUTHENTIC_STUDY_NOTES: StudyNoteTopic[] = [
       'परीक्षा में बार-बार पूछी जाने वाली 30 शुद्ध वर्तनी',
       'आरपीएससी/आरएसएसबी द्वारा पूछे गए प्रशासनिक पारिभाषिक शब्द',
     ],
-    pdfDownloadUrl: 'https://archive.org/download/rajasthan-recruitment-pyqs/General_Hindi_Sandhi_Samas_Shuddhi_Notes.pdf',
-    mirrorPdfUrl: 'https://raw.githubusercontent.com/taiyari-portal/study-notes-mirror/main/hindi/sandhi_samas_shuddhi.pdf',
+    pdfDownloadUrl: '/storage/pdfs/Notes_General_Hindi_Sandhi_Samas.pdf',
+    mirrorPdfUrl: '/api/pyq-download?type=note&id=note_hindi_sandhi_samasa_shuddhi',
     content: {
       introduction: 'राजस्थान की प्रतियोगी परीक्षाओं (CET, पटवार, LDC, SI, कृषि पर्यवेक्षक आदि) में सामान्य हिन्दी एक निर्णायक विषय है। इसमें रटने के बजाय वैज्ञानिक नियमों को समझकर शत-प्रतिशत अंक प्राप्त किए जा सकते हैं।',
       sections: [
@@ -571,8 +571,8 @@ export const AUTHENTIC_STUDY_NOTES: StudyNoteTopic[] = [
       'एरिथ्रोब्लास्टोसिस फीटेलिस: Rh- माता एवं Rh+ पिता की स्थिति',
       'दैनिक जीवन के रासायनिक सूत्र (बेकिंग सोडा, विरंजक चूर्ण, POP)',
     ],
-    pdfDownloadUrl: 'https://archive.org/download/rajasthan-recruitment-pyqs/Everyday_Science_Vitamins_HumanBiology_Notes.pdf',
-    mirrorPdfUrl: 'https://raw.githubusercontent.com/taiyari-portal/study-notes-mirror/main/science/vitamins_human_biology.pdf',
+    pdfDownloadUrl: '/storage/pdfs/Notes_General_Science_Everyday.pdf',
+    mirrorPdfUrl: '/api/pyq-download?type=note&id=note_science_diseases_nutrition_environment',
     content: {
       introduction: 'दैनिक विज्ञान (Everyday Science) राजस्थान CET, पशु परिचर, पुलिस कांस्टेबल एवं पटवार भर्ती का अनिवार्य खंड है। इसमें मानव स्वास्थ्य, पोषण, भौतिक-रासायनिक परिवर्तन एवं मूलभूत जैविक अवधारणाओं से व्यावहारिक प्रश्न पूछे जाते हैं।',
       sections: [

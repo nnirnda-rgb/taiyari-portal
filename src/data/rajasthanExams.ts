@@ -56,8 +56,8 @@ export const RAJASTHAN_EXAMS_DIRECTORY: RajasthanExam[] = [
     totalMarks: 900,
     negativeMarking: '1/3 अंक प्रति गलत उत्तर (5वां विकल्प नियम लागू)',
     officialWebsite: 'https://rpsc.rajasthan.gov.in',
-    officialSyllabusUrl: 'https://rpsc.rajasthan.gov.in/Static/Syllabus/RAS_RTS_Comb_Comp_Exam_Syllabus.pdf',
-    mirrorSyllabusUrl: 'https://archive.org/download/rajasthan-recruitment-pyqs/RAS_RTS_Official_Syllabus.pdf',
+    officialSyllabusUrl: '/storage/pdfs/Syllabus_RAS_Prelims.pdf',
+    mirrorSyllabusUrl: '/api/pyq-download?type=syllabus&id=rpsc-ras',
     featured: true
   },
   {
@@ -83,8 +83,8 @@ export const RAJASTHAN_EXAMS_DIRECTORY: RajasthanExam[] = [
     totalMarks: 450,
     negativeMarking: '1/3 अंक प्रति गलत उत्तर',
     officialWebsite: 'https://rpsc.rajasthan.gov.in',
-    officialSyllabusUrl: 'https://rpsc.rajasthan.gov.in/Static/Syllabus/School_Lecturer_Paper_I_Syllabus.pdf',
-    mirrorSyllabusUrl: 'https://archive.org/download/rajasthan-recruitment-pyqs/1st_Grade_Teacher_Syllabus.pdf',
+    officialSyllabusUrl: '/storage/pdfs/Syllabus_1st_Grade.pdf',
+    mirrorSyllabusUrl: '/api/pyq-download?type=syllabus&id=rpsc-1st-grade',
     featured: true
   },
   {
@@ -110,8 +110,8 @@ export const RAJASTHAN_EXAMS_DIRECTORY: RajasthanExam[] = [
     totalMarks: 500,
     negativeMarking: '1/3 अंक प्रति गलत उत्तर',
     officialWebsite: 'https://rpsc.rajasthan.gov.in',
-    officialSyllabusUrl: 'https://rpsc.rajasthan.gov.in/Static/Syllabus/Sr_Teacher_Sec_Edu_Paper_I_Syllabus.pdf',
-    mirrorSyllabusUrl: 'https://archive.org/download/rajasthan-recruitment-pyqs/2nd_Grade_Teacher_Syllabus.pdf',
+    officialSyllabusUrl: '/storage/pdfs/Syllabus_2nd_Grade.pdf',
+    mirrorSyllabusUrl: '/api/pyq-download?type=syllabus&id=rpsc-second-grade',
     featured: true
   },
   {
@@ -165,8 +165,8 @@ export const RAJASTHAN_EXAMS_DIRECTORY: RajasthanExam[] = [
     totalMarks: 450,
     negativeMarking: '1/3 अंक प्रति गलत उत्तर',
     officialWebsite: 'https://rpsc.rajasthan.gov.in',
-    officialSyllabusUrl: 'https://rpsc.rajasthan.gov.in/Static/Syllabus/Police_SI_Combined_Comp_Exam_Syllabus.pdf',
-    mirrorSyllabusUrl: 'https://archive.org/download/rajasthan-recruitment-pyqs/Police_SI_Syllabus.pdf',
+    officialSyllabusUrl: '/storage/pdfs/Syllabus_Police_SI.pdf',
+    mirrorSyllabusUrl: '/api/pyq-download?type=syllabus&id=rpsc-si',
     featured: true
   },
   {
@@ -369,8 +369,8 @@ export const RAJASTHAN_EXAMS_DIRECTORY: RajasthanExam[] = [
     totalMarks: 300,
     negativeMarking: 'लागू नहीं (पात्रता आधारित 150 प्रश्न)',
     officialWebsite: 'https://rsmssb.rajasthan.gov.in',
-    officialSyllabusUrl: 'https://rssb.rajasthan.gov.in/Static/files/CET_Graduation_Syllabus_Scheme.pdf',
-    mirrorSyllabusUrl: 'https://archive.org/download/rajasthan-recruitment-pyqs/CET_Graduation_Syllabus.pdf',
+    officialSyllabusUrl: '/storage/pdfs/Syllabus_CET_Graduate.pdf',
+    mirrorSyllabusUrl: '/api/pyq-download?type=syllabus&id=rssb-cet-grad',
     featured: true
   },
   {
@@ -396,8 +396,8 @@ export const RAJASTHAN_EXAMS_DIRECTORY: RajasthanExam[] = [
     totalMarks: 300,
     negativeMarking: 'लागू नहीं',
     officialWebsite: 'https://rsmssb.rajasthan.gov.in',
-    officialSyllabusUrl: 'https://rssb.rajasthan.gov.in/Static/files/CET_Senior_Secondary_Syllabus.pdf',
-    mirrorSyllabusUrl: 'https://archive.org/download/rajasthan-recruitment-pyqs/CET_12th_Syllabus.pdf',
+    officialSyllabusUrl: '/storage/pdfs/Syllabus_CET_12th.pdf',
+    mirrorSyllabusUrl: '/api/pyq-download?type=syllabus&id=rssb-cet-12th',
     featured: true
   },
   {
@@ -453,8 +453,8 @@ export const RAJASTHAN_EXAMS_DIRECTORY: RajasthanExam[] = [
     totalMarks: 300,
     negativeMarking: '1/3 अंक प्रति गलत उत्तर (5वां विकल्प नियम लागू)',
     officialWebsite: 'https://rsmssb.rajasthan.gov.in',
-    officialSyllabusUrl: 'https://rssb.rajasthan.gov.in/Static/files/Patwar_Detailed_Syllabus_Scheme.pdf',
-    mirrorSyllabusUrl: 'https://archive.org/download/rajasthan-recruitment-pyqs/Patwar_Official_Syllabus.pdf',
+    officialSyllabusUrl: '/storage/pdfs/Syllabus_Patwari.pdf',
+    mirrorSyllabusUrl: '/api/pyq-download?type=syllabus&id=rssb-patwari',
     featured: true
   },
   {
@@ -555,8 +555,8 @@ export const RAJASTHAN_EXAMS_DIRECTORY: RajasthanExam[] = [
     totalMarks: 150,
     negativeMarking: '1/4 (0.25) अंक प्रति गलत उत्तर (5वां विकल्प नियम लागू)',
     officialWebsite: 'https://rsmssb.rajasthan.gov.in',
-    officialSyllabusUrl: 'https://rssb.rajasthan.gov.in/Static/files/Animal_Attendant_Detailed_Syllabus.pdf',
-    mirrorSyllabusUrl: 'https://archive.org/download/rajasthan-recruitment-pyqs/Animal_Attendant_Syllabus.pdf',
+    officialSyllabusUrl: '/storage/pdfs/Syllabus_Pashu_Paricharak.pdf',
+    mirrorSyllabusUrl: '/api/pyq-download?type=syllabus&id=rssb-animal-attendant',
     featured: true
   },
   {
@@ -785,8 +785,8 @@ export const RAJASTHAN_EXAMS_DIRECTORY: RajasthanExam[] = [
     totalMarks: 150,
     negativeMarking: '1/4 (0.25) अंक प्रति गलत उत्तर',
     officialWebsite: 'https://police.rajasthan.gov.in',
-    officialSyllabusUrl: 'https://police.rajasthan.gov.in/Static/files/Constable_Recruitment_Syllabus.pdf',
-    mirrorSyllabusUrl: 'https://archive.org/download/rajasthan-recruitment-pyqs/Police_Constable_Syllabus.pdf',
+    officialSyllabusUrl: '/storage/pdfs/Syllabus_Police_Constable.pdf',
+    mirrorSyllabusUrl: '/api/pyq-download?type=syllabus&id=police-constable',
     featured: true
   },
   {

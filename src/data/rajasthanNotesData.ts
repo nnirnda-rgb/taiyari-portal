@@ -92,12 +92,12 @@ export const RAJASTHAN_REVISION_NOTES: RevisionNote[] = [
         </ul>
       </div>
     `,
-    pdfUrl: "https://archive.org/download/rajasthan-study-capsules/Rajasthan_41_Districts_7_Divisions.pdf",
+    pdfUrl: "/storage/pdfs/Notes_Rajasthan_41_Districts_7_Divisions.pdf",
     downloadRecord: {
-      fileName: "Rajasthan_41_Districts_7_Divisions_Capsule.pdf",
+      fileName: "Notes_Rajasthan_41_Districts_7_Divisions.pdf",
       fileSize: "2.5 MB",
-      directUrl: "/api/pyq-download?type=note&id=note_geo_41_districts_7_divisions",
-      mirrorUrl: "https://archive.org/download/rajasthan-study-capsules/Rajasthan_41_Districts_7_Divisions.pdf"
+      directUrl: "/storage/pdfs/Notes_Rajasthan_41_Districts_7_Divisions.pdf",
+      mirrorUrl: "/api/pyq-download?type=note&id=note_geo_41_districts_7_divisions"
     },
     isVerified: true,
     updatedAt: new Date().toISOString()
@@ -133,12 +133,12 @@ export const RAJASTHAN_REVISION_NOTES: RevisionNote[] = [
         <p><strong>बंगाल की खाड़ी की नदियां:</strong> चंबल, बनास, बाणगंगा, बेड़च, कोठारी, खारी। चंबल नदी पर 4 प्रमुख बांध हैं: गांधी सागर (म.प्र.), राणा प्रताप सागर (चित्तौड़गढ़), जवाहर सागर (कोटा), कोटा बैराज (कोटा)।</p>
       </div>
     `,
-    pdfUrl: "https://archive.org/download/rajasthan-study-capsules/Rajasthan_Physical_Geography_Rivers_Climate.pdf",
+    pdfUrl: "/storage/pdfs/Notes_Rajasthan_41_Districts_7_Divisions.pdf",
     downloadRecord: {
-      fileName: "Rajasthan_Physical_Rivers_Climate.pdf",
+      fileName: "Notes_Rajasthan_Physical_Rivers_Climate.pdf",
       fileSize: "2.8 MB",
-      directUrl: "/api/pyq-download?type=note&id=note_geo_physical_divisions_climate_rivers",
-      mirrorUrl: "https://archive.org/download/rajasthan-study-capsules/Rajasthan_Physical_Geography_Rivers_Climate.pdf"
+      directUrl: "/storage/pdfs/Notes_Rajasthan_41_Districts_7_Divisions.pdf",
+      mirrorUrl: "/api/pyq-download?type=note&id=note_geo_physical_divisions_climate_rivers"
     },
     isVerified: true,
     updatedAt: new Date().toISOString()
@@ -180,12 +180,12 @@ export const RAJASTHAN_REVISION_NOTES: RevisionNote[] = [
         <p>रामदेवजी एकमात्र ऐसे लोक देवता थे जो कवि भी थे, जिन्होंने 'चौबीस वाणियां' ग्रंथ की रचना की। पाबूजी को ऊंट लाने का श्रेय जाता है (रेबारी/राइका जाति के आराध्य)।</p>
       </div>
     `,
-    pdfUrl: "https://archive.org/download/rajasthan-study-capsules/Rajasthan_Forts_Palaces_Fairs_Folk_Deities.pdf",
+    pdfUrl: "/storage/pdfs/Notes_Rajasthan_History_Culture_Forts.pdf",
     downloadRecord: {
-      fileName: "Rajasthan_Art_Culture_Full_Capsule.pdf",
+      fileName: "Notes_Rajasthan_History_Culture_Forts.pdf",
       fileSize: "3.1 MB",
-      directUrl: "/api/pyq-download?type=note&id=note_history_culture_forts_palaces_fairs",
-      mirrorUrl: "https://archive.org/download/rajasthan-study-capsules/Rajasthan_Forts_Palaces_Fairs_Folk_Deities.pdf"
+      directUrl: "/storage/pdfs/Notes_Rajasthan_History_Culture_Forts.pdf",
+      mirrorUrl: "/api/pyq-download?type=note&id=note_history_forts_culture_deities"
     },
     isVerified: true,
     updatedAt: new Date().toISOString()
@@ -227,12 +227,12 @@ export const RAJASTHAN_REVISION_NOTES: RevisionNote[] = [
         <p>30 मार्च 1949 को चार बड़ी रियासतों (जयपुर, जोधपुर, जैसलमेर, बीकानेर) के विलय के उपलक्ष्य में प्रतिवर्ष 30 मार्च को 'राजस्थान दिवस' मनाया जाता है।</p>
       </div>
     `,
-    pdfUrl: "https://archive.org/download/rajasthan-study-capsules/Rajasthan_1857_Prajamandal_Integration_7_Stages.pdf",
+    pdfUrl: "/storage/pdfs/Notes_Rajasthan_History_Culture_Forts.pdf",
     downloadRecord: {
-      fileName: "Rajasthan_1857_Prajamandal_Integration.pdf",
+      fileName: "Notes_Rajasthan_1857_Prajamandal_Integration.pdf",
       fileSize: "2.6 MB",
-      directUrl: "/api/pyq-download?type=note&id=note_history_1857_prajamandal_integration",
-      mirrorUrl: "https://archive.org/download/rajasthan-study-capsules/Rajasthan_1857_Prajamandal_Integration_7_Stages.pdf"
+      directUrl: "/storage/pdfs/Notes_Rajasthan_History_Culture_Forts.pdf",
+      mirrorUrl: "/api/pyq-download?type=note&id=note_history_1857_prajamandal_integration"
     },
     isVerified: true,
     updatedAt: new Date().toISOString()
@@ -271,12 +271,12 @@ export const RAJASTHAN_REVISION_NOTES: RevisionNote[] = [
         <p>राजस्थान राज्य मानवाधिकार आयोग केवल राज्य सूची एवं समवर्ती सूची के विषयों पर घटित मानवाधिकार उल्लंघनों की जांच कर सकता है। इसकी सिफारिशें सलाहकारी प्रकृति की होती हैं।</p>
       </div>
     `,
-    pdfUrl: "https://archive.org/download/rajasthan-study-capsules/Rajasthan_Polity_Governor_CM_SHRC_Lokayukta.pdf",
+    pdfUrl: "/storage/pdfs/Notes_Rajasthan_Polity_Governor_CM.pdf",
     downloadRecord: {
-      fileName: "Rajasthan_Polity_Governance_Capsule.pdf",
+      fileName: "Notes_Rajasthan_Polity_Governor_CM.pdf",
       fileSize: "2.3 MB",
-      directUrl: "/api/pyq-download?type=note&id=note_polity_governor_cm_shrc_lokayukta_panchayat",
-      mirrorUrl: "https://archive.org/download/rajasthan-study-capsules/Rajasthan_Polity_Governor_CM_SHRC_Lokayukta.pdf"
+      directUrl: "/storage/pdfs/Notes_Rajasthan_Polity_Governor_CM.pdf",
+      mirrorUrl: "/api/pyq-download?type=note&id=note_polity_governor_cm_shrc_lokayukta_panchayat"
     },
     isVerified: true,
     updatedAt: new Date().toISOString()
@@ -315,12 +315,12 @@ export const RAJASTHAN_REVISION_NOTES: RevisionNote[] = [
         <p>अनेकों अशुद्ध है, शुद्ध 'अनेक' होता है। 'वहां भारी भरकम भीड़ जमा थी' अशुद्ध है, 'वहां भारी भीड़ जमा थी' शुद्ध है।</p>
       </div>
     `,
-    pdfUrl: "https://archive.org/download/rajasthan-study-capsules/General_Hindi_Grammar_Capsule.pdf",
+    pdfUrl: "/storage/pdfs/Notes_General_Hindi_Sandhi_Samas.pdf",
     downloadRecord: {
-      fileName: "General_Hindi_Grammar_Capsule.pdf",
+      fileName: "Notes_General_Hindi_Sandhi_Samas.pdf",
       fileSize: "2.1 MB",
-      directUrl: "/api/pyq-download?type=note&id=note_hindi_sandhi_samasa_shuddhi",
-      mirrorUrl: "https://archive.org/download/rajasthan-study-capsules/General_Hindi_Grammar_Capsule.pdf"
+      directUrl: "/storage/pdfs/Notes_General_Hindi_Sandhi_Samas.pdf",
+      mirrorUrl: "/api/pyq-download?type=note&id=note_hindi_sandhi_samasa_shuddhi"
     },
     isVerified: true,
     updatedAt: new Date().toISOString()
@@ -361,12 +361,12 @@ export const RAJASTHAN_REVISION_NOTES: RevisionNote[] = [
         <p>कार्बोहाइड्रेट शरीर को त्वरित ऊर्जा प्रदान करते हैं (1 ग्राम कार्बोहाइड्रेट = 4.1 कैलोरी ऊर्जा)। प्रोटीन शरीर की वृद्धि व मरम्मत करते हैं (कमी से क्वाशियोरकोर व मरास्मस रोग होता है)।</p>
       </div>
     `,
-    pdfUrl: "https://archive.org/download/rajasthan-study-capsules/General_Science_Diseases_Nutrition_Environment.pdf",
+    pdfUrl: "/storage/pdfs/Notes_General_Science_Everyday.pdf",
     downloadRecord: {
-      fileName: "General_Science_Complete_Capsule.pdf",
+      fileName: "Notes_General_Science_Everyday.pdf",
       fileSize: "2.7 MB",
-      directUrl: "/api/pyq-download?type=note&id=note_science_diseases_nutrition_environment",
-      mirrorUrl: "https://archive.org/download/rajasthan-study-capsules/General_Science_Diseases_Nutrition_Environment.pdf"
+      directUrl: "/storage/pdfs/Notes_General_Science_Everyday.pdf",
+      mirrorUrl: "/api/pyq-download?type=note&id=note_science_diseases_nutrition_environment"
     },
     isVerified: true,
     updatedAt: new Date().toISOString()

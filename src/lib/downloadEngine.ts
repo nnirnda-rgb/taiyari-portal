@@ -1,10 +1,11 @@
 /**
- * Resilient Download Engine for Rajasthan Competitive Exam Portals
+ * Resilient Download & In-App PDF Viewer Engine
+ * Specially designed for Rajasthan Competitive Exam Portals & Rural Mobile Students
  * 
  * Government portals (rssb.rajasthan.gov.in, rpsc.rajasthan.gov.in, police.rajasthan.gov.in)
  * frequently experience downtime, hotlink blocking (403), or SSL handshake errors.
- * This engine provides reliable, multi-tier fallback routing so students in rural areas
- * never face broken links or dead screens.
+ * This engine provides reliable, multi-tier fallback routing with native attachment
+ * triggers and in-app Google Docs viewer capabilities so students never face broken links.
  */
 
 export interface DownloadOptions {
@@ -13,6 +14,8 @@ export interface DownloadOptions {
   fallbackUrl?: string;
   fileName?: string;
   title?: string;
+  id?: string;
+  type?: 'paper' | 'key' | 'mirror' | 'mirror-key' | 'circular' | 'note' | 'syllabus';
   onStatusChange?: (status: 'connecting' | 'primary' | 'mirror_fallback' | 'success' | 'error') => void;
 }
 
@@ -21,8 +24,82 @@ export interface DownloadOptions {
  */
 export function getDirectDownloadUrl(url: string): string {
   if (!url) return '';
-  // Clean up any double slashes or whitespace
   return url.trim();
+}
+
+/**
+ * Generates an in-browser embedded Google Docs PDF Viewer URL
+ * This allows rural students on low-storage mobile phones to read complete
+ * documents instantly without downloading megabytes of files.
+ */
+export function getGoogleDocsViewerUrl(rawUrl: string): string {
+  if (!rawUrl) return '';
+  const cleanUrl = rawUrl.trim();
+
+  // If already a Google Docs Viewer link, return as is
+  if (cleanUrl.includes('docs.google.com/viewer')) return cleanUrl;
+
+  // If it's a relative URL, prepend current origin or live domain
+  let absoluteUrl = cleanUrl;
+  if (cleanUrl.startsWith('/')) {
+    const origin = typeof window !== 'undefined' && window.location?.origin 
+      ? window.location.origin 
+      : 'https://taiyari-portal.vercel.app';
+    absoluteUrl = `${origin}${cleanUrl}`;
+  }
+
+  return `https://docs.google.com/viewer?url=${encodeURIComponent(absoluteUrl)}&embedded=true`;
+}
+
+/**
+ * Builds the resilient same-origin API download link with attachment trigger
+ * to bypass CORS and 403 hotlinking restrictions on mobile devices.
+ */
+export function getResilientApiDownloadUrl({
+  id,
+  type = 'paper',
+  fileName,
+  directFallbackUrl,
+}: {
+  id?: string;
+  type?: string;
+  fileName?: string;
+  directFallbackUrl?: string;
+}): string {
+  if (id) {
+    const params = new URLSearchParams();
+    params.set('id', id);
+    params.set('type', type);
+    params.set('download', 'true');
+    if (fileName) params.set('filename', fileName);
+    return `/api/pyq-download?${params.toString()}`;
+  }
+  return directFallbackUrl || '';
+}
+
+/**
+ * Triggers a native attachment download directly on the user's Android/iOS device
+ * using the HTML5 download attribute and programmatic click.
+ */
+export function triggerNativeAttachmentDownload(url: string, fileName?: string) {
+  if (typeof document === 'undefined') return;
+
+  const a = document.createElement('a');
+  a.href = url;
+  if (fileName) {
+    a.setAttribute('download', fileName);
+  } else {
+    a.setAttribute('download', 'document.pdf');
+  }
+  a.target = '_blank';
+  a.rel = 'noopener noreferrer';
+  document.body.appendChild(a);
+  a.click();
+  setTimeout(() => {
+    if (document.body.contains(a)) {
+      document.body.removeChild(a);
+    }
+  }, 300);
 }
 
 /**
@@ -35,90 +112,86 @@ export async function downloadWithFallback({
   fallbackUrl,
   fileName,
   title = 'दस्तावेज',
+  id,
+  type,
   onStatusChange,
 }: DownloadOptions): Promise<{ success: boolean; usedMirror: boolean; message: string }> {
   const cleanPrimary = getDirectDownloadUrl(primaryUrl);
   const cleanMirror = getDirectDownloadUrl(mirrorUrl || fallbackUrl || '');
+  const downloadFileName = fileName || `${id || 'Rajasthan_Exam'}.pdf`;
 
-  // 1. If no mirror exists, open primary directly
+  // 1. If we have an id and type, prioritize the resilient proxy API download with attachment header
+  if (id && type) {
+    const apiUrl = getResilientApiDownloadUrl({ id, type, fileName: downloadFileName });
+    if (onStatusChange) onStatusChange('primary');
+    triggerNativeAttachmentDownload(apiUrl, downloadFileName);
+    return {
+      success: true,
+      usedMirror: false,
+      message: `${title} डाउनलोड हो रहा है...`
+    };
+  }
+
+  // 2. If primary is a known fragile state server, switch directly to safe mirror
+  if (cleanPrimary.includes('rajasthan.gov.in/Static') && cleanMirror) {
+    if (onStatusChange) onStatusChange('mirror_fallback');
+    triggerNativeAttachmentDownload(cleanMirror, downloadFileName);
+    return {
+      success: true,
+      usedMirror: true,
+      message: `राज्य सर्वर सुरक्षित रखने हेतु ${title} को हाई-स्पीड शैक्षिक मिरर से डाउनलोड किया गया।`
+    };
+  }
+
+  // 3. If no mirror exists, download primary directly
   if (!cleanMirror) {
     if (onStatusChange) onStatusChange('primary');
-    window.open(cleanPrimary, '_blank', 'noopener,noreferrer');
+    triggerNativeAttachmentDownload(cleanPrimary, downloadFileName);
     return { success: true, usedMirror: false, message: `${title} डाउनलोड हो रहा है...` };
   }
 
-  // 2. Check if primary URL is a known fragile state server (RPSC/RSSB) that frequently blocks direct CORS/hotlinking
-  const isStateServer = cleanPrimary.includes('rajasthan.gov.in');
-
   if (onStatusChange) onStatusChange('connecting');
 
-  // If user is on mobile or weak connection, offer instant guaranteed mirror routing
+  // Attempt lightweight probe
   try {
-    // Attempt a lightweight HEAD request with a short timeout to probe primary server
     const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 2500);
+    const timeoutId = setTimeout(() => controller.abort(), 2000);
 
     let primaryAvailable = false;
     try {
       const probe = await fetch(cleanPrimary, {
         method: 'HEAD',
-        mode: 'no-cors', // State portals don't send CORS headers
+        mode: 'no-cors',
         signal: controller.signal,
       });
       clearTimeout(timeoutId);
-      // In no-cors mode, type: 'opaque' means the server responded
       primaryAvailable = probe.type === 'opaque' || probe.ok;
-    } catch (probeErr) {
+    } catch {
       clearTimeout(timeoutId);
       primaryAvailable = false;
     }
 
     if (primaryAvailable) {
       if (onStatusChange) onStatusChange('primary');
-      const win = window.open(cleanPrimary, '_blank', 'noopener,noreferrer');
-      if (!win) {
-        // Pop-up blocker fallback - redirect or use anchor
-        triggerDirectAnchor(cleanPrimary, fileName);
-      }
+      triggerNativeAttachmentDownload(cleanPrimary, downloadFileName);
       return { success: true, usedMirror: false, message: `${title} मूल बोर्ड सर्वर से डाउनलोड हो रहा है।` };
     } else {
-      // Primary server is down/slow -> Fallback to trusted mirror
+      // Fallback to trusted mirror
       if (onStatusChange) onStatusChange('mirror_fallback');
-      const win = window.open(cleanMirror, '_blank', 'noopener,noreferrer');
-      if (!win) {
-        triggerDirectAnchor(cleanMirror, fileName);
-      }
+      triggerNativeAttachmentDownload(cleanMirror, downloadFileName);
       return { 
         success: true, 
         usedMirror: true, 
-        message: `राज्य सर्वर धीमा होने के कारण ${title} को हाई-स्पीड शैक्षिक मिरर से डाउनलोड किया गया।` 
+        message: `सरकारी सर्वर धीमा होने के कारण ${title} को हाई-स्पीड शैक्षिक मिरर से डाउनलोड किया गया।` 
       };
     }
-  } catch (err) {
-    // Fail-safe: Always fall back to the trusted mirror
+  } catch {
     if (onStatusChange) onStatusChange('mirror_fallback');
-    const win = window.open(cleanMirror || cleanPrimary, '_blank', 'noopener,noreferrer');
-    if (!win) {
-      triggerDirectAnchor(cleanMirror || cleanPrimary, fileName);
-    }
+    triggerNativeAttachmentDownload(cleanMirror || cleanPrimary, downloadFileName);
     return { 
       success: true, 
       usedMirror: !!cleanMirror, 
       message: `${title} मिरर से डाउनलोड हो रहा है।` 
     };
   }
-}
-
-/**
- * Creates an anchor element and clicks it programmatically
- */
-function triggerDirectAnchor(url: string, fileName?: string) {
-  const a = document.createElement('a');
-  a.href = url;
-  if (fileName) a.download = fileName;
-  a.target = '_blank';
-  a.rel = 'noopener noreferrer';
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
 }

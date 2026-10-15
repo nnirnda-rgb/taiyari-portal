@@ -25,7 +25,9 @@ import {
 } from 'lucide-react';
 import { PORTAL_NOTIFICATIONS, PortalNotification, NotificationTag } from '@/data/portalData';
 import AdSenseBanner from '@/components/Ads/AdSenseBanner';
-import { fetchAutoPublishedCirculars } from '@/services/firestoreService';
+import { subscribeToCirculars } from '@/services/firestoreService';
+import InAppPdfViewerModal from '@/components/Modals/InAppPdfViewerModal';
+import { downloadWithFallback, triggerNativeAttachmentDownload } from '@/lib/downloadEngine';
 
 export default function NotificationsSection() {
   const [boardFilter, setBoardFilter] = useState<'ALL' | 'RSMSSB' | 'RPSC'>('ALL');
@@ -34,41 +36,40 @@ export default function NotificationsSection() {
   const [selectedCircular, setSelectedCircular] = useState<PortalNotification | null>(null);
   const [downloadingId, setDownloadingId] = useState<string | null>(null);
   const [allNotifications, setAllNotifications] = useState<PortalNotification[]>(PORTAL_NOTIFICATIONS);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
+  // In-App PDF Viewer Modal State
+  const [pdfModalData, setPdfModalData] = useState<{
+    isOpen: boolean;
+    title: string;
+    subtitle?: string;
+    badge?: string;
+    pdfUrl: string;
+    downloadUrl?: string;
+    fileName?: string;
+  } | null>(null);
+
+  // Dynamic Real-time Firestore Updates for Harvested Recruitment Circulars
   React.useEffect(() => {
-    fetchAutoPublishedCirculars().then((cloudList) => {
-      if (cloudList && cloudList.length > 0) {
-        const formatted: PortalNotification[] = cloudList.map((item, idx) => ({
-          id: item.id || `cloud_notif_${idx}`,
-          title: item.title,
-          board: (item.board === 'RPSC' ? 'RPSC' : 'RSMSSB') as 'RSMSSB' | 'RPSC',
-          tag: item.tag || 'परीक्षा तिथि',
-          date: item.date || new Date(item.publishedAt || Date.now()).toLocaleDateString('hi-IN'),
-          circularNo: item.circularNo || `CIRCULAR/AUTO/${item.id?.substring(0, 8) || '2025-26'}`,
-          department: item.department || 'राजस्थान भर्ती एवं चयन प्रकोष्ठ',
-          summary: item.summary || item.title,
-          keyDetails: item.keyDetails || [
-            { label: 'स्थिति', value: 'आधिकारिक विज्ञप्ति' },
-            { label: 'सत्र', value: '2025-26' }
-          ],
-          fileSize: item.fileSize || '1.5 MB',
-          isNew: item.isNew ?? true,
-          isUrgent: item.isUrgent ?? (item.urgent ?? false),
-          linkText: item.linkText || 'आधिकारिक परिपत्र एवं परीक्षा विवरण',
-          pdfUrl: item.pdfUrl,
-          mirrorPdfUrl: item.mirrorPdfUrl,
-          officialSourcePortal: item.officialSourcePortal,
-        }));
-
-        const combined = [...formatted];
-        for (const notif of PORTAL_NOTIFICATIONS) {
-          if (!combined.some(n => n.id === notif.id)) {
-            combined.push(notif);
-          }
+    setIsLoading(true);
+    const unsubscribe = subscribeToCirculars(
+      (cloudList) => {
+        if (cloudList && cloudList.length > 0) {
+          setAllNotifications(cloudList);
         }
-        setAllNotifications(combined);
+        setIsLoading(false);
+      },
+      (error) => {
+        console.warn('Realtime circulars fetch warning:', error);
+        setIsLoading(false);
       }
-    }).catch(() => {});
+    );
+
+    return () => {
+      if (typeof unsubscribe === 'function') {
+        unsubscribe();
+      }
+    };
   }, []);
 
   // Available tag filters specifically highlighting the user-requested tags: 'नई भर्ती', 'परीक्षा तिथि', and 'सिलेबस'
@@ -270,6 +271,27 @@ export default function NotificationsSection() {
                   सभी फ़िल्टर रीसेट करें
                 </button>
               </div>
+            ) : isLoading ? (
+              <div className="space-y-4">
+                {[1, 2, 3, 4].map((i) => (
+                  <div key={i} className="bg-white rounded-2xl p-5 border border-slate-200 shadow-sm space-y-3 animate-pulse">
+                    <div className="flex justify-between items-center">
+                      <div className="flex gap-2">
+                        <div className="h-5 w-16 bg-slate-200 rounded" />
+                        <div className="h-5 w-24 bg-slate-100 rounded" />
+                      </div>
+                      <div className="h-4 w-20 bg-slate-100 rounded" />
+                    </div>
+                    <div className="h-5 w-3/4 bg-slate-200 rounded" />
+                    <div className="h-4 w-1/3 bg-slate-100 rounded" />
+                    <div className="h-10 w-full bg-slate-50 rounded-xl" />
+                    <div className="flex justify-between pt-2">
+                      <div className="h-4 w-24 bg-slate-100 rounded" />
+                      <div className="h-8 w-48 bg-slate-200 rounded-xl" />
+                    </div>
+                  </div>
+                ))}
+              </div>
             ) : (
               <div className="space-y-4">
                 {filteredNotifs.map((circular) => {
@@ -392,38 +414,61 @@ export default function NotificationsSection() {
                         </div>
 
                         <div className="flex items-center gap-2 flex-wrap">
+                          {/* In-App Google Docs PDF Viewer Button */}
+                          <button
+                            onClick={() => {
+                              const targetUrl = circular.downloadUrl || circular.pdfUrl || circular.mirrorPdfUrl || '/storage/pdfs/Circular_RSMSSB_Exam_Calendar_2025_2026.pdf';
+                              setPdfModalData({
+                                isOpen: true,
+                                title: circular.title,
+                                subtitle: `${circular.circularNo} • ${circular.department}`,
+                                badge: `${circular.board} आधिकारिक परिपत्र`,
+                                pdfUrl: targetUrl,
+                                downloadUrl: `/api/pyq-download?circularId=${encodeURIComponent(circular.id)}&download=true`,
+                                fileName: `${circular.id}_Circular.pdf`
+                              });
+                            }}
+                            className="flex-1 sm:flex-none text-xs font-bold text-blue-900 bg-blue-50 hover:bg-blue-100 border border-blue-200 px-3.5 py-1.5 rounded-xl transition-colors flex items-center justify-center gap-1.5 shadow-2xs"
+                            title="मोबाइल स्टोरेज खर्च किए बिना सीधे पढ़ें"
+                          >
+                            <Eye className="w-3.5 h-3.5 text-blue-700" />
+                            <span>ऑनलाइन पढ़ें</span>
+                          </button>
+
                           {/* View Full Order Details Button */}
                           <button
                             onClick={() => setSelectedCircular(circular)}
-                            className="flex-1 sm:flex-none text-xs font-bold text-slate-700 hover:text-blue-900 bg-slate-100 hover:bg-slate-200 px-3.5 py-1.5 rounded-xl transition-colors flex items-center justify-center gap-1.5"
+                            className="flex-1 sm:flex-none text-xs font-bold text-slate-700 hover:text-blue-900 bg-slate-100 hover:bg-slate-200 px-3 py-1.5 rounded-xl transition-colors flex items-center justify-center gap-1.5"
                           >
-                            <Eye className="w-3.5 h-3.5" />
-                            <span>विस्तृत आदेश</span>
+                            <FileText className="w-3.5 h-3.5" />
+                            <span>विस्तृत विवरण</span>
                           </button>
 
-                          {/* Direct Official PDF Button */}
-                          <a
-                            href={circular.pdfUrl || circular.mirrorPdfUrl || `/api/pyq-download?circularId=${encodeURIComponent(circular.id)}`}
-                            target="_blank"
-                            rel="noopener noreferrer"
+                          {/* Direct Official PDF Button with Attachment Trigger */}
+                          <button
+                            onClick={() => {
+                              const downloadUrl = `/api/pyq-download?circularId=${encodeURIComponent(circular.id)}&download=true`;
+                              triggerNativeAttachmentDownload(downloadUrl, `${circular.id}_Circular.pdf`);
+                            }}
                             className="flex-1 sm:flex-none text-xs font-bold text-white bg-blue-900 hover:bg-blue-950 px-3.5 py-1.5 rounded-xl transition-all shadow-xs hover:shadow flex items-center justify-center gap-1.5"
+                            title="सीधे मोबाइल डिवाइस में सुरक्षित डाउनलोड करें"
                           >
                             <Download className="w-3.5 h-3.5 text-amber-300" />
                             <span>मूल विज्ञप्ति PDF</span>
-                          </a>
+                          </button>
 
                           {/* Fast Mirror Link */}
                           {circular.mirrorPdfUrl && (
-                            <a
-                              href={circular.mirrorPdfUrl}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="text-[11px] font-bold text-blue-950 bg-white hover:bg-blue-50 border border-blue-300 px-2.5 py-1.5 rounded-xl transition-colors flex items-center justify-center gap-1"
+                            <button
+                              onClick={() => {
+                                triggerNativeAttachmentDownload(circular.mirrorPdfUrl!, `${circular.id}_Mirror.pdf`);
+                              }}
+                              className="text-[11px] font-bold text-emerald-800 bg-emerald-50 hover:bg-emerald-100 border border-emerald-300 px-2.5 py-1.5 rounded-xl transition-colors flex items-center justify-center gap-1"
                               title="फास्ट एजुकेशनल मिरर"
                             >
                               <Download className="w-3 h-3 text-emerald-600" />
                               <span>मिरर</span>
-                            </a>
+                            </button>
                           )}
                         </div>
                       </div>
@@ -683,32 +728,66 @@ export default function NotificationsSection() {
                   बंद करें
                 </button>
 
+                <button
+                  onClick={() => {
+                    const targetUrl = selectedCircular.downloadUrl || selectedCircular.pdfUrl || selectedCircular.mirrorPdfUrl || '/storage/pdfs/Circular_RSMSSB_Exam_Calendar_2025_2026.pdf';
+                    setPdfModalData({
+                      isOpen: true,
+                      title: selectedCircular.title,
+                      subtitle: `${selectedCircular.circularNo} • ${selectedCircular.department}`,
+                      badge: `${selectedCircular.board} आधिकारिक परिपत्र`,
+                      pdfUrl: targetUrl,
+                      downloadUrl: `/api/pyq-download?circularId=${encodeURIComponent(selectedCircular.id)}&download=true`,
+                      fileName: `${selectedCircular.id}_Circular.pdf`
+                    });
+                  }}
+                  className="flex-1 sm:flex-none px-4 py-2 rounded-xl text-xs font-bold text-blue-900 bg-blue-50 hover:bg-blue-100 border border-blue-200 transition-colors flex items-center justify-center gap-1.5 shadow-2xs"
+                >
+                  <Eye className="w-3.5 h-3.5 text-blue-700" />
+                  <span>ऑनलाइन पढ़ें (Google Docs)</span>
+                </button>
+
                 {selectedCircular.mirrorPdfUrl && (
-                  <a
-                    href={selectedCircular.mirrorPdfUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex-1 sm:flex-none px-4 py-2 rounded-xl text-xs font-bold text-blue-950 bg-white hover:bg-blue-50 border border-blue-300 transition-colors flex items-center justify-center gap-1.5"
+                  <button
+                    onClick={() => {
+                      triggerNativeAttachmentDownload(selectedCircular.mirrorPdfUrl!, `${selectedCircular.id}_Mirror.pdf`);
+                    }}
+                    className="flex-1 sm:flex-none px-4 py-2 rounded-xl text-xs font-bold text-emerald-800 bg-emerald-50 hover:bg-emerald-100 border border-emerald-300 transition-colors flex items-center justify-center gap-1.5"
                   >
                     <Download className="w-3.5 h-3.5 text-emerald-600" />
                     <span>फास्ट मिरर</span>
-                  </a>
+                  </button>
                 )}
 
-                <a
-                  href={selectedCircular.pdfUrl || selectedCircular.mirrorPdfUrl || `/api/pyq-download?circularId=${encodeURIComponent(selectedCircular.id)}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
+                <button
+                  onClick={() => {
+                    const downloadUrl = `/api/pyq-download?circularId=${encodeURIComponent(selectedCircular.id)}&download=true`;
+                    triggerNativeAttachmentDownload(downloadUrl, `${selectedCircular.id}_Circular.pdf`);
+                  }}
                   className="flex-1 sm:flex-none px-5 py-2 rounded-xl text-xs font-bold text-white bg-blue-900 hover:bg-blue-950 transition-colors flex items-center justify-center gap-1.5 shadow-sm"
                 >
                   <Download className="w-3.5 h-3.5 text-amber-300" />
-                  <span>मूल आदेश PDF (बोर्ड सर्वर)</span>
-                </a>
+                  <span>मूल आदेश PDF डाउनलोड</span>
+                </button>
               </div>
             </div>
 
           </div>
         </div>
+      )}
+
+      {/* In-App Google Docs PDF Viewer Modal */}
+      {pdfModalData && (
+        <InAppPdfViewerModal
+          isOpen={pdfModalData.isOpen}
+          onClose={() => setPdfModalData(null)}
+          title={pdfModalData.title}
+          subtitle={pdfModalData.subtitle}
+          badge={pdfModalData.badge}
+          pdfUrl={pdfModalData.pdfUrl}
+          downloadUrl={pdfModalData.downloadUrl}
+          fileName={pdfModalData.fileName}
+        />
       )}
 
     </section>
