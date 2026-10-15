@@ -22,6 +22,8 @@ export interface PracticeExam {
   badge: string;
 }
 
+import { RAJASTHAN_EXAMS_DIRECTORY } from './rajasthanExams';
+
 export interface PracticeSubject {
   id: string;
   nameHindi: string;
@@ -30,12 +32,13 @@ export interface PracticeSubject {
 }
 
 export const PRACTICE_EXAMS: PracticeExam[] = [
-  { id: 'all', nameHindi: 'सभी परीक्षाएं (All Exams)', nameEnglish: 'All Exams', badge: 'सम्पूर्ण' },
-  { id: 'cet', nameHindi: 'समान पात्रता परीक्षा (CET)', nameEnglish: 'CET (Grad & 12th)', badge: 'RSMSSB' },
-  { id: 'patwari', nameHindi: 'राजस्थान पटवारी भर्ती', nameEnglish: 'Patwari Exam', badge: 'राजस्व' },
-  { id: 'lab-assistant', nameHindi: 'प्रयोगशाला सहायक (Lab Assistant)', nameEnglish: 'Lab Assistant', badge: 'साइंस विशेष' },
-  { id: 'pashu-parichar', nameHindi: 'पशु परिचर सीधी भर्ती', nameEnglish: 'Animal Attendant', badge: 'दिसंबर 2024' },
-  { id: 'ras-pre', nameHindi: 'RPSC RAS प्रारंभिक परीक्षा', nameEnglish: 'RAS Prelims', badge: 'RPSC' }
+  { id: 'all', nameHindi: 'सभी परीक्षाएं (All 45+ Exams)', nameEnglish: 'All Rajasthan Exams', badge: 'सम्पूर्ण' },
+  ...RAJASTHAN_EXAMS_DIRECTORY.map((exam) => ({
+    id: exam.id,
+    nameHindi: exam.name,
+    nameEnglish: exam.nameEnglish,
+    badge: exam.board
+  }))
 ];
 
 export const PRACTICE_SUBJECTS: PracticeSubject[] = [

@@ -18,8 +18,16 @@ import {
 } from 'lucide-react';
 import { SAMPLE_MOCK_QUESTIONS, QuizQuestion } from '@/data/portalData';
 import { saveStudentTestHistory, getOrCreateStudentId } from '@/services/firestoreService';
+import { RAJASTHAN_EXAMS_DIRECTORY } from '@/data/rajasthanExams';
 
-export default function QuizEngine() {
+interface QuizEngineProps {
+  initialExamId?: string;
+}
+
+export default function QuizEngine({ initialExamId = 'rssb-patwari' }: QuizEngineProps) {
+  const [targetExamId, setTargetExamId] = useState<string>(initialExamId);
+  const selectedTargetExam = RAJASTHAN_EXAMS_DIRECTORY.find(e => e.id === targetExamId) || RAJASTHAN_EXAMS_DIRECTORY[0];
+
   const [currentIdx, setCurrentIdx] = useState(0);
   const [selectedAnswers, setSelectedAnswers] = useState<{ [key: number]: number }>({});
   const [flaggedQuestions, setFlaggedQuestions] = useState<{ [key: number]: boolean }>({});
@@ -141,9 +149,9 @@ export default function QuizEngine() {
         attemptId: `quick_quiz_${Date.now()}`,
         studentId,
         studentName: 'परीक्षार्थी (अभ्यर्थी)',
-        testId: 'rsmssb-cet-sample-01',
-        testTitle: 'अभ्यास परीक्षा संबल टेस्ट - 5वां विकल्प पैटर्न (8 प्रश्न)',
-        examBoard: 'RSMSSB / RPSC',
+        testId: `quick-${selectedTargetExam.id}`,
+        testTitle: `${selectedTargetExam.name} - त्वरित अभ्यास क्विज (8 प्रश्न)`,
+        examBoard: selectedTargetExam.board,
         score: Number(totalMarks.toFixed(2)),
         totalMarks: maxPossibleMarks,
         percentage: Number(((totalMarks / maxPossibleMarks) * 100).toFixed(1)),
@@ -225,6 +233,48 @@ export default function QuizEngine() {
             </button>
           )}
         </div>
+      </div>
+
+      {/* Target Exam Switcher for Quick Quiz */}
+      <div className="bg-slate-50 border-b border-slate-200 px-4 py-2.5 flex flex-col sm:flex-row items-center justify-between gap-2">
+        <span className="text-xs font-bold text-slate-700 flex items-center gap-1.5">
+          <span>🎯 लक्ष्य परीक्षा (Target Exam):</span>
+          <span className="text-blue-900 font-extrabold">{selectedTargetExam.name}</span>
+          <span className="text-[10px] bg-blue-100 text-blue-900 font-bold px-2 py-0.5 rounded-full border border-blue-200">
+            {selectedTargetExam.cetStatus}
+          </span>
+        </span>
+        <select
+          value={targetExamId}
+          onChange={(e) => setTargetExamId(e.target.value)}
+          className="bg-white border border-slate-300 rounded-lg py-1 px-2.5 text-xs font-semibold text-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-600 shadow-2xs w-full sm:w-auto max-w-sm"
+        >
+          <optgroup label="📋 RPSC (राजस्थान लोक सेवा आयोग, अजमेर)">
+            {RAJASTHAN_EXAMS_DIRECTORY.filter(e => e.board === 'RPSC').map(e => (
+              <option key={e.id} value={e.id}>RPSC: {e.name}</option>
+            ))}
+          </optgroup>
+          <optgroup label="📋 RSSB (राजस्थान कर्मचारी चयन बोर्ड, जयपुर)">
+            {RAJASTHAN_EXAMS_DIRECTORY.filter(e => e.board === 'RSSB').map(e => (
+              <option key={e.id} value={e.id}>RSSB: {e.name}</option>
+            ))}
+          </optgroup>
+          <optgroup label="📋 राजस्थान पुलिस एवं होमगार्ड संवर्ग">
+            {RAJASTHAN_EXAMS_DIRECTORY.filter(e => e.board === 'Police').map(e => (
+              <option key={e.id} value={e.id}>पुलिस: {e.name}</option>
+            ))}
+          </optgroup>
+          <optgroup label="📋 राजस्थान उच्च न्यायालय (High Court Jodhpur)">
+            {RAJASTHAN_EXAMS_DIRECTORY.filter(e => e.board === 'High Court').map(e => (
+              <option key={e.id} value={e.id}>हाईकोर्ट: {e.name}</option>
+            ))}
+          </optgroup>
+          <optgroup label="📋 चिकित्सा, स्वास्थ्य एवं विद्युत/ऊर्जा निगम">
+            {RAJASTHAN_EXAMS_DIRECTORY.filter(e => e.board === 'Health/Energy').map(e => (
+              <option key={e.id} value={e.id}>स्वास्थ्य/ऊर्जा: {e.name}</option>
+            ))}
+          </optgroup>
+        </select>
       </div>
 
       {/* Main Test Area (Question and Options OR Results) */}

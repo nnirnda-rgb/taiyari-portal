@@ -142,39 +142,39 @@ export default function HeroBanner({ onNavigate }: HeroBannerProps) {
               {/* Quick Hub Grid */}
               <div className="grid grid-cols-2 gap-3 mt-4">
                 
-                {/* Card 1: RSMSSB Hub */}
+                {/* Card 1: All Rajasthan Exams Directory */}
                 <div 
-                  onClick={() => onNavigate('rsmssb-hub')}
+                  onClick={() => onNavigate('rajasthan-exams-hub')}
                   className="p-3.5 rounded-xl border border-slate-200 bg-slate-50 hover:bg-blue-50/80 hover:border-blue-400 cursor-pointer transition-all group"
                 >
                   <div className="text-xs font-bold text-blue-900 group-hover:text-blue-700 flex items-center justify-between">
-                    <span>RSMSSB हब</span>
+                    <span>भर्ती महा-संग्रह</span>
                     <ArrowRight className="w-3.5 h-3.5 text-blue-600 opacity-0 group-hover:opacity-100 transition-opacity" />
                   </div>
                   <div className="text-[11px] text-slate-500 mt-1">
-                    पटवार, CET, पशु परिचर, LDC, VDO
+                    RPSC, RSSB, पुलिस, हाईकोर्ट, ऊर्जा
                   </div>
                   <div className="text-[10px] text-emerald-700 font-semibold mt-2 flex items-center gap-1">
                     <span className="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
-                    6 प्रमुख परीक्षाएं
+                    45+ आधिकारिक परीक्षाएं
                   </div>
                 </div>
 
-                {/* Card 2: RPSC Hub */}
+                {/* Card 2: Non-CET & Direct Recruitments */}
                 <div 
-                  onClick={() => onNavigate('rpsc-hub')}
-                  className="p-3.5 rounded-xl border border-slate-200 bg-slate-50 hover:bg-blue-50/80 hover:border-blue-400 cursor-pointer transition-all group"
+                  onClick={() => onNavigate('rajasthan-exams-hub')}
+                  className="p-3.5 rounded-xl border border-slate-200 bg-slate-50 hover:bg-emerald-50/80 hover:border-emerald-400 cursor-pointer transition-all group"
                 >
-                  <div className="text-xs font-bold text-blue-900 group-hover:text-blue-700 flex items-center justify-between">
-                    <span>RPSC हब</span>
-                    <ArrowRight className="w-3.5 h-3.5 text-blue-600 opacity-0 group-hover:opacity-100 transition-opacity" />
+                  <div className="text-xs font-bold text-emerald-950 group-hover:text-emerald-800 flex items-center justify-between">
+                    <span>बिना CET सीधी भर्तियां</span>
+                    <ArrowRight className="w-3.5 h-3.5 text-emerald-600 opacity-0 group-hover:opacity-100 transition-opacity" />
                   </div>
                   <div className="text-[11px] text-slate-500 mt-1">
-                    RAS, 1st & 2nd Grade, SI
+                    पशु परिचर, RAC, हाईकोर्ट, REET
                   </div>
-                  <div className="text-[10px] text-indigo-700 font-semibold mt-2 flex items-center gap-1">
-                    <span className="w-1.5 h-1.5 rounded-full bg-indigo-500"></span>
-                    प्रशासनिक एवं शिक्षण
+                  <div className="text-[10px] text-teal-700 font-semibold mt-2 flex items-center gap-1">
+                    <span className="w-1.5 h-1.5 rounded-full bg-teal-500"></span>
+                    10वीं/12वीं सीधी भर्तियां
                   </div>
                 </div>
 

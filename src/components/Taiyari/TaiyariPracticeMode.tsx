@@ -28,9 +28,15 @@ import {
   PRACTICE_QUESTIONS, 
   PracticeQuestion 
 } from '@/data/practiceQuestionsData';
+import { RecruitmentBoard } from '@/data/rajasthanExams';
 
-export default function TaiyariPracticeMode() {
-  const [selectedExamId, setSelectedExamId] = useState<string>('all');
+interface TaiyariPracticeModeProps {
+  initialExamId?: string;
+}
+
+export default function TaiyariPracticeMode({ initialExamId = 'all' }: TaiyariPracticeModeProps) {
+  const [selectedExamId, setSelectedExamId] = useState<string>(initialExamId);
+  const [selectedBoardFilter, setSelectedBoardFilter] = useState<RecruitmentBoard | 'all'>('all');
   const [selectedSubjectId, setSelectedSubjectId] = useState<string>('all');
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState<number>(0);
   const [userAnswers, setUserAnswers] = useState<{ [qId: string]: number }>({});
@@ -145,43 +151,136 @@ export default function TaiyariPracticeMode() {
       {/* 2. Interactive Selection Bars: Exam & Subject */}
       <div className="p-4 sm:p-5 bg-slate-50 border-b border-slate-200 space-y-4">
         
-        {/* Exam Selection Pills */}
-        <div>
-          <div className="flex items-center justify-between mb-2">
-            <span className="text-xs font-bold text-slate-600 flex items-center gap-1.5 uppercase tracking-wider">
+        {/* Exam Selection: Board Filter + Dropdown + Pills */}
+        <div className="space-y-2.5">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+            <span className="text-xs font-bold text-slate-700 flex items-center gap-1.5 uppercase tracking-wider">
               <GraduationCap className="w-4 h-4 text-blue-700" />
-              1. परीक्षा का चयन करें (Select Exam):
+              1. परीक्षा का चयन करें (Select Target Exam):
             </span>
-            <span className="text-[11px] text-blue-800 font-semibold bg-blue-100/70 px-2 py-0.5 rounded">
-              {PRACTICE_EXAMS.find(e => e.id === selectedExamId)?.nameHindi}
-            </span>
+            <div className="flex items-center gap-2">
+              <span className="text-[11px] text-blue-800 font-bold bg-blue-100 px-2.5 py-0.5 rounded-full border border-blue-200">
+                {PRACTICE_EXAMS.find(e => e.id === selectedExamId)?.nameHindi || 'सभी परीक्षाएं'}
+              </span>
+            </div>
           </div>
 
+          {/* Quick Board Filter Pills */}
+          <div className="flex items-center gap-1.5 overflow-x-auto pb-1 scrollbar-none">
+            <span className="text-[10px] font-bold text-slate-500 uppercase flex-shrink-0">बोर्ड:</span>
+            {[
+              { id: 'all', label: 'सभी बोर्ड (All)' },
+              { id: 'RPSC', label: 'RPSC' },
+              { id: 'RSSB', label: 'RSSB' },
+              { id: 'Police', label: 'पुलिस संवर्ग' },
+              { id: 'High Court', label: 'हाईकोर्ट' },
+              { id: 'Health/Energy', label: 'स्वास्थ्य/ऊर्जा' },
+            ].map(b => (
+              <button
+                key={b.id}
+                onClick={() => {
+                  setSelectedBoardFilter(b.id as any);
+                  if (b.id !== 'all') {
+                    const firstInBoard = PRACTICE_EXAMS.find(e => (e as any).board === b.id);
+                    if (firstInBoard) setSelectedExamId(firstInBoard.id);
+                  }
+                }}
+                className={`text-[10px] px-2.5 py-1 rounded-lg font-bold transition-all flex-shrink-0 border ${
+                  selectedBoardFilter === b.id
+                    ? 'bg-blue-900 text-white border-blue-900 shadow-xs'
+                    : 'bg-white text-slate-600 border-slate-200 hover:bg-slate-100'
+                }`}
+              >
+                {b.label}
+              </button>
+            ))}
+          </div>
+
+          {/* Comprehensive 45+ Exams Dropdown */}
+          <div className="flex flex-col sm:flex-row items-center gap-2">
+            <div className="relative w-full flex-1">
+              <select
+                value={selectedExamId}
+                onChange={(e) => {
+                  setSelectedExamId(e.target.value);
+                  setCurrentQuestionIndex(0);
+                }}
+                className="w-full bg-white border border-slate-300 rounded-xl py-2 px-3 text-xs sm:text-sm font-semibold text-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-blue-600 shadow-xs"
+              >
+                <option value="all">🔍 सभी राजस्थान परीक्षाएं (All 45+ Exams Combined)</option>
+                
+                <optgroup label="📋 RPSC (राजस्थान लोक सेवा आयोग, अजमेर)">
+                  {PRACTICE_EXAMS.filter(e => (e as any).board === 'RPSC').map(e => (
+                    <option key={e.id} value={e.id}>
+                      RPSC: {e.nameHindi}
+                    </option>
+                  ))}
+                </optgroup>
+
+                <optgroup label="📋 RSSB (राजस्थान कर्मचारी चयन बोर्ड, जयपुर)">
+                  {PRACTICE_EXAMS.filter(e => (e as any).board === 'RSSB').map(e => (
+                    <option key={e.id} value={e.id}>
+                      RSSB: {e.nameHindi}
+                    </option>
+                  ))}
+                </optgroup>
+
+                <optgroup label="📋 राजस्थान पुलिस एवं होमगार्ड संवर्ग">
+                  {PRACTICE_EXAMS.filter(e => (e as any).board === 'Police').map(e => (
+                    <option key={e.id} value={e.id}>
+                      पुलिस: {e.nameHindi}
+                    </option>
+                  ))}
+                </optgroup>
+
+                <optgroup label="📋 राजस्थान उच्च न्यायालय (High Court Jodhpur)">
+                  {PRACTICE_EXAMS.filter(e => (e as any).board === 'High Court').map(e => (
+                    <option key={e.id} value={e.id}>
+                      हाईकोर्ट: {e.nameHindi}
+                    </option>
+                  ))}
+                </optgroup>
+
+                <optgroup label="📋 चिकित्सा, स्वास्थ्य एवं विद्युत/ऊर्जा निगम">
+                  {PRACTICE_EXAMS.filter(e => (e as any).board === 'Health/Energy').map(e => (
+                    <option key={e.id} value={e.id}>
+                      स्वास्थ्य/ऊर्जा: {e.nameHindi}
+                    </option>
+                  ))}
+                </optgroup>
+              </select>
+            </div>
+          </div>
+
+          {/* Quick Featured Exam Pills */}
           <div className="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none">
-            {PRACTICE_EXAMS.map((exam) => {
-              const isSelected = selectedExamId === exam.id;
-              return (
-                <button
-                  key={exam.id}
-                  onClick={() => {
-                    setSelectedExamId(exam.id);
-                    setCurrentQuestionIndex(0);
-                  }}
-                  className={`flex-shrink-0 px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 border ${
-                    isSelected
-                      ? 'bg-blue-900 text-white border-blue-900 shadow-md ring-2 ring-blue-500/20'
-                      : 'bg-white text-slate-700 border-slate-200 hover:bg-slate-100'
-                  }`}
-                >
-                  <span>{isEnglish ? exam.nameEnglish : exam.nameHindi}</span>
-                  <span className={`text-[9px] px-1.5 py-0.2 rounded font-black ${
-                    isSelected ? 'bg-amber-400 text-slate-950' : 'bg-slate-100 text-slate-500'
-                  }`}>
-                    {exam.badge}
-                  </span>
-                </button>
-              );
-            })}
+            {PRACTICE_EXAMS
+              .filter(e => selectedBoardFilter === 'all' || (e as any).board === selectedBoardFilter || e.id === 'all')
+              .slice(0, 12)
+              .map((exam) => {
+                const isSelected = selectedExamId === exam.id;
+                return (
+                  <button
+                    key={exam.id}
+                    onClick={() => {
+                      setSelectedExamId(exam.id);
+                      setCurrentQuestionIndex(0);
+                    }}
+                    className={`flex-shrink-0 px-3 py-1.5 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 border ${
+                      isSelected
+                        ? 'bg-blue-900 text-white border-blue-900 shadow-md ring-2 ring-blue-500/20'
+                        : 'bg-white text-slate-700 border-slate-200 hover:bg-slate-100'
+                    }`}
+                  >
+                    <span>{isEnglish ? exam.nameEnglish : exam.nameHindi}</span>
+                    <span className={`text-[9px] px-1.5 py-0.2 rounded font-black ${
+                      isSelected ? 'bg-amber-400 text-slate-950' : 'bg-slate-100 text-slate-500'
+                    }`}>
+                      {exam.badge}
+                    </span>
+                  </button>
+                );
+              })}
           </div>
         </div>
 

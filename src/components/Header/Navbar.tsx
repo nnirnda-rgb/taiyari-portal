@@ -41,22 +41,13 @@ export default function Navbar({ activeTab, setActiveTab }: NavbarProps) {
       targetId: 'home-section'
     },
     {
-      id: 'rsmssb',
-      label: 'RSMSSB हब',
-      englishLabel: 'RSMSSB Hub',
+      id: 'exams-hub',
+      label: 'भर्ती महा-संग्रह',
+      englishLabel: 'Exam Directory',
       icon: <Layers className="w-4 h-4" />,
-      badge: 'CET/पटवार',
-      badgeColor: 'bg-emerald-500 text-white',
-      targetId: 'rsmssb-hub'
-    },
-    {
-      id: 'rpsc',
-      label: 'RPSC हब',
-      englishLabel: 'RPSC Hub',
-      icon: <GraduationCap className="w-4 h-4" />,
-      badge: 'RAS/शिक्षक',
-      badgeColor: 'bg-indigo-500 text-white',
-      targetId: 'rpsc-hub'
+      badge: '45+ हब्स',
+      badgeColor: 'bg-emerald-600 text-white font-bold',
+      targetId: 'rajasthan-exams-hub'
     },
     {
       id: 'taiyari',

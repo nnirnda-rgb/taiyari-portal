@@ -9,8 +9,7 @@ import Navbar from '@/components/Header/Navbar';
 import NewsTicker from '@/components/Header/NewsTicker';
 import HeroBanner from '@/components/Home/HeroBanner';
 import StatsRibbon from '@/components/Home/StatsRibbon';
-import RsmssbSection from '@/components/Exams/RsmssbSection';
-import RpscSection from '@/components/Exams/RpscSection';
+import RajasthanExamHubs from '@/components/Exams/RajasthanExamHubs';
 import TaiyariSection from '@/components/Taiyari/TaiyariSection';
 import GovFooter from '@/components/Footer/GovFooter';
 import AdSenseBanner from '@/components/Ads/AdSenseBanner';
@@ -58,16 +57,23 @@ const NotificationsSection = dynamic(
 export default function Home() {
   const [activeTab, setActiveTab] = useState<string>('home');
   const [searchQuery, setSearchQuery] = useState<string>('');
+  const [selectedExamId, setSelectedExamId] = useState<string>('all');
 
   const handleNavigate = (sectionId: string) => {
     // Map section IDs to tab IDs
-    if (sectionId === 'rsmssb-hub') setActiveTab('rsmssb');
-    else if (sectionId === 'rpsc-hub') setActiveTab('rpsc');
-    else if (sectionId === 'taiyari-section') setActiveTab('taiyari');
-    else if (sectionId === 'self-assessment-section') setActiveTab('self-assessment');
-    else if (sectionId === 'previous-papers-section') setActiveTab('pyq');
-    else if (sectionId === 'notifications-section') setActiveTab('notifications');
-    else setActiveTab('home');
+    if (sectionId === 'rajasthan-exams-hub' || sectionId === 'rsmssb-hub' || sectionId === 'rpsc-hub') {
+      setActiveTab('exams-hub');
+    } else if (sectionId === 'taiyari-section') {
+      setActiveTab('taiyari');
+    } else if (sectionId === 'self-assessment-section') {
+      setActiveTab('self-assessment');
+    } else if (sectionId === 'previous-papers-section') {
+      setActiveTab('pyq');
+    } else if (sectionId === 'notifications-section') {
+      setActiveTab('notifications');
+    } else {
+      setActiveTab('home');
+    }
 
     const el = document.getElementById(sectionId);
     if (el) {
@@ -75,7 +81,17 @@ export default function Home() {
     }
   };
 
-  const handleStartQuiz = () => {
+  const handleStartPractice = (examId?: string) => {
+    if (examId) setSelectedExamId(examId);
+    setActiveTab('taiyari');
+    const el = document.getElementById('taiyari-section');
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
+  const handleStartQuiz = (examId?: string) => {
+    if (examId) setSelectedExamId(examId);
     setActiveTab('self-assessment');
     const el = document.getElementById('self-assessment-section');
     if (el) {
@@ -121,28 +137,22 @@ export default function Home() {
         {/* Key Metrics / Stats Ribbon */}
         <StatsRibbon />
 
-        {/* Section 1: RSMSSB Hub */}
-        <RsmssbSection 
-          onStartQuiz={handleStartQuiz} 
-          onViewPyq={handleViewPyq} 
+        {/* Section 1: Modern Filterable Rajasthan Recruitment Directory (45+ Exams Across 5 Boards) */}
+        <RajasthanExamHubs
+          onStartQuiz={handleStartQuiz}
+          onStartPractice={handleStartPractice}
           searchFilter={searchQuery}
         />
 
-        {/* Section 2: RPSC Hub */}
-        <RpscSection 
-          onStartQuiz={handleStartQuiz} 
-          onViewPyq={handleViewPyq} 
-          searchFilter={searchQuery}
-        />
-
-        {/* Section 3: Taiyari (Preparation Hub - Notes & E-Books) */}
+        {/* Section 2: Taiyari (Preparation Hub - Practice Mode & Notes) */}
         <TaiyariSection 
           onStartQuiz={handleStartQuiz} 
           searchFilter={searchQuery}
+          selectedExamId={selectedExamId}
         />
 
-        {/* Section 4: Self Assessment (Interactive Mock Test Engine) - Strictly AD-FREE */}
-        <SelfAssessmentSection />
+        {/* Section 3: Self Assessment (Interactive Mock Test Engine) - Strictly AD-FREE */}
+        <SelfAssessmentSection selectedExamId={selectedExamId} />
 
         {/* Section 5: Previous Papers (PYQ Bank & Answer Keys) */}
         <PreviousPapersSection searchFilter={searchQuery} />

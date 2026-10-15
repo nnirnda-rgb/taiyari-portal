@@ -39,10 +39,19 @@ import {
   saveStudentTestHistory, 
   getOrCreateStudentId 
 } from '@/services/firestoreService';
+import { RAJASTHAN_EXAMS_DIRECTORY, RajasthanExam } from '@/data/rajasthanExams';
 
 type QuestionStatus = 'not_visited' | 'not_answered' | 'answered' | 'marked_for_review' | 'answered_and_marked';
 
-export default function ProctoredCBTInterface() {
+interface ProctoredCBTInterfaceProps {
+  initialExamId?: string;
+}
+
+export default function ProctoredCBTInterface({ initialExamId = 'rssb-patwari' }: ProctoredCBTInterfaceProps) {
+  // Target Exam Selection
+  const [targetExamId, setTargetExamId] = useState<string>(initialExamId);
+  const selectedTargetExam = RAJASTHAN_EXAMS_DIRECTORY.find(e => e.id === targetExamId) || RAJASTHAN_EXAMS_DIRECTORY[0];
+
   // Test State
   const [isTestStarted, setIsTestStarted] = useState<boolean>(false);
   const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
@@ -352,9 +361,9 @@ export default function ProctoredCBTInterface() {
         attemptId: `cbt_100_${Date.now()}`,
         studentId,
         studentName: 'परीक्षार्थी (अभ्यर्थी)',
-        testId: 'cbt-mock-cet-grad-2024',
-        testTitle: 'राजस्थान संयुक्त प्रतियोगी ऑनलाइन CBT परीक्षा (100 प्रश्न)',
-        examBoard: 'RSMSSB & RPSC',
+        testId: `cbt-${selectedTargetExam.id}`,
+        testTitle: `${selectedTargetExam.name} - अधिकृत 100 प्रश्न मॉडल CBT`,
+        examBoard: selectedTargetExam.board,
         score: Number(results.netScore.toFixed(2)),
         totalMarks: results.totalMarks,
         percentage: Number(((results.netScore / results.totalMarks) * 100).toFixed(1)),
@@ -399,19 +408,22 @@ export default function ProctoredCBTInterface() {
         {/* Header */}
         <div className="border-b border-slate-200 pb-6 mb-6 flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div>
-            <div className="flex items-center gap-2 mb-1.5">
+            <div className="flex items-center gap-2 mb-1.5 flex-wrap">
               <span className="bg-blue-900 text-white font-bold text-xs px-3 py-1 rounded-md uppercase tracking-wider">
-                RPSC & RSMSSB अधिकृत मॉडल CBT
+                {selectedTargetExam.board} अधिकृत मॉडल CBT
+              </span>
+              <span className="bg-emerald-100 text-emerald-900 text-xs font-bold px-2.5 py-0.5 rounded border border-emerald-200">
+                {selectedTargetExam.cetStatus}
               </span>
               <span className="bg-rose-100 text-rose-900 text-xs font-bold px-2.5 py-0.5 rounded border border-rose-200 animate-pulse">
                 AI प्रॉक्टरिंग एवं फुलस्क्रीन अनिवार्य
               </span>
             </div>
             <h3 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">
-              राजस्थान संयुक्त प्रतियोगी ऑनलाइन CBT परीक्षा (100 प्रश्न)
+              {selectedTargetExam.name} — ऑनलाइन CBT परीक्षा (100 प्रश्न)
             </h3>
             <p className="text-xs sm:text-sm text-slate-600 mt-1">
-              वास्तविक परीक्षा कक्ष जैसा इंटरफेस, टैब-स्विचिंग मॉनिटरिंग, वेबकैम प्रॉक्टरिंग एवं 5वें विकल्प नियम सहित।
+              विभाग: <strong className="text-slate-800">{selectedTargetExam.department}</strong> • योग्यता: <strong className="text-slate-800">{selectedTargetExam.minQualification}</strong>
             </p>
           </div>
 
@@ -423,6 +435,62 @@ export default function ProctoredCBTInterface() {
               <span className="text-slate-500 block">अभ्यर्थी कोड:</span>
               <strong className="text-slate-900 font-mono">RJ-2024-CBT-8849</strong>
             </div>
+          </div>
+        </div>
+
+        {/* Target Exam Selector Box */}
+        <div className="bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-200 p-4 rounded-2xl mb-6 space-y-2">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+            <label className="text-xs font-bold text-blue-950 uppercase tracking-wider flex items-center gap-1.5">
+              <span>🎯 अपनी लक्ष्य परीक्षा चुनें (Choose Target Exam for CBT):</span>
+            </label>
+            <span className="text-[11px] font-semibold text-blue-800 bg-white px-2.5 py-0.5 rounded-full border border-blue-200 shadow-2xs">
+              45+ आधिकारिक राजस्थान परीक्षाएं उपलब्ध
+            </span>
+          </div>
+
+          <div className="flex flex-col sm:flex-row items-center gap-3">
+            <select
+              value={targetExamId}
+              onChange={(e) => setTargetExamId(e.target.value)}
+              className="w-full bg-white border border-blue-300 rounded-xl py-2.5 px-3 text-xs sm:text-sm font-bold text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-600 shadow-xs"
+            >
+              <optgroup label="📋 RPSC (राजस्थान लोक सेवा आयोग, अजमेर)">
+                {RAJASTHAN_EXAMS_DIRECTORY.filter(e => e.board === 'RPSC').map(e => (
+                  <option key={e.id} value={e.id}>
+                    RPSC: {e.name} ({e.cetStatus})
+                  </option>
+                ))}
+              </optgroup>
+              <optgroup label="📋 RSSB (राजस्थान कर्मचारी चयन बोर्ड, जयपुर)">
+                {RAJASTHAN_EXAMS_DIRECTORY.filter(e => e.board === 'RSSB').map(e => (
+                  <option key={e.id} value={e.id}>
+                    RSSB: {e.name} ({e.cetStatus})
+                  </option>
+                ))}
+              </optgroup>
+              <optgroup label="📋 राजस्थान पुलिस एवं होमगार्ड संवर्ग">
+                {RAJASTHAN_EXAMS_DIRECTORY.filter(e => e.board === 'Police').map(e => (
+                  <option key={e.id} value={e.id}>
+                    पुलिस: {e.name} ({e.cetStatus})
+                  </option>
+                ))}
+              </optgroup>
+              <optgroup label="📋 राजस्थान उच्च न्यायालय (High Court Jodhpur)">
+                {RAJASTHAN_EXAMS_DIRECTORY.filter(e => e.board === 'High Court').map(e => (
+                  <option key={e.id} value={e.id}>
+                    हाईकोर्ट: {e.name} ({e.cetStatus})
+                  </option>
+                ))}
+              </optgroup>
+              <optgroup label="📋 चिकित्सा, स्वास्थ्य एवं विद्युत/ऊर्जा निगम">
+                {RAJASTHAN_EXAMS_DIRECTORY.filter(e => e.board === 'Health/Energy').map(e => (
+                  <option key={e.id} value={e.id}>
+                    स्वास्थ्य/ऊर्जा: {e.name} ({e.cetStatus})
+                  </option>
+                ))}
+              </optgroup>
+            </select>
           </div>
         </div>
 

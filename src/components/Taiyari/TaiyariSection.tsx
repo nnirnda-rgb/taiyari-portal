@@ -23,9 +23,10 @@ import TaiyariPracticeMode from './TaiyariPracticeMode';
 interface TaiyariSectionProps {
   onStartQuiz: () => void;
   searchFilter?: string;
+  selectedExamId?: string;
 }
 
-export default function TaiyariSection({ onStartQuiz, searchFilter = '' }: TaiyariSectionProps) {
+export default function TaiyariSection({ onStartQuiz, searchFilter = '', selectedExamId = 'all' }: TaiyariSectionProps) {
   const [selectedModule, setSelectedModule] = useState<StudyModule | null>(null);
   const [activeTabMode, setActiveTabMode] = useState<'practice' | 'notes'>('practice');
 
@@ -118,7 +119,7 @@ export default function TaiyariSection({ onStartQuiz, searchFilter = '' }: Taiya
         {activeTabMode === 'practice' ? (
           /* 1. Untimed Interactive Practice Mode Component */
           <div className="space-y-6">
-            <TaiyariPracticeMode />
+            <TaiyariPracticeMode initialExamId={selectedExamId} />
           </div>
         ) : (
           /* 2. Handwritten Notes and E-Books Grid */

@@ -30,7 +30,11 @@ import {
 } from '@/services/firestoreService';
 import { isFirebaseConfigured } from '@/lib/firebase';
 
-export default function SelfAssessmentSection() {
+interface SelfAssessmentSectionProps {
+  selectedExamId?: string;
+}
+
+export default function SelfAssessmentSection({ selectedExamId = 'rssb-patwari' }: SelfAssessmentSectionProps) {
   const [activeMode, setActiveMode] = useState<'proctored_cbt' | 'quick_practice'>('proctored_cbt');
   const [showHistoryModal, setShowHistoryModal] = useState<boolean>(false);
   const [histories, setHistories] = useState<StudentTestHistory[]>([]);
@@ -141,7 +145,7 @@ export default function SelfAssessmentSection() {
 
         {/* Dynamic Display based on activeMode (Strictly keeping mock test screens AD-FREE) */}
         {activeMode === 'proctored_cbt' ? (
-          <ProctoredCBTInterface />
+          <ProctoredCBTInterface initialExamId={selectedExamId} />
         ) : (
           <div className="space-y-6">
             <div className="p-3 bg-amber-50 border border-amber-200 rounded-xl text-xs text-amber-900 flex items-center gap-2">

@@ -1,0 +1,1209 @@
+export type RecruitmentBoard = 'RPSC' | 'RSSB' | 'Police' | 'High Court' | 'Health/Energy';
+
+export type CETStatus = 'CET-Graduation' | 'CET-12th' | 'Non-CET' | 'Direct';
+
+export type QualificationLevel = '10th' | '12th' | 'graduate' | 'technical' | 'law' | 'medical' | 'teaching';
+
+export interface RajasthanExam {
+  id: string;
+  name: string; // Hindi Name
+  nameEnglish: string; // English Name
+  board: RecruitmentBoard;
+  department: string;
+  minQualification: string;
+  qualificationLevel: QualificationLevel;
+  cetStatus: CETStatus;
+  cetDetailHindi: string;
+  icon: string; // Lucide icon identifier
+  totalPosts?: string;
+  ageLimit: string;
+  status: 'आवेदन शुरू' | 'शीघ्र आ रहा है' | 'परीक्षा तिथि घोषित' | 'उत्तर कुंजी जारी' | 'परिणाम प्रतीक्षित';
+  description: string;
+  syllabusHighlights: string[];
+  stages: string[];
+  totalMarks: number;
+  negativeMarking: string;
+  officialWebsite: string;
+  featured?: boolean;
+}
+
+export const RAJASTHAN_EXAMS_DIRECTORY: RajasthanExam[] = [
+  // =========================================================================
+  // 1. RPSC (राजस्थान लोक सेवा आयोग, अजमेर)
+  // =========================================================================
+  {
+    id: 'rpsc-ras-rts',
+    name: 'आरएएस / आरटीएस (राजस्थान प्रशासनिक सेवा)',
+    nameEnglish: 'RAS / RTS (State & Subordinate Services)',
+    board: 'RPSC',
+    department: 'कार्मिक विभाग (DoP), राजस्थान सरकार',
+    minQualification: 'किसी भी मान्यता प्राप्त वि.वि. से स्नातक (Graduation)',
+    qualificationLevel: 'graduate',
+    cetStatus: 'Non-CET',
+    cetDetailHindi: 'बिना CET सीधी भर्ती (स्वतंत्र आयोग परीक्षा)',
+    icon: 'Shield',
+    totalPosts: '900+ पद (प्रतिवर्ष)',
+    ageLimit: '21 से 40 वर्ष (आरक्षित वर्गों को नियमानुसार छूट)',
+    status: 'परीक्षा तिथि घोषित',
+    description: 'राजस्थान की सर्वोच्च प्रशासनिक एवं अधीनस्थ सेवाओं (SDM, DSP, तहसीलदार, लेखा सेवा) में चयन हेतु त्रि-स्तरीय प्रतिष्ठित परीक्षा।',
+    syllabusHighlights: [
+      'प्रारंभिक परीक्षा: राजस्थान का इतिहास, भूगोल, कला-संस्कृति, भारतीय संविधान, अर्थव्यवस्था, विज्ञान एवं रीजनिंग (200 अंक / 150 प्रश्न)',
+      'मुख्य परीक्षा: 4 वर्णनात्मक प्रश्न-पत्र (सामान्य अध्ययन I, II, III एवं सामान्य हिन्दी व अंग्रेजी - कुल 800 अंक)',
+      'साक्षात्कार: व्यक्तित्व परीक्षण (100 अंक)'
+    ],
+    stages: ['प्रारंभिक परीक्षा (Objective Prelims)', 'मुख्य परीक्षा (Descriptive Mains)', 'व्यक्तित्व परीक्षण (Interview)'],
+    totalMarks: 900,
+    negativeMarking: '1/3 अंक प्रति गलत उत्तर (5वां विकल्प नियम लागू)',
+    officialWebsite: 'https://rpsc.rajasthan.gov.in',
+    featured: true
+  },
+  {
+    id: 'rpsc-school-lecturer',
+    name: 'स्कूल व्याख्याता (1st Grade Teacher)',
+    nameEnglish: 'School Lecturer (1st Grade)',
+    board: 'RPSC',
+    department: 'माध्यमिक शिक्षा विभाग, राजस्थान',
+    minQualification: 'संबंधित विषय में स्नातकोत्तर (PG) + B.Ed.',
+    qualificationLevel: 'teaching',
+    cetStatus: 'Non-CET',
+    cetDetailHindi: 'बिना CET सीधी शिक्षक भर्ती',
+    icon: 'GraduationCap',
+    totalPosts: '4,500+ संभावित पद',
+    ageLimit: '21 से 40 वर्ष',
+    status: 'शीघ्र आ रहा है',
+    description: 'उच्च माध्यमिक विद्यालयों (कक्षा 11 व 12) में विभिन्न विषयों (इतिहास, भूगोल, हिन्दी, राजनीति विज्ञान आदि) के अध्यापन हेतु प्रथम श्रेणी शिक्षक भर्ती।',
+    syllabusHighlights: [
+      'पेपर-1: सामान्य जागरूकता, राजस्थान इतिहास, सामान्य विज्ञान, शैक्षिक प्रबंधन (150 अंक / 75 प्रश्न)',
+      'पेपर-2: संबंधित विषय का स्नातकोत्तर स्तर का ज्ञान, शिक्षा मनोविज्ञान, ICT (300 अंक / 150 प्रश्न)'
+    ],
+    stages: ['लिखित परीक्षा पेपर-1 (150 अंक)', 'लिखित परीक्षा पेपर-2 (300 अंक)', 'दस्तावेज सत्यापन'],
+    totalMarks: 450,
+    negativeMarking: '1/3 अंक प्रति गलत उत्तर',
+    officialWebsite: 'https://rpsc.rajasthan.gov.in',
+    featured: true
+  },
+  {
+    id: 'rpsc-senior-teacher-2nd-grade',
+    name: 'वरिष्ठ अध्यापक (2nd Grade Teacher)',
+    nameEnglish: 'Senior Teacher (2nd Grade)',
+    board: 'RPSC',
+    department: 'माध्यमिक शिक्षा विभाग, राजस्थान',
+    minQualification: 'संबंधित विषय में स्नातक (Graduate) + B.Ed.',
+    qualificationLevel: 'teaching',
+    cetStatus: 'Non-CET',
+    cetDetailHindi: 'बिना CET सीधी शिक्षक भर्ती',
+    icon: 'BookOpen',
+    totalPosts: '6,000+ संभावित पद',
+    ageLimit: '18 से 40 वर्ष',
+    status: 'शीघ्र आ रहा है',
+    description: 'माध्यमिक विद्यालयों (कक्षा 9 व 10) में सामाजिक विज्ञान, गणित, विज्ञान, हिन्दी, अंग्रेजी एवं संस्कृत अध्यापन हेतु द्वितीय श्रेणी शिक्षक भर्ती।',
+    syllabusHighlights: [
+      'पेपर-1: राजस्थान सामान्य ज्ञान, समसामयिकी, विश्व व भारत का सामान्य ज्ञान, शैक्षिक मनोविज्ञान (200 अंक / 100 प्रश्न)',
+      'पेपर-2: संबंधित विषय ज्ञान एवं शिक्षण विधियां (300 अंक / 150 प्रश्न)'
+    ],
+    stages: ['पेपर-1 सामान्य ज्ञान (200 अंक)', 'पेपर-2 विषय ज्ञान (300 अंक)', 'दस्तावेज सत्यापन'],
+    totalMarks: 500,
+    negativeMarking: '1/3 अंक प्रति गलत उत्तर',
+    officialWebsite: 'https://rpsc.rajasthan.gov.in',
+    featured: true
+  },
+  {
+    id: 'rpsc-asst-professor',
+    name: 'सहायक आचार्य (Assistant Professor - College Education)',
+    nameEnglish: 'Assistant Professor (Colleges)',
+    board: 'RPSC',
+    department: 'कॉलेज शिक्षा निदेशालय, राजस्थान',
+    minQualification: 'संबंधित विषय में 55% सहित PG + UGC NET / SLET या Ph.D.',
+    qualificationLevel: 'graduate',
+    cetStatus: 'Non-CET',
+    cetDetailHindi: 'बिना CET उच्च शिक्षा भर्ती',
+    icon: 'Award',
+    totalPosts: '1,911 पद',
+    ageLimit: '21 से 40 वर्ष',
+    status: 'परीक्षा तिथि घोषित',
+    description: 'राजस्थान के राजकीय महाविद्यालयों में स्नातक एवं स्नातकोत्तर संकायों में असिस्टेंट प्रोफेसर पदों पर प्रतिष्ठित चयन।',
+    syllabusHighlights: [
+      'पेपर-1: संबंधित विषय भाग-1 (75 अंक)',
+      'पेपर-2: संबंधित विषय भाग-2 (75 अंक)',
+      'पेपर-3: राजस्थान का सामान्य अध्ययन (50 अंक / 100 प्रश्न)',
+      'साक्षात्कार (24 अंक)'
+    ],
+    stages: ['लिखित परीक्षा (कुल 200 अंक)', 'साक्षात्कार (24 अंक)'],
+    totalMarks: 224,
+    negativeMarking: '1/3 अंक प्रति गलत उत्तर',
+    officialWebsite: 'https://rpsc.rajasthan.gov.in'
+  },
+  {
+    id: 'rpsc-police-si',
+    name: 'उप निरीक्षक पुलिस (Sub Inspector SI & Platoon Commander)',
+    nameEnglish: 'Police Sub Inspector (SI) / Platoon Commander',
+    board: 'RPSC',
+    department: 'गृह (पुलिस) विभाग, राजस्थान',
+    minQualification: 'किसी भी संकाय में स्नातक (Graduation)',
+    qualificationLevel: 'graduate',
+    cetStatus: 'Non-CET',
+    cetDetailHindi: 'बिना CET सीधी पुलिस अधिकारी भर्ती',
+    icon: 'ShieldCheck',
+    totalPosts: '800+ संभावित पद',
+    ageLimit: '20 से 25 वर्ष (आरक्षित वर्गों को 5 वर्ष छूट)',
+    status: 'शीघ्र आ रहा है',
+    description: 'राजस्थान पुलिस के थानों में उप-निरीक्षक एवं आरएसी बटालियनों में प्लाटून कमांडर पद हेतु शारीरिक दक्षता एवं लिखित परीक्षा।',
+    syllabusHighlights: [
+      'पेपर-1: सामान्य हिन्दी व्याकरण (200 अंक / 100 प्रश्न)',
+      'पेपर-2: सामान्य ज्ञान एवं सामान्य विज्ञान, राजस्थान विशेष (200 अंक / 100 प्रश्न)',
+      'शारीरिक दक्षता परीक्षा (PET - 100 अंक अर्हक)',
+      'साक्षात्कार (50 अंक)'
+    ],
+    stages: ['लिखित परीक्षा (400 अंक)', 'शारीरिक दक्षता परीक्षण (PET)', 'साक्षात्कार (50 अंक)'],
+    totalMarks: 450,
+    negativeMarking: '1/3 अंक प्रति गलत उत्तर',
+    officialWebsite: 'https://rpsc.rajasthan.gov.in',
+    featured: true
+  },
+  {
+    id: 'rpsc-aen',
+    name: 'सहायक अभियंता (Assistant Engineer - AEn Combined)',
+    nameEnglish: 'Assistant Engineer (AEn Civil/Mech/Elec)',
+    board: 'RPSC',
+    department: 'PWD, PHED, WRD एवं पंचायती राज विभाग',
+    minQualification: 'संबंधित इंजीनियरिंग शाखा (Civil/Mech/Electrical) में B.E. / B.Tech.',
+    qualificationLevel: 'technical',
+    cetStatus: 'Non-CET',
+    cetDetailHindi: 'बिना CET तकनीकी सेवा परीक्षा',
+    icon: 'Wrench',
+    totalPosts: '1,000+ संभावित पद',
+    ageLimit: '21 से 40 वर्ष',
+    status: 'शीघ्र आ रहा है',
+    description: 'राज्य के प्रमुख इंजीनियरिंग विभागों में बुनियादी ढांचा निर्माण, जल जीवन मिशन एवं सिंचाई परियोजनाओं के पर्यवेक्षण हेतु राजपत्रित पद।',
+    syllabusHighlights: [
+      'प्रारंभिक परीक्षा: अनिवार्य सामान्य ज्ञान व राजस्थान अध्ययन (100 अंक) + वैकल्पिक इंजीनियरिंग विषय (100 अंक)',
+      'मुख्य परीक्षा: सामाजिक व तकनीकी लिखित वर्णनात्मक प्रश्न-पत्र (कुल 600 अंक)',
+      'साक्षात्कार (72 अंक)'
+    ],
+    stages: ['प्रारंभिक परीक्षा', 'मुख्य लिखित परीक्षा', 'साक्षात्कार'],
+    totalMarks: 672,
+    negativeMarking: '1/3 अंक (प्रारंभिक परीक्षा)',
+    officialWebsite: 'https://rpsc.rajasthan.gov.in'
+  },
+  {
+    id: 'rpsc-jlo',
+    name: 'कनिष्ठ विधि अधिकारी (Junior Legal Officer - JLO)',
+    nameEnglish: 'Junior Legal Officer (JLO)',
+    board: 'RPSC',
+    department: 'विधि एवं विधिक कार्य विभाग, राजस्थान',
+    minQualification: 'विधि स्नातक (Professional Law Degree - LL.B.)',
+    qualificationLevel: 'law',
+    cetStatus: 'Non-CET',
+    cetDetailHindi: 'बिना CET विधिक सेवा भर्ती',
+    icon: 'Scale',
+    totalPosts: '140 पद',
+    ageLimit: '21 से 40 वर्ष',
+    status: 'उत्तर कुंजी जारी',
+    description: 'सरकारी विभागों में कानूनी मामलों, रिट याचिकाओं एवं शासकीय अनुबंधों की देखरेख हेतु विधि अधिकारियों का चयन।',
+    syllabusHighlights: [
+      'पेपर-1: भारत का संविधान (50 अंक / 150 प्रश्न)',
+      'पेपर-2: CPC एवं CrPC (50 अंक / 150 प्रश्न)',
+      'पेपर-3: साक्ष्य अधिनियम, परिसीमा अधिनियम, व्याख्या (50 अंक / 150 प्रश्न)',
+      'पेपर-4: भाषा (हिन्दी एवं अंग्रेजी - 50 अंक)'
+    ],
+    stages: ['4 वस्तुनिष्ठ प्रश्न-पत्र (कुल 200 अंक)', 'साक्षात्कार (25 अंक)'],
+    totalMarks: 225,
+    negativeMarking: '1/3 अंक प्रति गलत उत्तर',
+    officialWebsite: 'https://rpsc.rajasthan.gov.in'
+  },
+  {
+    id: 'rpsc-apo',
+    name: 'सहायक अभियोजन अधिकारी (Assistant Prosecution Officer - APO)',
+    nameEnglish: 'Assistant Prosecution Officer (APO)',
+    board: 'RPSC',
+    department: 'अभियोजन निदेशालय, गृह विभाग',
+    minQualification: 'विधि स्नातक (LL.B.) + न्यायालय में वकालत का व्यावहारिक ज्ञान',
+    qualificationLevel: 'law',
+    cetStatus: 'Non-CET',
+    cetDetailHindi: 'बिना CET अभियोजन सेवा परीक्षा',
+    icon: 'FileCheck',
+    totalPosts: '181 पद',
+    ageLimit: '21 से 40 वर्ष',
+    status: 'परीक्षा तिथि घोषित',
+    description: 'मजिस्ट्रेट न्यायालयों में राज्य सरकार की ओर से आपराधिक मुकदमों की पैरवी करने वाले अभियोजन अधिकारियों की भर्ती।',
+    syllabusHighlights: [
+      'प्रारंभिक परीक्षा (Objective Screening Test): कानून 70% + भाषा ज्ञान 30%',
+      'मुख्य परीक्षा (वर्णनात्मक): पेपर-1 विधि (300 अंक, 3 घंटे) + पेपर-2 सामान्य हिन्दी व अंग्रेजी (100 अंक, 2 घंटे)'
+    ],
+    stages: ['प्रारंभिक परीक्षा', 'मुख्य लिखित परीक्षा', 'दस्तावेज सत्यापन'],
+    totalMarks: 400,
+    negativeMarking: '1/3 अंक प्रति गलत उत्तर',
+    officialWebsite: 'https://rpsc.rajasthan.gov.in'
+  },
+  {
+    id: 'rpsc-aao-ao',
+    name: 'कृषि अधिकारी / सहायक कृषि अधिकारी (AO / AAO)',
+    nameEnglish: 'Agriculture Officer & Asst. Agriculture Officer',
+    board: 'RPSC',
+    department: 'कृषि विभाग, राजस्थान सरकार',
+    minQualification: 'कृषि विज्ञान में स्नातक / स्नातकोत्तर (B.Sc. / M.Sc. Agriculture)',
+    qualificationLevel: 'technical',
+    cetStatus: 'Non-CET',
+    cetDetailHindi: 'बिना CET तकनीकी कृषि भर्ती',
+    icon: 'Wheat',
+    totalPosts: '150+ पद',
+    ageLimit: '18 से 40 वर्ष',
+    status: 'शीघ्र आ रहा है',
+    description: 'राजस्थान के कृषि विकास, मृदा परीक्षण, बीज संवर्धन एवं कृषक कल्याण योजनाओं के मैदानी क्रियान्वयन हेतु।',
+    syllabusHighlights: [
+      'भाग-अ: राजस्थान का सामान्य ज्ञान (इतिहास, भूगोल, संस्कृति - 30 प्रश्न / 30 अंक)',
+      'भाग-ब: कृषि विज्ञान (शस्य विज्ञान, उद्यानिकी, मृदा विज्ञान - 120 प्रश्न / 120 अंक)'
+    ],
+    stages: ['लिखित वस्तुनिष्ठ परीक्षा (150 अंक)', 'साक्षात्कार (यदि लागू)', 'दस्तावेज सत्यापन'],
+    totalMarks: 150,
+    negativeMarking: '1/3 अंक प्रति गलत उत्तर',
+    officialWebsite: 'https://rpsc.rajasthan.gov.in'
+  },
+  {
+    id: 'rpsc-aso-so',
+    name: 'सांख्यिकी अधिकारी / सहायक सांख्यिकी अधिकारी (SO / ASO)',
+    nameEnglish: 'Statistical Officer / Asst. Statistical Officer (ASO)',
+    board: 'RPSC',
+    department: 'आर्थिक एवं सांख्यिकी निदेशालय (DES)',
+    minQualification: 'सांख्यिकी / गणित / अर्थशास्त्र / कॉमर्स में स्नातकोत्तर डिग्री',
+    qualificationLevel: 'graduate',
+    cetStatus: 'Non-CET',
+    cetDetailHindi: 'बिना CET सांख्यिकी सेवा',
+    icon: 'BarChart2',
+    totalPosts: '72 पद',
+    ageLimit: '21 से 40 वर्ष',
+    status: 'उत्तर कुंजी जारी',
+    description: 'राज्य की आर्थिक समीक्षा, सांख्यिकी डेटा विश्लेषण, जनगणना एवं विकास योजनाओं के मूल्यांकन हेतु विशेषज्ञ पद।',
+    syllabusHighlights: [
+      'भाग-A: राजस्थान का सामान्य ज्ञान (30 प्रश्न / 30 अंक)',
+      'भाग-B: सांख्यिकी, अर्थशास्त्र एवं कंप्यूटर अवधारणाएं (70 प्रश्न / 70 अंक)'
+    ],
+    stages: ['वस्तुनिष्ठ लिखित परीक्षा (100 अंक, 2 घंटे)', 'दस्तावेज सत्यापन'],
+    totalMarks: 100,
+    negativeMarking: '1/3 अंक प्रति गलत उत्तर',
+    officialWebsite: 'https://rpsc.rajasthan.gov.in'
+  },
+  {
+    id: 'rpsc-programmer',
+    name: 'प्रोग्रामर (Programmer - IT Department)',
+    nameEnglish: 'Programmer (DoIT&C)',
+    board: 'RPSC',
+    department: 'सूचना प्रौद्योगिकी एवं संचार विभाग (DoIT&C)',
+    minQualification: 'B.E. / B.Tech / M.Sc. (CS/IT) या MCA डिग्री',
+    qualificationLevel: 'technical',
+    cetStatus: 'Non-CET',
+    cetDetailHindi: 'बिना CET सीधी तकनीकी भर्ती',
+    icon: 'Terminal',
+    totalPosts: '216 पद',
+    ageLimit: '21 से 40 वर्ष',
+    status: 'परीक्षा तिथि घोषित',
+    description: 'राजस्थान सरकार के ई-गवर्नेंस पोर्टल्स, डेटाबेस प्रबंधन, साइबर सुरक्षा एवं सॉफ्टवेयर आर्किटेक्चर संचालन हेतु उच्च तकनीकी पद।',
+    syllabusHighlights: [
+      'पेपर-1: डेटाबेस मैनेजमेंट सिस्टम (DBMS), डेटा कम्युनिकेशन एवं कंप्यूटर नेटवर्किंग (100 अंक)',
+      'पेपर-2: सिस्टम एनालिसिस एंड डिजाइन (SAD), प्रोग्रामिंग कॉन्सेप्ट्स व जावा (100 अंक)'
+    ],
+    stages: ['लिखित परीक्षा पेपर-1 (100 अंक)', 'लिखित परीक्षा पेपर-2 (100 अंक)', 'दस्तावेज सत्यापन'],
+    totalMarks: 200,
+    negativeMarking: '1/3 अंक प्रति गलत उत्तर',
+    officialWebsite: 'https://rpsc.rajasthan.gov.in'
+  },
+  {
+    id: 'rpsc-eoro',
+    name: 'अधिशासी अधिकारी / राजस्व अधिकारी (EO / RO Grade-II)',
+    nameEnglish: 'Executive Officer / Revenue Officer (EO/RO)',
+    board: 'RPSC',
+    department: 'स्वायत्त शासन विभाग (DLB), राजस्थान',
+    minQualification: 'किसी भी मान्यता प्राप्त विश्वविद्यालय से स्नातक',
+    qualificationLevel: 'graduate',
+    cetStatus: 'Non-CET',
+    cetDetailHindi: 'बिना CET नगरीय निकाय भर्ती',
+    icon: 'Building2',
+    totalPosts: '118 पद',
+    ageLimit: '18 से 40 वर्ष',
+    status: 'उत्तर कुंजी जारी',
+    description: 'राजस्थान के नगर निगमों, नगर परिषदों एवं नगर पालिकाओं में प्रशासनिक नियंत्रण, स्वच्छता, राजस्व वसूली एवं नगर विकास हेतु।',
+    syllabusHighlights: [
+      'भाग-अ: राजस्थान का इतिहास, कला, भूगोल, भारतीय संविधान व समसामयिकी (80 अंक / 80 प्रश्न)',
+      'भाग-ब: राजस्थान नगरपालिका अधिनियम 2009 एवं नगरीय विकास योजनाएं (40 अंक / 40 प्रश्न)'
+    ],
+    stages: ['एकल वस्तुनिष्ठ लिखित परीक्षा (120 अंक / 120 प्रश्न, 2 घंटे)', 'दस्तावेज सत्यापन'],
+    totalMarks: 120,
+    negativeMarking: '1/3 अंक प्रति गलत उत्तर (5वां विकल्प नियम लागू)',
+    officialWebsite: 'https://rpsc.rajasthan.gov.in',
+    featured: true
+  },
+
+  // =========================================================================
+  // 2. RSSB (राजस्थान कर्मचारी चयन बोर्ड, जयपुर)
+  // =========================================================================
+  {
+    id: 'rssb-reet-mains-3rd-grade',
+    name: 'तृतीय श्रेणी अध्यापक (REET Mains L1 & L2)',
+    nameEnglish: '3rd Grade Teacher (Level 1 & Level 2)',
+    board: 'RSSB',
+    department: 'प्रारंभिक एवं माध्यमिक शिक्षा विभाग',
+    minQualification: 'REET उत्तीर्ण + D.El.Ed (L1) / स्नातक + B.Ed (L2)',
+    qualificationLevel: 'teaching',
+    cetStatus: 'Non-CET',
+    cetDetailHindi: 'बिना CET (REET पात्रता उपरांत मुख्य भर्ती)',
+    icon: 'GraduationCap',
+    totalPosts: '30,000+ संभावित पद',
+    ageLimit: '18 से 40 वर्ष',
+    status: 'शीघ्र आ रहा है',
+    description: 'प्राथमिक (कक्षा 1 से 5) एवं उच्च प्राथमिक (कक्षा 6 से 8) विद्यालयों में शिक्षक भर्ती हेतु राजस्थान की सबसे बड़ी भर्ती परीक्षा।',
+    syllabusHighlights: [
+      'राजस्थान का भौगोलिक, ऐतिहासिक व सांस्कृतिक ज्ञान (100 अंक)',
+      'राजस्थान का सामान्य ज्ञान, शैक्षिक परिदृश्य, आरटीई 2009 (80 अंक)',
+      'संबंधित विद्यालय विषय ज्ञान (120 अंक)',
+      'शिक्षण विधियां, बाल मनोविज्ञान एवं सूचना तकनीकी (50 अंक)'
+    ],
+    stages: ['मुख्य लिखित परीक्षा (300 अंक / 150 प्रश्न, 2.5 घंटे)', 'दस्तावेज सत्यापन'],
+    totalMarks: 300,
+    negativeMarking: '1/3 अंक प्रति गलत उत्तर',
+    officialWebsite: 'https://rsmssb.rajasthan.gov.in',
+    featured: true
+  },
+  {
+    id: 'rssb-patwari',
+    name: 'राजस्थान पटवारी सीधी भर्ती (Patwari Recruitment)',
+    nameEnglish: 'Rajasthan Patwari Recruitment',
+    board: 'RSSB',
+    department: 'राजस्व मंडल (Board of Revenue), अजमेर',
+    minQualification: 'स्नातक (Graduation) + RSCIT / कंप्यूटर डिप्लोमा',
+    qualificationLevel: 'graduate',
+    cetStatus: 'Non-CET',
+    cetDetailHindi: 'बिना CET स्वतंत्र सीधी भर्ती (प्रस्तावित)',
+    icon: 'Layers',
+    totalPosts: '3,000+ पद',
+    ageLimit: '18 से 40 वर्ष',
+    status: 'परीक्षा तिथि घोषित',
+    description: 'राजस्व विभाग, नामांतरण, भू-अभिलेख अद्यतनीकरण एवं गिरदावरी कार्यों हेतु पटवारियों का प्रतिष्ठित चयन।',
+    syllabusHighlights: [
+      'सामान्य विज्ञान, भारत का इतिहास, भूगोल, संविधान (38 प्रश्न / 76 अंक)',
+      'राजस्थान का भूगोल, इतिहास, संस्कृति एवं राजनीति (30 प्रश्न / 60 अंक)',
+      'सामान्य हिन्दी एवं अंग्रेजी (22 प्रश्न / 44 अंक)',
+      'तार्किक दक्षता, रीजनिंग एवं बेसिक मैथ्स (45 प्रश्न / 90 अंक)',
+      'कंप्यूटर ज्ञान (15 प्रश्न / 30 अंक)'
+    ],
+    stages: ['एकल वस्तुनिष्ठ लिखित परीक्षा (300 अंक, 150 प्रश्न)', 'दस्तावेज सत्यापन'],
+    totalMarks: 300,
+    negativeMarking: '1/3 अंक प्रति गलत उत्तर (5वां विकल्प नियम लागू)',
+    officialWebsite: 'https://rsmssb.rajasthan.gov.in',
+    featured: true
+  },
+  {
+    id: 'rssb-vdo',
+    name: 'ग्राम विकास अधिकारी (Village Development Officer - VDO)',
+    nameEnglish: 'Village Development Officer (VDO)',
+    board: 'RSSB',
+    department: 'ग्रामीण विकास एवं पंचायती राज विभाग',
+    minQualification: 'स्नातक (Graduation) + RSCIT कंप्यूटर कोर्स',
+    qualificationLevel: 'graduate',
+    cetStatus: 'Non-CET',
+    cetDetailHindi: 'बिना CET पंचायती राज भर्ती',
+    icon: 'Trees',
+    totalPosts: '2,500+ संभावित पद',
+    ageLimit: '18 से 40 वर्ष',
+    status: 'शीघ्र आ रहा है',
+    description: 'ग्राम पंचायतों के सचिव के रूप में ग्रामीण विकास, मनरेगा, आवास एवं स्थानीय शासन क्रियान्वयन हेतु मुख्य पद।',
+    syllabusHighlights: [
+      'सामयिक विषय, भूगोल एवं प्राकृतिक संसाधन, राजस्थान के विशेष संदर्भ में कृषि व आर्थिक विकास',
+      'इतिहास एवं संस्कृति, साधारण मानसिक योग्यता, तर्कशक्ति, अंग्रेजी, हिन्दी व गणित, राज्य, जिला, तहसील व पंचायत स्तर पर राजस्थान में प्रशासनिक ढांचा'
+    ],
+    stages: ['प्रारंभिक परीक्षा (Qualifying)', 'मुख्य परीक्षा (160 प्रश्न / 200 अंक)', 'दस्तावेज सत्यापन'],
+    totalMarks: 200,
+    negativeMarking: '1/3 अंक प्रति गलत उत्तर',
+    officialWebsite: 'https://rsmssb.rajasthan.gov.in',
+    featured: true
+  },
+  {
+    id: 'rssb-junior-accountant',
+    name: 'कनिष्ठ लेखाकार एवं टीआरए (Junior Accountant & TRA)',
+    nameEnglish: 'Junior Accountant & Tehsil Revenue Accountant',
+    board: 'RSSB',
+    department: 'कोष एवं लेखा विभाग, राजस्थान सरकार',
+    minQualification: 'स्नातक (Graduation) + CET (स्नातक स्तर) उत्तीर्ण',
+    qualificationLevel: 'graduate',
+    cetStatus: 'CET-Graduation',
+    cetDetailHindi: 'CET स्नातक स्तर में न्यूनतम 15 गुणा सूची अनिवार्य',
+    icon: 'Calculator',
+    totalPosts: '5,388 पद',
+    ageLimit: '21 से 40 वर्ष',
+    status: 'उत्तर कुंजी जारी',
+    description: 'सरकारी विभागों एवं तहसीलों में वित्तीय प्रबंधन, ऑडिटिंग, बिल पासिंग एवं लेखा संधारण हेतु।',
+    syllabusHighlights: [
+      'पेपर-1: हिन्दी (75 अंक), अंग्रेजी (75 अंक), राजस्थान सामान्य ज्ञान (75 अंक), सामान्य विज्ञान (75 अंक), गणित (75 अंक), कंप्यूटर (75 अंक) - कुल 450 अंक',
+      'पेपर-2: बुक-कीपिंग एवं एकाउंटेंसी, व्यावसायिक पद्धति, ऑडिटिंग, भारतीय अर्थशास्त्र, GF&AR एवं राजस्थान सेवा नियम (450 अंक)'
+    ],
+    stages: ['CET स्नातक स्तर अर्हता', 'मुख्य लिखित परीक्षा पेपर-1 व पेपर-2 (कुल 900 अंक)', 'दस्तावेज सत्यापन'],
+    totalMarks: 900,
+    negativeMarking: '1/3 अंक प्रति गलत उत्तर',
+    officialWebsite: 'https://rsmssb.rajasthan.gov.in'
+  },
+  {
+    id: 'rssb-ldc-junior-assistant',
+    name: 'कनिष्ठ सहायक / लिपिक ग्रेड-II (LDC / Junior Assistant)',
+    nameEnglish: 'LDC / Junior Assistant & Clerk Grade-II',
+    board: 'RSSB',
+    department: 'शासन सचिवालय, RPSC एवं अधीनस्थ विभाग',
+    minQualification: '12वीं (10+2) उत्तीर्ण + RSCIT + CET (12वीं स्तर)',
+    qualificationLevel: '12th',
+    cetStatus: 'CET-12th',
+    cetDetailHindi: 'CET सीनियर सेकेंडरी (12वीं) स्तर 15 गुना मेरिट',
+    icon: 'FileText',
+    totalPosts: '4,197 पद',
+    ageLimit: '18 से 40 वर्ष',
+    status: 'परीक्षा तिथि घोषित',
+    description: 'राज्य सचिवालय, आरपीएससी एवं समस्त जिला कलेक्ट्रेट व सरकारी कार्यालयों में लिपिकीय व पत्राचार संचालन।',
+    syllabusHighlights: [
+      'फेज-1 पेपर 1: सामान्य ज्ञान, दैनिक विज्ञान एवं गणित (100 अंक / 150 प्रश्न, 3 घंटे)',
+      'फेज-1 पेपर 2: सामान्य हिन्दी एवं सामान्य अंग्रेजी (100 अंक / 150 प्रश्न, 3 घंटे)',
+      'फेज-2: कंप्यूटर पर टंकण गति एवं दक्षता परीक्षण (हिन्दी व अंग्रेजी टाइपिंग - कुल 100 अंक)'
+    ],
+    stages: ['लिखित परीक्षा फेज-1 (200 अंक)', 'कंप्यूटर टाइपिंग व दक्षता टेस्ट फेज-2 (100 अंक)', 'दस्तावेज सत्यापन'],
+    totalMarks: 300,
+    negativeMarking: '1/3 अंक प्रति गलत उत्तर',
+    officialWebsite: 'https://rsmssb.rajasthan.gov.in',
+    featured: true
+  },
+  {
+    id: 'rssb-pashu-parichar',
+    name: 'पशु परिचर सीधी भर्ती (Animal Attendant)',
+    nameEnglish: 'Animal Attendant (Pashu Parichar)',
+    board: 'RSSB',
+    department: 'पशुपालन विभाग, राजस्थान सरकार',
+    minQualification: '10वीं (Secondary / Matric) उत्तीर्ण',
+    qualificationLevel: '10th',
+    cetStatus: 'Direct',
+    cetDetailHindi: 'बिना CET 10वीं पास सीधी भर्ती (CET लागू नहीं)',
+    icon: 'HeartHandshake',
+    totalPosts: '5,934 पद',
+    ageLimit: '18 से 40 वर्ष',
+    status: 'परीक्षा तिथि घोषित',
+    description: 'पशु चिकित्सालयों एवं उप-केन्द्रों में प्राथमिक पशु चिकित्सा संबल, टीकाकरण, कृत्रिम गर्भाधान सहयोग एवं संधारण। 10वीं पास युवाओं हेतु सबसे लोकप्रिय भर्ती।',
+    syllabusHighlights: [
+      'भाग-अ (70% भार / 105 प्रश्न): राजस्थान का इतिहास, भूगोल, कला-संस्कृति, दैनिक विज्ञान एवं प्राथमिक गणित',
+      'भाग-ब (30% भार / 45 प्रश्न): पशुपालन विशेष — प्रमुख नस्लें, कृत्रिम गर्भाधान, दुग्ध दोहन, पशु आहार, टीकाकरण, पशु रोग व प्राथमिक उपचार'
+    ],
+    stages: ['एकल वस्तुनिष्ठ लिखित परीक्षा (150 प्रश्न / 150 अंक, 3 घंटे)', 'दस्तावेज सत्यापन'],
+    totalMarks: 150,
+    negativeMarking: '1/4 (0.25) अंक प्रति गलत उत्तर (5वां विकल्प नियम लागू)',
+    officialWebsite: 'https://rsmssb.rajasthan.gov.in',
+    featured: true
+  },
+  {
+    id: 'rssb-informatics-assistant',
+    name: 'सूचना सहायक (Informatics Assistant - IA)',
+    nameEnglish: 'Informatics Assistant (IA)',
+    board: 'RSSB',
+    department: 'सूचना प्रौद्योगिकी एवं संचार विभाग (DoIT&C)',
+    minQualification: 'कंप्यूटर साइंस / IT में डिप्लोमा / डिग्री या BCA / PGDCA',
+    qualificationLevel: 'technical',
+    cetStatus: 'Non-CET',
+    cetDetailHindi: 'बिना CET स्वतंत्र तकनीकी भर्ती',
+    icon: 'Monitor',
+    totalPosts: '3,415 पद',
+    ageLimit: '21 से 40 वर्ष',
+    status: 'परिणाम प्रतीक्षित',
+    description: 'सरकारी दफ्तरों में कम्प्यूटरीकरण, डेटा फीडिंग, नेटवर्क संधारण एवं ई-मित्र कियोस्क तकनीकी सहायता।',
+    syllabusHighlights: [
+      'पार्ट-1: योग्यता परीक्षण, सूचना प्रौद्योगिकी में सामान्य ज्ञान व कंप्यूटर मूल बातें (100 अंक / 150 प्रश्न, 3 घंटे)',
+      'पार्ट-2: हिन्दी एवं अंग्रेजी में कंप्यूटर टाइपिंग टेस्ट (15-15 मिनट, अर्हक)'
+    ],
+    stages: ['लिखित वस्तुनिष्ठ परीक्षा (100 अंक)', 'हिंदी एवं अंग्रेजी टाइपिंग स्पीड टेस्ट', 'दस्तावेज सत्यापन'],
+    totalMarks: 100,
+    negativeMarking: '1/3 अंक प्रति गलत उत्तर',
+    officialWebsite: 'https://rsmssb.rajasthan.gov.in'
+  },
+  {
+    id: 'rssb-jen',
+    name: 'कनिष्ठ अभियंता (Junior Engineer - JEn Combined)',
+    nameEnglish: 'Junior Engineer (JEn Civil/Mech/Elec)',
+    board: 'RSSB',
+    department: 'PWD, PHED, WRD, DLB एवं पंचायती राज विभाग',
+    minQualification: 'संबंधित इंजीनियरिंग शाखा में डिग्री या 3-वर्षीय पॉलिटेक्निक डिप्लोमा',
+    qualificationLevel: 'technical',
+    cetStatus: 'Non-CET',
+    cetDetailHindi: 'बिना CET तकनीकी अधीनस्थ सेवा',
+    icon: 'Cpu',
+    totalPosts: '1,500+ संभावित पद',
+    ageLimit: '18 से 40 वर्ष',
+    status: 'शीघ्र आ रहा है',
+    description: 'सिविल, मैकेनिकल एवं इलेक्ट्रिकल शाखाओं में राज्य स्तरीय निर्माण व पेयजल परियोजनाओं के फील्ड इंजीनियर।',
+    syllabusHighlights: [
+      'भाग-अ: राजस्थान का इतिहास, कला, संस्कृति, भूगोल एवं प्रशासनिक व्यवस्था (40 अंक / 40 प्रश्न)',
+      'भाग-ब: संबंधित इंजीनियरिंग विषय (सिविल/यांत्रिक/विद्युत - 80 अंक / 80 प्रश्न)'
+    ],
+    stages: ['एकल वस्तुनिष्ठ लिखित परीक्षा (120 अंक, 2 घंटे)', 'दस्तावेज सत्यापन'],
+    totalMarks: 120,
+    negativeMarking: '1/3 अंक प्रति गलत उत्तर',
+    officialWebsite: 'https://rsmssb.rajasthan.gov.in'
+  },
+  {
+    id: 'rssb-junior-instructor',
+    name: 'कनिष्ठ अनुदेशक (Junior Instructor - ITI)',
+    nameEnglish: 'Junior Instructor (Skill & Technical Education)',
+    board: 'RSSB',
+    department: 'कौशल, नियोजन एवं उद्यमिता विभाग (DTE)',
+    minQualification: 'संबंधित ट्रेड में 12वीं/ITI/डिप्लोमा/डिग्री + CITS (शिल्पकार अनुदेशक प्रशिक्षण)',
+    qualificationLevel: 'technical',
+    cetStatus: 'Non-CET',
+    cetDetailHindi: 'बिना CET तकनीकी शिक्षक भर्ती',
+    icon: 'Wrench',
+    totalPosts: '1,821 पद',
+    ageLimit: '21 से 40 वर्ष',
+    status: 'परीक्षा तिथि घोषित',
+    description: 'राजकीय औद्योगिक प्रशिक्षण संस्थानों (ITI) में इलेक्ट्रीशियन, फिटर, वेल्डर, ड्राफ्ट्समैन आदि ट्रेड्स के अनुदेशक पद।',
+    syllabusHighlights: [
+      'भाग-अ: राजस्थान का सामान्य ज्ञान (40 अंक / 40 प्रश्न)',
+      'भाग-ब: संबंधित ट्रेड थ्योरी तकनीकी विषय (80 अंक / 80 प्रश्न)'
+    ],
+    stages: ['वस्तुनिष्ठ लिखित परीक्षा (120 अंक)', 'दस्तावेज सत्यापन'],
+    totalMarks: 120,
+    negativeMarking: '1/3 अंक प्रति गलत उत्तर',
+    officialWebsite: 'https://rsmssb.rajasthan.gov.in'
+  },
+  {
+    id: 'rssb-computer-instructor',
+    name: 'कंप्यूटर अनुदेशक (Basic & Senior Computer Instructor)',
+    nameEnglish: 'Basic & Senior Computer Instructor',
+    board: 'RSSB',
+    department: 'माध्यमिक शिक्षा विभाग, राजस्थान',
+    minQualification: 'BCA / B.Sc (CS/IT) / B.Tech (CS/IT) या समकक्ष',
+    qualificationLevel: 'technical',
+    cetStatus: 'Non-CET',
+    cetDetailHindi: 'बिना CET आईटी शिक्षक भर्ती',
+    icon: 'Laptop',
+    totalPosts: '4,000+ संभावित पद',
+    ageLimit: '18 से 40 वर्ष',
+    status: 'शीघ्र आ रहा है',
+    description: 'महात्मा गांधी अंग्रेजी माध्यम एवं राजकीय माध्यमिक/उच्च माध्यमिक विद्यालयों में कंप्यूटर लैब व शिक्षण संचालन।',
+    syllabusHighlights: [
+      'पेपर-1: सामान्य ज्ञान, तार्किक क्षमता, रीजनिंग, बुनियादी गणित, समसामयिकी (100 अंक / 100 प्रश्न)',
+      'पेपर-2: कंप्यूटर पेडगॉजी, डेटा स्ट्रक्चर, प्रोग्रामिंग (C/C++/Java/Python), वेब डेवलपमेंट, नेटवर्किंग (100 अंक)'
+    ],
+    stages: ['लिखित परीक्षा पेपर-1 (100 अंक)', 'लिखित परीक्षा पेपर-2 (100 अंक)', 'दस्तावेज सत्यापन'],
+    totalMarks: 200,
+    negativeMarking: '1/3 अंक प्रति गलत उत्तर',
+    officialWebsite: 'https://rsmssb.rajasthan.gov.in'
+  },
+  {
+    id: 'rssb-lab-assistant',
+    name: 'प्रयोगशाला सहायक (Lab Assistant - Science/Geo/Home Sci)',
+    nameEnglish: 'Lab Assistant (Science, Geography, Home Science)',
+    board: 'RSSB',
+    department: 'माध्यमिक शिक्षा, कॉलेज शिक्षा एवं विधि विज्ञान प्रयोगशाला',
+    minQualification: '12वीं (विज्ञान / भूगोल / गृह विज्ञान संकाय में उत्तीर्ण)',
+    qualificationLevel: '12th',
+    cetStatus: 'Non-CET',
+    cetDetailHindi: 'बिना CET 12वीं पास सीधी विज्ञान भर्ती',
+    icon: 'FlaskConical',
+    totalPosts: '1,200+ संभावित पद',
+    ageLimit: '18 से 40 वर्ष',
+    status: 'शीघ्र आ रहा है',
+    description: 'स्कूलों, कॉलेजों व फॉरेंसिक लैब्स में भौतिकी, रसायन, जीव विज्ञान एवं भूगोल प्रयोगशालाओं का संचालन।',
+    syllabusHighlights: [
+      'पेपर-1: राजस्थान सामान्य ज्ञान, इतिहास, भूगोल, कला-संस्कृति, शैक्षणिक मनोविज्ञान, समसामयिकी (200 अंक / 100 प्रश्न)',
+      'पेपर-2: सामान्य विज्ञान (भौतिक विज्ञान, रसायन विज्ञान, जीव विज्ञान का 11वीं-12वीं स्तर) (200 अंक / 100 प्रश्न)'
+    ],
+    stages: ['लिखित परीक्षा पेपर-1 व 2 (कुल 400 अंक)', 'दस्तावेज सत्यापन'],
+    totalMarks: 400,
+    negativeMarking: '1/3 अंक प्रति गलत उत्तर',
+    officialWebsite: 'https://rsmssb.rajasthan.gov.in',
+    featured: true
+  },
+  {
+    id: 'rssb-livestock-assistant',
+    name: 'पशुधन सहायक (Livestock Assistant - LSA)',
+    nameEnglish: 'Livestock Assistant (LSA)',
+    board: 'RSSB',
+    department: 'पशुपालन विभाग, राजस्थान सरकार',
+    minQualification: '12वीं (भौतिक, रसायन व जीव विज्ञान/कृषि) + 2 वर्षीय पशुधन डिप्लोमा (AHDP)',
+    qualificationLevel: 'technical',
+    cetStatus: 'Non-CET',
+    cetDetailHindi: 'बिना CET पशुपालन डिप्लोमा भर्ती',
+    icon: 'Stethoscope',
+    totalPosts: '1,500+ संभावित पद',
+    ageLimit: '18 से 40 वर्ष',
+    status: 'शीघ्र आ रहा है',
+    description: 'पशु चिकित्सालयों में पशुधन स्वास्थ्य परीक्षण, प्राथमिक उपचार, कृत्रिम गर्भाधान व टीकाकरण संधारण।',
+    syllabusHighlights: [
+      'भाग-अ: राजस्थान का इतिहास, कला-संस्कृति, भूगोल व परंपराएं (40 अंक / 40 प्रश्न)',
+      'भाग-ब: वेटरनरी साइंस (पशु शरीर रचना, औषधिशास्त्र, प्रजनन, प्रबंधन - 80 अंक / 80 प्रश्न)'
+    ],
+    stages: ['एकल वस्तुनिष्ठ लिखित परीक्षा (120 अंक / 120 प्रश्न, 2 घंटे)', 'दस्तावेज सत्यापन'],
+    totalMarks: 120,
+    negativeMarking: '1/3 अंक प्रति गलत उत्तर',
+    officialWebsite: 'https://rsmssb.rajasthan.gov.in'
+  },
+  {
+    id: 'rssb-agriculture-supervisor',
+    name: 'कृषि पर्यवेक्षक (Agriculture Supervisor)',
+    nameEnglish: 'Agriculture Supervisor',
+    board: 'RSSB',
+    department: 'कृषि विभाग, राजस्थान सरकार',
+    minQualification: '12वीं (कृषि संकाय) या B.Sc. (कृषि / उद्यानिकी)',
+    qualificationLevel: '12th',
+    cetStatus: 'Non-CET',
+    cetDetailHindi: 'बिना CET कृषि संकाय सीधी भर्ती',
+    icon: 'Wheat',
+    totalPosts: '430 पद',
+    ageLimit: '18 से 40 वर्ष',
+    status: 'परिणाम प्रतीक्षित',
+    description: 'ग्राम पंचायत स्तर पर कृषकों को उन्नत बीज, खाद, कृषि यंत्र सब्सिडी व आधुनिक तकनीक उपलब्ध कराना।',
+    syllabusHighlights: [
+      'सामान्य हिन्दी (15 प्रश्न / 45 अंक)',
+      'राजस्थान का सामान्य ज्ञान, इतिहास एवं संस्कृति (25 प्रश्न / 75 अंक)',
+      'शस्य विज्ञान (Agronomy - 20 प्रश्न / 60 अंक)',
+      'उद्यानिकी (Horticulture - 20 प्रश्न / 60 अंक)',
+      'पशुपालन (Animal Husbandry - 20 प्रश्न / 60 अंक)'
+    ],
+    stages: ['एकल वस्तुनिष्ठ परीक्षा (300 अंक / 100 प्रश्न, 2 घंटे)', 'दस्तावेज सत्यापन'],
+    totalMarks: 300,
+    negativeMarking: '1/3 अंक प्रति गलत उत्तर',
+    officialWebsite: 'https://rsmssb.rajasthan.gov.in'
+  },
+  {
+    id: 'rssb-stenographer',
+    name: 'शीघ्रलिपिक एवं निजी सहायक (Stenographer & PA)',
+    nameEnglish: 'Stenographer & Personal Assistant Grade-II',
+    board: 'RSSB',
+    department: 'शासन सचिवालय, राजस्थान लोक सेवा आयोग एवं अधीनस्थ विभाग',
+    minQualification: '12वीं (10+2) उत्तीर्ण + RSCIT + शॉर्टहैंड गति (80-100 शब्द/मिनट)',
+    qualificationLevel: '12th',
+    cetStatus: 'Non-CET',
+    cetDetailHindi: 'बिना CET स्वतंत्र स्टेनो संवर्ग भर्ती',
+    icon: 'PenTool',
+    totalPosts: '474 पद',
+    ageLimit: '18 से 40 वर्ष',
+    status: 'उत्तर कुंजी जारी',
+    description: 'उच्चाधिकारियों, मंत्रियों एवं विभागाध्यक्षों के निजी स्टाफ के रूप में डिक्टेशन, शॉर्टहैंड व गोपनीय पत्र संधारण।',
+    syllabusHighlights: [
+      'फेज-1 पेपर 1: सामान्य ज्ञान, दैनिक विज्ञान व राजस्थान सामान्य अध्ययन (100 अंक / 150 प्रश्न)',
+      'फेज-1 पेपर 2: सामान्य हिन्दी एवं सामान्य अंग्रेजी (100 अंक / 150 प्रश्न)',
+      'फेज-2: आशुलिपि परीक्षण (शॉर्टहैंड डिक्टेशन एवं कंप्यूटर प्रतिलेखन - 100 अंक)'
+    ],
+    stages: ['लिखित परीक्षा फेज-1 (200 अंक)', 'स्टेनोग्राफी व टाइपिंग फेज-2 (100 अंक)', 'दस्तावेज सत्यापन'],
+    totalMarks: 300,
+    negativeMarking: '1/3 अंक प्रति गलत उत्तर',
+    officialWebsite: 'https://rsmssb.rajasthan.gov.in'
+  },
+
+  // =========================================================================
+  // 3. Police & Home Guards (राजस्थान पुलिस एवं होमगार्ड संवर्ग)
+  // =========================================================================
+  {
+    id: 'police-constable-gd',
+    name: 'राजस्थान पुलिस कांस्टेबल (GD - सामान्य ड्यूटी)',
+    nameEnglish: 'Rajasthan Police Constable (General Duty)',
+    board: 'Police',
+    department: 'पुलिस मुख्यालय, राजस्थान सरकार, जयपुर',
+    minQualification: '12वीं (सीनियर सेकेंडरी) + CET (12वीं स्तर) उत्तीर्ण',
+    qualificationLevel: '12th',
+    cetStatus: 'CET-12th',
+    cetDetailHindi: 'CET 12वीं स्तर अर्हता अनिवार्य (15 गुणा शारीरिक दक्षता)',
+    icon: 'Shield',
+    totalPosts: '3,578 पद',
+    ageLimit: '18 से 24 वर्ष (चालक हेतु 27 वर्ष, आरक्षित वर्गों को नियमानुसार छूट)',
+    status: 'परीक्षा तिथि घोषित',
+    description: 'थाना स्तर पर कानून-व्यवस्था, अपराध नियंत्रण, गश्त व सुरक्षा संधारण हेतु राजस्थान पुलिस का रीढ़ संवर्ग।',
+    syllabusHighlights: [
+      'भाग-अ: विवेचना एवं तार्किक योग्यता तथा कंप्यूटर का सामान्य ज्ञान (60 प्रश्न / 60 अंक)',
+      'भाग-ब: सामान्य ज्ञान, सामान्य विज्ञान, सामाजिक विज्ञान एवं समसामयिकी (35 प्रश्न / 35 अंक)',
+      'भाग-स: महिला एवं बच्चों के प्रति अपराध व कानूनी प्रावधान (10 प्रश्न / 10 अंक)',
+      'भाग-द: राजस्थान का इतिहास, कला, संस्कृति, भूगोल, राजनीति एवं आर्थिक स्थिति (45 प्रश्न / 45 अंक)'
+    ],
+    stages: ['CET 12वीं स्तर कट-ऑफ', 'शारीरिक दक्षता परीक्षण (PST/PET)', 'लिखित CBT परीक्षा (150 अंक)', 'दस्तावेज व मेडिकल'],
+    totalMarks: 150,
+    negativeMarking: '1/4 (0.25) अंक प्रति गलत उत्तर',
+    officialWebsite: 'https://police.rajasthan.gov.in',
+    featured: true
+  },
+  {
+    id: 'police-constable-driver',
+    name: 'राजस्थान पुलिस कांस्टेबल चालक (Driver)',
+    nameEnglish: 'Police Constable (Driver)',
+    board: 'Police',
+    department: 'पुलिस मुख्यालय, राजस्थान, जयपुर',
+    minQualification: '12वीं उत्तीर्ण + भारी/हल्का मोटर वाहन (LMV/HMV) वैध ड्राइविंग लाइसेंस (1 वर्ष पुराना)',
+    qualificationLevel: '12th',
+    cetStatus: 'CET-12th',
+    cetDetailHindi: 'CET 12वीं स्तर + ड्राइविंग दक्षता टेस्ट',
+    icon: 'Truck',
+    totalPosts: '390+ पद',
+    ageLimit: '18 से 27 वर्ष',
+    status: 'परीक्षा तिथि घोषित',
+    description: 'पुलिस वाहनों, पेट्रोलिंग वैन, मोबाइल फॉरेंसिक यूनिट एवं एस्कॉर्ट वाहनों के सुरक्षित संचालन हेतु।',
+    syllabusHighlights: [
+      'लिखित परीक्षा (150 अंक): रीजनिंग, कंप्यूटर ज्ञान, सामान्य ज्ञान, राजस्थान विशेष',
+      'ड्राइविंग स्किल टेस्ट (30 अंक): वाहन संचालन, तकनीकी समझ, गियर चेंज, रिवर्स पार्किंग'
+    ],
+    stages: ['लिखित परीक्षा (150 अंक)', 'शारीरिक दक्षता परीक्षा (PET)', 'ड्राइविंग ट्रेड टेस्ट (30 अंक)'],
+    totalMarks: 180,
+    negativeMarking: '0.25 अंक प्रति गलत उत्तर',
+    officialWebsite: 'https://police.rajasthan.gov.in'
+  },
+  {
+    id: 'police-constable-telecom',
+    name: 'राजस्थान पुलिस कांस्टेबल (दूरसंचार / Telecommunications)',
+    nameEnglish: 'Police Constable (Telecommunications)',
+    board: 'Police',
+    department: 'दूरसंचार पुलिस मुख्यालय, राजस्थान',
+    minQualification: '12वीं (भौतिक विज्ञान एवं गणित/कंप्यूटर विषय सहित)',
+    qualificationLevel: '12th',
+    cetStatus: 'CET-12th',
+    cetDetailHindi: 'CET सीनियर सेकेंडरी (गणित/विज्ञान संकाय)',
+    icon: 'Radio',
+    totalPosts: '417 पद',
+    ageLimit: '18 से 24 वर्ष',
+    status: 'परीक्षा तिथि घोषित',
+    description: 'पुलिस वायरलेस नियंत्रण कक्ष, सैटेलाइट संचार, V-SAT, डायल 112 एवं आपातकालीन संचार नेटवर्क का तकनीकी प्रबंधन।',
+    syllabusHighlights: [
+      'रीजनिंग एवं कंप्यूटर ज्ञान (60 अंक)',
+      'सामान्य ज्ञान, करंट अफेयर्स, महिला/बाल सुरक्षा (45 अंक)',
+      'राजस्थान सामान्य अध्ययन (45 अंक)'
+    ],
+    stages: ['लिखित CBT परीक्षा (150 अंक)', 'शारीरिक दक्षता परीक्षण', 'दस्तावेज सत्यापन'],
+    totalMarks: 150,
+    negativeMarking: '0.25 अंक प्रति गलत उत्तर',
+    officialWebsite: 'https://police.rajasthan.gov.in'
+  },
+  {
+    id: 'police-rac-mbc-battalion',
+    name: 'आरएसी / एमबीसी बटालियन कांस्टेबल (RAC / MBC 10th Pass)',
+    nameEnglish: 'RAC / MBC Battalion Constable (10th Pass Direct)',
+    board: 'Police',
+    department: 'राजस्थान आर्म्ड कांस्टेबुलरी (RAC) एवं मेवाड़ भील कोर (MBC)',
+    minQualification: '10वीं (Secondary / Matric) उत्तीर्ण',
+    qualificationLevel: '10th',
+    cetStatus: 'Direct',
+    cetDetailHindi: 'बिना CET 10वीं पास सीधी पुलिस भर्ती (CET लागू नहीं)',
+    icon: 'ShieldAlert',
+    totalPosts: '2,000+ संभावित पद',
+    ageLimit: '18 से 24 वर्ष (आरक्षण अनुसार छूट)',
+    status: 'शीघ्र आ रहा है',
+    description: 'सीमावर्ती सुरक्षा, दंगा नियंत्रण, वीआईपी सुरक्षा, कानून व्यवस्था संकट एवं विशेष अभियानों हेतु सशस्त्र पुलिस बटालियन। 10वीं पास अभ्यर्थियों हेतु बिना CET की सबसे लोकप्रिय पुलिस भर्ती।',
+    syllabusHighlights: [
+      'तार्किक योग्यता, रीजनिंग एवं कंप्यूटर का मूल ज्ञान (60 प्रश्न / 60 अंक)',
+      'सामान्य ज्ञान, सामान्य विज्ञान, समसामयिक घटनाएं (35 प्रश्न / 35 अंक)',
+      'महिला एवं बच्चों के विरुद्ध हिंसा संबंधी नियम (10 प्रश्न / 10 अंक)',
+      'राजस्थान का इतिहास, भूगोल, कला-संस्कृति एवं अर्थव्यवस्था (45 प्रश्न / 45 अंक)'
+    ],
+    stages: ['लिखित परीक्षा (150 अंक)', 'शारीरिक दक्षता दौड़ (5 किमी पुरुष 25 मिनट / महिला 35 मिनट)', 'दस्तावेज सत्यापन व मेडिकल'],
+    totalMarks: 150,
+    negativeMarking: '0.25 अंक प्रति गलत उत्तर',
+    officialWebsite: 'https://police.rajasthan.gov.in',
+    featured: true
+  },
+  {
+    id: 'police-home-guard',
+    name: 'राजस्थान होमगार्ड स्वयंसेवक (Home Guard Volunteers)',
+    nameEnglish: 'Rajasthan Home Guard Volunteers',
+    board: 'Police',
+    department: 'गृह रक्षा निदेशालय (Home Guards), राजस्थान',
+    minQualification: '8वीं / 10वीं कक्षा उत्तीर्ण',
+    qualificationLevel: '10th',
+    cetStatus: 'Direct',
+    cetDetailHindi: 'बिना CET सीधी भर्ती (शारीरिक दक्षता व प्रमाण पत्र आधार)',
+    icon: 'UserCheck',
+    totalPosts: '3,842 पद',
+    ageLimit: '18 से 35 वर्ष',
+    status: 'परीक्षा तिथि घोषित',
+    description: 'यातायात प्रबंधन, कानून-व्यवस्था, मेला-त्योहार सुरक्षा, रात्रि गश्त एवं आपातकालीन राहत कार्यों में पुलिस के सहयोगी स्वयंसेवक।',
+    syllabusHighlights: [
+      'शारीरिक माप-तौल परीक्षण (PST)',
+      'शारीरिक दक्षता परीक्षा (PET - 1000 मी. दौड़ / चिन-अप्स - कुल 25 अंक)',
+      'विशेष योग्यता प्रमाण पत्र (NCC/होमगार्ड/RSCIT/ड्राइविंग लाइसेंस - 20 अंक)',
+      'मौखिक व्यक्तित्व परीक्षण / साक्षात्कार (5 अंक)'
+    ],
+    stages: ['शारीरिक दक्षता परीक्षण (25 अंक)', 'विशेष योग्यता अंक (20 अंक)', 'व्यक्तित्व साक्षात्कार (5 अंक)'],
+    totalMarks: 50,
+    negativeMarking: 'लागू नहीं (दक्षता आधारित)',
+    officialWebsite: 'https://home.rajasthan.gov.in'
+  },
+
+  // =========================================================================
+  // 4. High Court (राजस्थान उच्च न्यायालय जोधपुर)
+  // =========================================================================
+  {
+    id: 'hc-rjs',
+    name: 'राजस्थान न्यायिक सेवा (Civil Judge Cadre - RJS)',
+    nameEnglish: 'Rajasthan Judicial Service (RJS / Civil Judge)',
+    board: 'High Court',
+    department: 'राजस्थान उच्च न्यायालय, जोधपुर',
+    minQualification: 'विधि स्नातक (Professional Law Degree - LL.B.)',
+    qualificationLevel: 'law',
+    cetStatus: 'Non-CET',
+    cetDetailHindi: 'बिना CET उच्च न्यायालय स्वतंत्र न्यायिक परीक्षा',
+    icon: 'Scale',
+    totalPosts: '222 पद',
+    ageLimit: '21 से 40 वर्ष',
+    status: 'परिणाम प्रतीक्षित',
+    description: 'राजस्थान के अधीनस्थ दीवानी एवं फौजदारी न्यायालयों में सिविल जज (कनिष्ठ खंड) एवं न्यायिक मजिस्ट्रेट पद पर नियुक्ति हेतु।',
+    syllabusHighlights: [
+      'प्रारंभिक परीक्षा (Objective Prelims): विधि विषय 70% + हिन्दी एवं अंग्रेजी भाषा 30% (100 अंक)',
+      'मुख्य परीक्षा: विधि पेपर-1 दीवानी (100 अंक), विधि पेपर-2 फौजदारी (100 अंक), भाषा पेपर-1 हिन्दी निबंध (50 अंक), भाषा पेपर-2 अंग्रेजी निबंध (50 अंक)',
+      'साक्षात्कार (35 अंक)'
+    ],
+    stages: ['प्रारंभिक वस्तुनिष्ठ परीक्षा (100 अंक)', 'मुख्य वर्णनात्मक परीक्षा (300 अंक)', 'साक्षात्कार (35 अंक)'],
+    totalMarks: 335,
+    negativeMarking: 'प्रारंभिक परीक्षा में निगेटिव मार्किंग नहीं है',
+    officialWebsite: 'https://hcraj.nic.in',
+    featured: true
+  },
+  {
+    id: 'hc-jja',
+    name: 'कनिष्ठ न्यायिक सहायक (Junior Judicial Assistant - JJA)',
+    nameEnglish: 'Junior Judicial Assistant (JJA)',
+    board: 'High Court',
+    department: 'राजस्थान उच्च न्यायालय, जोधपुर एवं जयपुर पीठ',
+    minQualification: 'किसी भी मान्यता प्राप्त विश्वविद्यालय से स्नातक + कंप्यूटर ज्ञान',
+    qualificationLevel: 'graduate',
+    cetStatus: 'Non-CET',
+    cetDetailHindi: 'बिना CET उच्च न्यायालय स्वतंत्र भर्ती',
+    icon: 'FileSpreadsheet',
+    totalPosts: '320 पद',
+    ageLimit: '18 से 40 वर्ष',
+    status: 'शीघ्र आ रहा है',
+    description: 'हाईकोर्ट में न्यायिक फाइलों के संधारण, आदेशों के ड्राफ्टिंग, कॉज लिस्ट तैयार करने एवं अदालत कक्ष संचालन में सहायता।',
+    syllabusHighlights: [
+      'सेक्शन-A लिखित परीक्षा (300 अंक): भाग-क हिन्दी (100 अंक), भाग-ख अंग्रेजी (100 अंक), भाग-ग सामान्य ज्ञान व राजस्थान अध्ययन (100 अंक)',
+      'सेक्शन-B टाइपिंग टेस्ट (100 अंक): गति परीक्षण हिन्दी व अंग्रेजी (50 अंक) + दक्षता परीक्षा (50 अंक)'
+    ],
+    stages: ['लिखित वस्तुनिष्ठ परीक्षा (300 अंक)', 'कंप्यूटर टाइपराइटिंग व एफिशिएंसी टेस्ट (100 अंक)', 'दस्तावेज सत्यापन'],
+    totalMarks: 400,
+    negativeMarking: 'निगेटिव मार्किंग नहीं है (No Negative Marking)',
+    officialWebsite: 'https://hcraj.nic.in'
+  },
+  {
+    id: 'hc-clerk-grade-2',
+    name: 'उच्च न्यायालय लिपिक ग्रेड-II (High Court LDC / Clerk Grade-II)',
+    nameEnglish: 'High Court Clerk Grade-II & District Courts LDC',
+    board: 'High Court',
+    department: 'राजस्थान राज्य विधिक सेवा प्राधिकरण (RSLSA) एवं जिला न्यायालय',
+    minQualification: 'स्नातक (Graduation) + कंप्यूटर में बुनियादी दक्षता (RSCIT)',
+    qualificationLevel: 'graduate',
+    cetStatus: 'Non-CET',
+    cetDetailHindi: 'बिना CET (हाईकोर्ट की अपनी स्वतंत्र परीक्षा, CET लागू नहीं)',
+    icon: 'FileText',
+    totalPosts: '2,756 पद',
+    ageLimit: '18 से 40 वर्ष',
+    status: 'उत्तर कुंजी जारी',
+    description: 'जिला एवं सत्र न्यायालयों, तालुका विधिक सेवा समितियों में न्यायिक लिपिक, रीडर व क्लर्क संवर्ग पद।',
+    syllabusHighlights: [
+      'पार्ट-1 हिन्दी व्याकरण (100 अंक / 50 प्रश्न)',
+      'पार्ट-2 सामान्य अंग्रेजी (100 अंक / 50 प्रश्न)',
+      'पार्ट-3 सामान्य ज्ञान, राजस्थान का इतिहास, भूगोल व संस्कृति (100 अंक / 50 प्रश्न)',
+      'पार्ट-B कंप्यूटर टाइपिंग एवं दक्षता परीक्षा (100 अंक)'
+    ],
+    stages: ['लिखित परीक्षा (300 अंक, 2 घंटे)', 'कंप्यूटर टाइपिंग व एफिशिएंसी टेस्ट (100 अंक)', 'दस्तावेज सत्यापन'],
+    totalMarks: 400,
+    negativeMarking: 'निगेटिव मार्किंग नहीं है (No Negative Marking)',
+    officialWebsite: 'https://hcraj.nic.in',
+    featured: true
+  },
+  {
+    id: 'hc-steno-grade-3',
+    name: 'आशुलिपिक ग्रेड-III (High Court Stenographer Grade-III)',
+    nameEnglish: 'Stenographer Grade-III (District Courts)',
+    board: 'High Court',
+    department: 'राजस्थान के जिला एवं सत्र न्यायालय',
+    minQualification: '12वीं उत्तीर्ण + शॉर्टहैंड गति (हिन्दी 80 शब्द/मिनट, अंग्रेजी 90 शब्द/मिनट)',
+    qualificationLevel: '12th',
+    cetStatus: 'Non-CET',
+    cetDetailHindi: 'बिना CET न्यायालय स्टेनो भर्ती',
+    icon: 'PenTool',
+    totalPosts: '277 पद',
+    ageLimit: '18 से 40 वर्ष',
+    status: 'परिणाम प्रतीक्षित',
+    description: 'जिला न्यायाधीशों एवं न्यायिक दंडाधिकारियों के समक्ष मुकदमों में मौखिक बयानों व निर्णयों की त्वरित आशुलिपि रिकॉर्डिंग।',
+    syllabusHighlights: [
+      'ग्रुप-A शॉर्टहैंड डिक्टेशन (80 wpm हिन्दी / 90 wpm अंग्रेजी - 50 अंक)',
+      'ग्रुप-B कंप्यूटर ट्रांसक्रिप्शन एवं टंकण गति (50 अंक)',
+      'कंप्यूटर दक्षता परीक्षण (Efficiency Test - 50 अंक)'
+    ],
+    stages: ['आशुलिपि व ट्रांसक्रिप्शन परीक्षा (100 अंक)', 'कंप्यूटर दक्षता टेस्ट (50 अंक)', 'दस्तावेज सत्यापन'],
+    totalMarks: 150,
+    negativeMarking: 'त्रुटियों पर अंक कटौती नियमानुसार',
+    officialWebsite: 'https://hcraj.nic.in'
+  },
+  {
+    id: 'hc-system-assistant',
+    name: 'सिस्टम असिस्टेंट (High Court System Assistant - IT)',
+    nameEnglish: 'System Assistant (High Court IT)',
+    board: 'High Court',
+    department: 'राजस्थान उच्च न्यायालय कंप्यूटर प्रकोष्ठ',
+    minQualification: 'कंप्यूटर साइंस / IT / इलेक्ट्रॉनिक्स में BE/B.Tech/B.Sc/BCA',
+    qualificationLevel: 'technical',
+    cetStatus: 'Non-CET',
+    cetDetailHindi: 'बिना CET न्यायालय आईटी संवर्ग भर्ती',
+    icon: 'Terminal',
+    totalPosts: '230 पद',
+    ageLimit: '18 से 40 वर्ष',
+    status: 'परिणाम प्रतीक्षित',
+    description: 'ई-कोर्ट्स मिशन मोड प्रोजेक्ट, वर्चुअल कोर्ट सुनवाई, केस इंफॉर्मेशन सिस्टम (CIS) व न्यायालय हार्डवेयर का तकनीकी संधारण।',
+    syllabusHighlights: [
+      'सेक्शन-A: कंप्यूटर ज्ञान (डेटा कम्युनिकेशन, नेटवर्किंग, लिनक्स, ओएस, हार्डवेयर, वेब टेक्नोलॉजीज - 80 अंक)',
+      'सेक्शन-B: सामान्य ज्ञान एवं अंग्रेजी (20 अंक)'
+    ],
+    stages: ['लिखित वस्तुनिष्ठ परीक्षा (100 अंक)', 'टाइपिंग टेस्ट (हिन्दी व अंग्रेजी - 50 अंक)', 'साक्षात्कार (20 अंक)'],
+    totalMarks: 170,
+    negativeMarking: 'निगेटिव मार्किंग नहीं है',
+    officialWebsite: 'https://hcraj.nic.in'
+  },
+  {
+    id: 'hc-group-d',
+    name: 'उच्च न्यायालय चतुर्थ श्रेणी / ग्रुप-डी (High Court Peon / Group-D)',
+    nameEnglish: 'High Court Group-D / Peon & Driver',
+    board: 'High Court',
+    department: 'राजस्थान उच्च न्यायालय एवं अधीनस्थ न्यायालय',
+    minQualification: '10वीं (Secondary) उत्तीर्ण + देवनागरी लिपि व राजस्थानी संस्कृति का व्यावहारिक ज्ञान',
+    qualificationLevel: '10th',
+    cetStatus: 'Direct',
+    cetDetailHindi: 'बिना CET 10वीं पास सीधी न्यायालय भर्ती',
+    icon: 'UserCheck',
+    totalPosts: '3,678 पद (प्रस्तावित)',
+    ageLimit: '18 से 40 वर्ष',
+    status: 'शीघ्र आ रहा है',
+    description: 'अदालती आदेशिकाओं की तामील, कोर्ट रूम फाइल संधारण, न्यायाधीशों के कैंप कार्यालय सहायता एवं अर्दली कार्य।',
+    syllabusHighlights: [
+      'लिखित परीक्षा (85 अंक / 85 प्रश्न, 2 घंटे): सामान्य हिन्दी (40 प्रश्न), सामान्य अंग्रेजी (25 प्रश्न), राजस्थानी संस्कृति व बोलियां (20 प्रश्न)',
+      'साक्षात्कार: व्यक्तित्व एवं शिष्टाचार परीक्षण (15 अंक)'
+    ],
+    stages: ['लिखित वस्तुनिष्ठ परीक्षा (85 अंक)', 'साक्षात्कार (15 अंक)', 'दस्तावेज सत्यापन'],
+    totalMarks: 100,
+    negativeMarking: 'निगेटिव मार्किंग नहीं है (No Negative Marking)',
+    officialWebsite: 'https://hcraj.nic.in',
+    featured: true
+  },
+
+  // =========================================================================
+  // 5. Health & Energy (चिकित्सा, स्वास्थ्य एवं विद्युत/ऊर्जा निगम)
+  // =========================================================================
+  {
+    id: 'health-medical-officer',
+    name: 'चिकित्सा अधिकारी (Medical Officer - MBBS / RUHS MO)',
+    nameEnglish: 'Medical Officer (RUHS / Medical & Health Services)',
+    board: 'Health/Energy',
+    department: 'चिकित्सा एवं स्वास्थ्य सेवाएं विभाग, राजस्थान (RUHS जयपुर)',
+    minQualification: 'MBBS डिग्री + राजस्थान मेडिकल काउंसिल (RMC) में अनिवार्य स्थायी पंजीकरण',
+    qualificationLevel: 'medical',
+    cetStatus: 'Non-CET',
+    cetDetailHindi: 'बिना CET चिकित्सा सेवा सीधी भर्ती',
+    icon: 'Stethoscope',
+    totalPosts: '1,220 पद',
+    ageLimit: '22 से 45 वर्ष',
+    status: 'परीक्षा तिथि घोषित',
+    description: 'प्राथमिक स्वास्थ्य केन्द्रों (PHC), सामुदायिक स्वास्थ्य केन्द्रों (CHC) एवं जिला चिकित्सालयों में जन स्वास्थ्य व आपातकालीन उपचार।',
+    syllabusHighlights: [
+      'ऑनलाइन सीबीटी परीक्षा (100 अंक / 100 प्रश्न): एनाटॉमी, फिजियोलॉजी, बायोकेमिस्ट्री, पैथोलॉजी, फार्माकोलॉजी, फॉरेंसिक मेडिसिन, प्रिवेंटिव व सोशल मेडिसिन (PSM), मेडिसिन, सर्जरी, प्रसूति व स्त्री रोग, बाल रोग'
+    ],
+    stages: ['ऑनलाइन कंप्यूटर आधारित टेस्ट (CBT - 100 अंक)', 'दस्तावेज सत्यापन व RMC प्रमाणीकरण'],
+    totalMarks: 100,
+    negativeMarking: 'निगेटिव मार्किंग नहीं है',
+    officialWebsite: 'https://www.ruhsraj.org'
+  },
+  {
+    id: 'health-nursing-officer',
+    name: 'नर्सिंग ऑफिसर (Nursing Officer / Staff Nurse)',
+    nameEnglish: 'Nursing Officer (Staff Nurse Grade-II)',
+    board: 'Health/Energy',
+    department: 'राज्य स्वास्थ्य एवं परिवार कल्याण संस्थान (SIHFW), जयपुर',
+    minQualification: 'GNM डिप्लोमा या B.Sc. नर्सिंग + राजस्थान नर्सिंग काउंसिल (RNC) पंजीकरण',
+    qualificationLevel: 'medical',
+    cetStatus: 'Direct',
+    cetDetailHindi: 'बिना CET तकनीकी नर्सिंग भर्ती (मेरिट/अनुभव बोनस आधार)',
+    icon: 'HeartPulse',
+    totalPosts: '8,750 पद',
+    ageLimit: '18 से 40 वर्ष',
+    status: 'परिणाम प्रतीक्षित',
+    description: 'राजकीय अस्पतालों के आईसीयू, वार्ड्स, इमरजेंसी एवं मातृ-शिशु इकाइयों में उच्च स्तरीय रोगी तीमारदारी व नर्सिंग देखभाल।',
+    syllabusHighlights: [
+      'नर्सिंग विषय (फंडामेंटल्स ऑफ नर्सिंग, मेडिकल-सर्जिकल, कम्युनिटी हेल्थ, पीडियाट्रिक्स)',
+      'राजस्थान सामान्य ज्ञान, समसामयिकी एवं राज्य स्वास्थ्य योजनाएं'
+    ],
+    stages: ['शैक्षणिक व तकनीकी योग्यता प्रतिशत + संविदा बोनस अंक आधार', 'दस्तावेज सत्यापन'],
+    totalMarks: 100,
+    negativeMarking: 'लागू नहीं (मेरिट/दक्षता आधार)',
+    officialWebsite: 'http://sihfwrajasthan.com',
+    featured: true
+  },
+  {
+    id: 'health-anm',
+    name: 'महिला स्वास्थ्य कार्यकर्ता (ANM - Female Health Worker)',
+    nameEnglish: 'Auxiliary Nurse Midwife (ANM)',
+    board: 'Health/Energy',
+    department: 'चिकित्सा एवं स्वास्थ्य सेवाएं (SIHFW / RSSB)',
+    minQualification: '10वीं उत्तीर्ण + 2 वर्षीय ANM प्रशिक्षण प्रमाण पत्र + RNC पंजीकरण',
+    qualificationLevel: 'medical',
+    cetStatus: 'Direct',
+    cetDetailHindi: 'बिना CET महिला स्वास्थ्य संवर्ग सीधी भर्ती',
+    icon: 'Activity',
+    totalPosts: '4,841 पद',
+    ageLimit: '18 से 40 वर्ष',
+    status: 'उत्तर कुंजी जारी',
+    description: 'उप-केन्द्र स्तर पर सुरक्षित मातृत्व, शिशु टीकाकरण, पोषण संबल, संस्थागत प्रसव एवं ग्रामीण स्वास्थ्य सेवाओं की धुरी।',
+    syllabusHighlights: [
+      'एएनएम पाठ्यक्रम संबंधी विषय (सामुदायिक स्वास्थ्य, प्राथमिक उपचार, मातृ व शिशु देखभाल - 55 प्रश्न)',
+      'राष्ट्रीय स्वास्थ्य मिशन (NHM) योजनाएं व कार्यक्रम (15 प्रश्न)',
+      'राजस्थान सामान्य ज्ञान, समसामयिकी व कंप्यूटर (30 प्रश्न)'
+    ],
+    stages: ['लिखित परीक्षा (100 प्रश्न / 400 अंक)', 'दस्तावेज सत्यापन'],
+    totalMarks: 400,
+    negativeMarking: '1 अंक प्रति गलत उत्तर',
+    officialWebsite: 'http://sihfwrajasthan.com'
+  },
+  {
+    id: 'health-pharmacist',
+    name: 'फार्मासिस्ट सीधी भर्ती (Pharmacist Recruitment)',
+    nameEnglish: 'Pharmacist Recruitment (SIHFW/RSSB)',
+    board: 'Health/Energy',
+    department: 'चिकित्सा एवं स्वास्थ्य सेवाएं विभाग, राजस्थान',
+    minQualification: 'डी.फार्मा / बी.फार्मा (D.Pharm / B.Pharm) + राजस्थान फार्मेसी काउंसिल पंजीकरण',
+    qualificationLevel: 'medical',
+    cetStatus: 'Direct',
+    cetDetailHindi: 'बिना CET फार्मेसी संवर्ग भर्ती',
+    icon: 'Pill',
+    totalPosts: '3,067 पद',
+    ageLimit: '18 से 40 वर्ष',
+    status: 'परिणाम प्रतीक्षित',
+    description: 'मुख्यमंत्री निःशुल्क दवा योजना (MNDY), सरकारी ड्रग वेयरहाउस एवं ओपीडी में औषधियों का वितरण व भंडारण।',
+    syllabusHighlights: [
+      'फार्मास्यूटिक्स, फार्माकोलॉजी, फार्माकोग्नोसी, हॉस्पिटल एवं क्लिनिकल फार्मेसी',
+      'ड्रग एंड कॉस्मेटिक एक्ट, राजस्थान की सामान्य जानकारी'
+    ],
+    stages: ['शैक्षणिक व तकनीकी प्रतिशत + संविदा सेवा बोनस अंक', 'दस्तावेज सत्यापन'],
+    totalMarks: 100,
+    negativeMarking: 'लागू नहीं',
+    officialWebsite: 'http://sihfwrajasthan.com'
+  },
+  {
+    id: 'health-cho',
+    name: 'सामुदायिक स्वास्थ्य अधिकारी (Community Health Officer - CHO)',
+    nameEnglish: 'Community Health Officer (CHO - NHM)',
+    board: 'Health/Energy',
+    department: 'राष्ट्रीय स्वास्थ्य मिशन (NHM), चिकित्सा एवं स्वास्थ्य विभाग',
+    minQualification: 'B.Sc. सामुदायिक स्वास्थ्य / B.Sc. नर्सिंग / GNM या BAMS + RNC/आयुष बोर्ड पंजीकरण',
+    qualificationLevel: 'medical',
+    cetStatus: 'Non-CET',
+    cetDetailHindi: 'बिना CET एनएचएम स्वास्थ्य अधिकारी भर्ती',
+    icon: 'HeartHandshake',
+    totalPosts: '3,531 पद',
+    ageLimit: '21 से 40 वर्ष',
+    status: 'उत्तर कुंजी जारी',
+    description: 'आयुष्मान आरोग्य मंदिरों (Health & Wellness Centres) में संक्रामक व असंक्रामक रोगों की स्क्रीनिंग, टेलीकंसल्टेशन व प्राथमिक निदान।',
+    syllabusHighlights: [
+      'सामान्य जन स्वास्थ्य, मातृ स्वास्थ्य, बाल स्वास्थ्य व पोषण (60 प्रश्न)',
+      'संक्रामक एवं असंक्रामक रोग, परिवार नियोजन (20 प्रश्न)',
+      'राजस्थान सामान्य ज्ञान, बेसिक कंप्यूटर एवं समसामयिकी (20 प्रश्न)'
+    ],
+    stages: ['लिखित वस्तुनिष्ठ परीक्षा (100 प्रश्न / 400 अंक, 1.5 घंटे)', 'दस्तावेज सत्यापन'],
+    totalMarks: 400,
+    negativeMarking: '1 अंक प्रति गलत उत्तर (1/4 नेगेटिव)',
+    officialWebsite: 'https://rsmssb.rajasthan.gov.in',
+    featured: true
+  },
+  {
+    id: 'energy-ae-je',
+    name: 'विद्युत निगम सहायक/कनिष्ठ अभियंता (Vidyut Nigam AE / JE)',
+    nameEnglish: 'Vidyut Nigam Assistant & Junior Engineer (AE/JE)',
+    board: 'Health/Energy',
+    department: 'RVUNL, RVPNL, JVVNL, AVVNL एवं JdVVNL (5 विद्युत कंपनियां)',
+    minQualification: 'इलेक्ट्रिकल / सिविल / मैकेनिकल / IT में B.E. / B.Tech. या पॉलिटेक्निक डिप्लोमा',
+    qualificationLevel: 'technical',
+    cetStatus: 'Non-CET',
+    cetDetailHindi: 'बिना CET ऊर्जा निगम सीधी तकनीकी भर्ती',
+    icon: 'Zap',
+    totalPosts: '1,200+ संभावित पद',
+    ageLimit: '21 से 40 वर्ष',
+    status: 'शीघ्र आ रहा है',
+    description: 'राज्य के थर्मल व सोलर पावर प्लांट्स, 400/220/132 KV ग्रिड सब-स्टेशनों एवं विद्युत वितरण नेटवर्क का तकनीकी संचालन।',
+    syllabusHighlights: [
+      'पार्ट-A (60% वेटेज): संबंधित इंजीनियरिंग अनुशासन (इलेक्ट्रिकल, इलेक्ट्रॉनिक्स, सिविल व मैकेनिकल)',
+      'पार्ट-B (40% वेटेज): रीजनिंग, गणित, सामान्य ज्ञान व राजस्थान अध्ययन, हिन्दी एवं अंग्रेजी'
+    ],
+    stages: ['ऑनलाइन सीबीटी परीक्षा (100 प्रश्न / 200 अंक, 2 घंटे)', 'दस्तावेज सत्यापन'],
+    totalMarks: 200,
+    negativeMarking: '1/4 अंक प्रति गलत उत्तर',
+    officialWebsite: 'https://energy.rajasthan.gov.in'
+  },
+  {
+    id: 'energy-commercial-assistant-2',
+    name: 'वाणिज्यिक सहायक ग्रेड-II (Commercial Assistant Grade-II / CA-II)',
+    nameEnglish: 'Commercial Assistant Grade-II (Electricity Discoms)',
+    board: 'Health/Energy',
+    department: 'जयपुर, अजमेर एवं जोधपुर विद्युत वितरण निगम लिमिटेड',
+    minQualification: 'किसी भी संकाय में स्नातक (Graduation) + RSCIT / कंप्यूटर डिप्लोमा',
+    qualificationLevel: 'graduate',
+    cetStatus: 'Non-CET',
+    cetDetailHindi: 'बिना CET विद्युत डिस्कॉम लिपिकीय भर्ती',
+    icon: 'Building',
+    totalPosts: '800+ संभावित पद',
+    ageLimit: '18 से 40 वर्ष',
+    status: 'शीघ्र आ रहा है',
+    description: 'डिस्कॉम्स के उप-खंडीय कार्यालयों में विद्युत बिलिंग, राजस्व संग्रह, उपभोक्ता सेवा एवं लेखा पत्राचार का प्रबंधन।',
+    syllabusHighlights: [
+      'रीजनिंग एवं मेंटल एबिलिटी (30 अंक)',
+      'सामान्य ज्ञान एवं राजस्थान सामान्य ज्ञान विशेष (40 अंक)',
+      'सामान्य हिन्दी एवं सामान्य अंग्रेजी (30 अंक)',
+      'गणित एवं बेसिक कंप्यूटर (40 अंक)'
+    ],
+    stages: ['ऑनलाइन लिखित परीक्षा (140 प्रश्न / 200 अंक, 2 घंटे)', 'टाइपिंग दक्षता परीक्षा (यदि लागू)', 'दस्तावेज सत्यापन'],
+    totalMarks: 200,
+    negativeMarking: '1/4 अंक प्रति गलत उत्तर',
+    officialWebsite: 'https://energy.rajasthan.gov.in'
+  },
+  {
+    id: 'energy-technical-helper-3',
+    name: 'तकनीकी सहायक-III (Technical Helper-III - Lineman)',
+    nameEnglish: 'Technical Helper Grade-III (Lineman / Electrician)',
+    board: 'Health/Energy',
+    department: 'JVVNL, AVVNL एवं JdVVNL (विद्युत वितरण निगम)',
+    minQualification: '10वीं (Secondary) उत्तीर्ण + ITI (इलेक्ट्रीशियन / लाइनमैन / वायरमैन ट्रेड)',
+    qualificationLevel: 'technical',
+    cetStatus: 'Direct',
+    cetDetailHindi: 'बिना CET 10वीं + ITI सीधी तकनीकी भर्ती',
+    icon: 'Wrench',
+    totalPosts: '1,512 पद',
+    ageLimit: '18 से 28 वर्ष (आरक्षित वर्गों को 5 वर्ष छूट)',
+    status: 'उत्तर कुंजी जारी',
+    description: '33/11 KV सब-स्टेशनों, ट्रांसफॉर्मर संधारण, विद्युत लाइन फॉल्ट सुधार एवं ग्रामीण-शहरी विद्युतीकरण के फील्ड तकनीकी योद्धा।',
+    syllabusHighlights: [
+      'प्रारंभिक परीक्षा (100 अंक): सामान्य विज्ञान, गणित, राजस्थान सामान्य ज्ञान एवं तकनीकी ट्रेड ज्ञान',
+      'मुख्य परीक्षा (150 अंक): सामान्य ज्ञान व राजस्थान विशेष (50 अंक) + तकनीकी इलेक्ट्रीशियन ट्रेड थ्योरी (100 अंक)'
+    ],
+    stages: ['प्रारंभिक परीक्षा (स्क्रीनिंग)', 'मुख्य परीक्षा (150 अंक)', 'दस्तावेज सत्यापन'],
+    totalMarks: 150,
+    negativeMarking: 'निगेटिव मार्किंग नहीं है (No Negative Marking)',
+    officialWebsite: 'https://energy.rajasthan.gov.in',
+    featured: true
+  }
+];
+
+export const BOARD_CATEGORIES: { id: RecruitmentBoard | 'all'; labelHindi: string; labelEnglish: string; count: number; badgeColor: string }[] = [
+  { id: 'all', labelHindi: 'सभी परीक्षाएं', labelEnglish: 'All Boards', count: RAJASTHAN_EXAMS_DIRECTORY.length, badgeColor: 'bg-blue-900 text-white' },
+  { id: 'RPSC', labelHindi: 'RPSC अजमेर', labelEnglish: 'RPSC Ajmer', count: RAJASTHAN_EXAMS_DIRECTORY.filter(e => e.board === 'RPSC').length, badgeColor: 'bg-indigo-700 text-white' },
+  { id: 'RSSB', labelHindi: 'RSSB जयपुर', labelEnglish: 'RSSB Jaipur', count: RAJASTHAN_EXAMS_DIRECTORY.filter(e => e.board === 'RSSB').length, badgeColor: 'bg-emerald-700 text-white' },
+  { id: 'Police', labelHindi: 'पुलिस संवर्ग', labelEnglish: 'Police & HG', count: RAJASTHAN_EXAMS_DIRECTORY.filter(e => e.board === 'Police').length, badgeColor: 'bg-rose-700 text-white' },
+  { id: 'High Court', labelHindi: 'हाईकोर्ट जोधपुर', labelEnglish: 'High Court', count: RAJASTHAN_EXAMS_DIRECTORY.filter(e => e.board === 'High Court').length, badgeColor: 'bg-amber-700 text-white' },
+  { id: 'Health/Energy', labelHindi: 'स्वास्थ्य व बिजली निगम', labelEnglish: 'Health & Energy', count: RAJASTHAN_EXAMS_DIRECTORY.filter(e => e.board === 'Health/Energy').length, badgeColor: 'bg-cyan-800 text-white' }
+];
+
+export const QUALIFICATION_FILTER_OPTIONS: { id: QualificationLevel | 'all'; labelHindi: string; count: number }[] = [
+  { id: 'all', labelHindi: 'सभी योग्यताएं', count: RAJASTHAN_EXAMS_DIRECTORY.length },
+  { id: '10th', labelHindi: '10वीं पास', count: RAJASTHAN_EXAMS_DIRECTORY.filter(e => e.qualificationLevel === '10th').length },
+  { id: '12th', labelHindi: '12वीं पास', count: RAJASTHAN_EXAMS_DIRECTORY.filter(e => e.qualificationLevel === '12th').length },
+  { id: 'graduate', labelHindi: 'स्नातक (Graduate)', count: RAJASTHAN_EXAMS_DIRECTORY.filter(e => e.qualificationLevel === 'graduate').length },
+  { id: 'technical', labelHindi: 'इंजीनियरिंग / ITI / डिप्लोमा', count: RAJASTHAN_EXAMS_DIRECTORY.filter(e => e.qualificationLevel === 'technical').length },
+  { id: 'law', labelHindi: 'LLB / विधि', count: RAJASTHAN_EXAMS_DIRECTORY.filter(e => e.qualificationLevel === 'law').length },
+  { id: 'medical', labelHindi: 'मेडिकल / नर्सिंग / फार्मेसी', count: RAJASTHAN_EXAMS_DIRECTORY.filter(e => e.qualificationLevel === 'medical').length },
+  { id: 'teaching', labelHindi: 'B.Ed / D.El.Ed (शिक्षक)', count: RAJASTHAN_EXAMS_DIRECTORY.filter(e => e.qualificationLevel === 'teaching').length }
+];
+
+export const CET_FILTER_OPTIONS: { id: CETStatus | 'all'; labelHindi: string; badgeClass: string }[] = [
+  { id: 'all', labelHindi: 'सभी CET स्थिति', badgeClass: 'bg-slate-100 text-slate-800' },
+  { id: 'Non-CET', labelHindi: 'बिना CET (Non-CET)', badgeClass: 'bg-emerald-100 text-emerald-800 border-emerald-300' },
+  { id: 'Direct', labelHindi: 'सीधी भर्ती (Direct 10th/ITI)', badgeClass: 'bg-teal-100 text-teal-800 border-teal-300' },
+  { id: 'CET-Graduation', labelHindi: 'CET स्नातक स्तर', badgeClass: 'bg-blue-100 text-blue-800 border-blue-300' },
+  { id: 'CET-12th', labelHindi: 'CET 12वीं स्तर', badgeClass: 'bg-purple-100 text-purple-800 border-purple-300' }
+];
