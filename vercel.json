@@ -3,10 +3,6 @@
     {
       "path": "/api/agents/cron",
       "schedule": "0 2 * * *"
-    },
-    {
-      "path": "/api/doubt-solver",
-      "schedule": "*/30 * * * *"
     }
   ]
 }

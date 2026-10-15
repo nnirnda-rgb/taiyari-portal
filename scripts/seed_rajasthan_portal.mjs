@@ -91,8 +91,8 @@ const syllabiDataset = [
       { subject: "सामान्य हिन्दी एवं General English", questions: 10, marks: 20 },
       { subject: "कम्प्यूटर ज्ञान एवं समसामयिक घटनाएं (Current Affairs)", questions: 10, marks: 20 }
     ],
-    officialPdfUrl: "https://archive.org/download/rajasthan-recruitment-pyqs/CET_Graduation_Syllabus.pdf",
-    downloadMirrorUrl: "https://raw.githubusercontent.com/rajasthan-open-data/exam-repository/main/syllabi/CET_Graduate_Syllabus.pdf",
+    officialPdfUrl: "/storage/pdfs/Syllabus_CET_Graduate.pdf",
+    downloadMirrorUrl: "/api/pyq-download?type=syllabus&id=syllabus_cet_graduate",
     isVerified: true
   },
   {
@@ -114,8 +114,8 @@ const syllabiDataset = [
       { subject: "General English", questions: 8, marks: 16 },
       { subject: "कम्प्यूटर ज्ञान एवं समसामयिकी (Current Affairs)", questions: 10, marks: 20 }
     ],
-    officialPdfUrl: "https://archive.org/download/rajasthan-recruitment-pyqs/CET_12th_Syllabus.pdf",
-    downloadMirrorUrl: "https://raw.githubusercontent.com/rajasthan-open-data/exam-repository/main/syllabi/CET_12th_Syllabus.pdf",
+    officialPdfUrl: "/storage/pdfs/Syllabus_CET_12th.pdf",
+    downloadMirrorUrl: "/api/pyq-download?type=syllabus&id=syllabus_cet_12th",
     isVerified: true
   },
   {
@@ -134,8 +134,8 @@ const syllabiDataset = [
       { subject: "Mental ability and Reasoning, Basic Numerical efficiency", weightage: "30%", questions: 45, marks: 90 },
       { subject: "Basic Computer", weightage: "10%", questions: 15, marks: 30 }
     ],
-    officialPdfUrl: "https://archive.org/download/rajasthan-recruitment-pyqs/Patwari_Official_Syllabus.pdf",
-    downloadMirrorUrl: "https://raw.githubusercontent.com/rajasthan-open-data/exam-repository/main/syllabi/Patwari_Official_Syllabus.pdf",
+    officialPdfUrl: "/storage/pdfs/Syllabus_Patwari.pdf",
+    downloadMirrorUrl: "/api/pyq-download?type=syllabus&id=syllabus_patwari",
     isVerified: true
   },
   {
@@ -151,8 +151,8 @@ const syllabiDataset = [
       { part: "भाग 'अ' (भारांक 70%)", subject: "राजस्थान का भूगोल, इतिहास, संस्कृति, दैनिक विज्ञान एवं गणित (माध्यमिक स्तर)", questions: 105, marks: 105 },
       { part: "भाग 'ब' (भारांक 30%)", subject: "पशुपालन, देशी नस्लें, दुग्ध दोहन, कृत्रिम गर्भाधान, पशु रोग, टीकाकरण, चारा एवं पशु गणना", questions: 45, marks: 45 }
     ],
-    officialPdfUrl: "https://archive.org/download/rajasthan-recruitment-pyqs/Pashu_Paricharak_Official_Syllabus.pdf",
-    downloadMirrorUrl: "https://raw.githubusercontent.com/rajasthan-open-data/exam-repository/main/syllabi/Pashu_Paricharak_Syllabus.pdf",
+    officialPdfUrl: "/storage/pdfs/Syllabus_Pashu_Paricharak.pdf",
+    downloadMirrorUrl: "/api/pyq-download?type=syllabus&id=syllabus_pashu_paricharak",
     isVerified: true
   },
   {
@@ -169,8 +169,8 @@ const syllabiDataset = [
       { subject: "सामान्य ज्ञान, सामान्य विज्ञान, सामाजिक विज्ञान एवं समसामयिक विषय तथा महिला एवं बाल अपराध", questions: 45, marks: 45 },
       { subject: "राजस्थान के इतिहास, संस्कृति, कला, भूगोल, राजनीति एवं आर्थिक स्थिति", questions: 45, marks: 45 }
     ],
-    officialPdfUrl: "https://archive.org/download/rajasthan-recruitment-pyqs/Police_Constable_Syllabus.pdf",
-    downloadMirrorUrl: "https://raw.githubusercontent.com/rajasthan-open-data/exam-repository/main/syllabi/Police_Constable_Syllabus.pdf",
+    officialPdfUrl: "/storage/pdfs/Syllabus_Police_Constable.pdf",
+    downloadMirrorUrl: "/api/pyq-download?type=syllabus&id=syllabus_rajasthan_police",
     isVerified: true
   },
   {
@@ -194,8 +194,8 @@ const syllabiDataset = [
       { subject: "तार्किक विवेचन एवं मानसिक योग्यता (Reasoning & Mental Ability)", questions: 20, marks: 26.6 },
       { subject: "समसामयिक घटनाएं (Current Affairs)", questions: 15, marks: 20.0 }
     ],
-    officialPdfUrl: "https://archive.org/download/rajasthan-recruitment-pyqs/RAS_RTS_Official_Syllabus.pdf",
-    downloadMirrorUrl: "https://raw.githubusercontent.com/rajasthan-open-data/exam-repository/main/syllabi/RAS_Prelims_Syllabus.pdf",
+    officialPdfUrl: "/storage/pdfs/Syllabus_RAS_Prelims.pdf",
+    downloadMirrorUrl: "/api/pyq-download?type=syllabus&id=syllabus_ras_prelims",
     isVerified: true
   },
   {
@@ -213,8 +213,8 @@ const syllabiDataset = [
       { subject: "General Knowledge of World and India", questions: 30, marks: 60 },
       { subject: "Educational Psychology (शिक्षा मनोविज्ञान)", questions: 20, marks: 40 }
     ],
-    officialPdfUrl: "https://archive.org/download/rajasthan-recruitment-pyqs/2nd_Grade_Teacher_Syllabus.pdf",
-    downloadMirrorUrl: "https://raw.githubusercontent.com/rajasthan-open-data/exam-repository/main/syllabi/2nd_Grade_Teacher_Syllabus.pdf",
+    officialPdfUrl: "/storage/pdfs/Syllabus_2nd_Grade.pdf",
+    downloadMirrorUrl: "/api/pyq-download?type=syllabus&id=syllabus_2nd_grade_gk",
     isVerified: true
   },
   {
@@ -230,8 +230,8 @@ const syllabiDataset = [
       { part: "प्रश्न पत्र-I", subject: "राजस्थान का सामान्य ज्ञान (भूगोल, इतिहास, संस्कृति) एवं समसामयिकी तथा शिक्षा मनोविज्ञान", questions: 100, marks: 200 },
       { part: "प्रश्न पत्र-II", subject: "भौतिक विज्ञान, रसायन विज्ञान एवं जीव विज्ञान (सीनियर सैकण्डरी स्तर)", questions: 100, marks: 200 }
     ],
-    officialPdfUrl: "https://archive.org/download/rajasthan-recruitment-pyqs/Lab_Assistant_Official_Syllabus.pdf",
-    downloadMirrorUrl: "https://raw.githubusercontent.com/rajasthan-open-data/exam-repository/main/syllabi/Lab_Assistant_Syllabus.pdf",
+    officialPdfUrl: "/storage/pdfs/Syllabus_Lab_Assistant.pdf",
+    downloadMirrorUrl: "/api/pyq-download?type=syllabus&id=syllabus_lab_assistant",
     isVerified: true
   }
 ];
@@ -261,12 +261,12 @@ const notesDataset = [
     ],
     examTips: "प्रतियोगी परीक्षा चेतावनी: दूदू अब स्वतंत्र जिला नहीं है (जयपुर में विलीन), अतः धौलपुर ही सबसे छोटा जिला है। अंतरराष्ट्रीय सीमा पर 4 जिले हैं।",
     readOnlineHtml: "<h3>राजस्थान के 41 जिले एवं 7 संभाग</h3><p>मंत्रिमंडलीय उप-समिति (ललित के. पंवार समिति) की समीक्षा उपरांत 9 असंवहनीय जिलों को मूल जिलों में पुनः विलीन किया गया। अब राज्य में कुल 41 जिले और 7 संभाग हैं।</p>",
-    pdfUrl: "https://archive.org/download/rajasthan-study-capsules/Rajasthan_41_Districts_7_Divisions.pdf",
+    pdfUrl: "/storage/pdfs/Notes_Rajasthan_41_Districts_7_Divisions.pdf",
     downloadRecord: {
       fileName: "Rajasthan_41_Districts_7_Divisions_Capsule.pdf",
       fileSize: "2.5 MB",
       directUrl: "/api/pyq-download?type=note&id=note_geo_41_districts_7_divisions",
-      mirrorUrl: "https://archive.org/download/rajasthan-study-capsules/Rajasthan_41_Districts_7_Divisions.pdf"
+      mirrorUrl: "/storage/pdfs/Notes_Rajasthan_41_Districts_7_Divisions.pdf"
     },
     isVerified: true
   },
@@ -293,12 +293,12 @@ const notesDataset = [
     ],
     examTips: "याद रखें: बीसलपुर बांध अब केकड़ी एवं टोंक की सीमा पर है, गणेश्वर सभ्यता 'नीम का थाना' में है, और लूणी नदी बालोतरा में खारी होती है। कोपेन में Cwg पूर्वी राजस्थान का प्रतिनिधित्व करता है।",
     readOnlineHtml: "<h3>भौतिक प्रदेश एवं अपवाह तंत्र</h3><p>अरावली पर्वतमाला राज्य का मुख्य जल विभाजक है। चंबल नदी पर राज्य का सबसे बड़ा बांध राणा प्रताप सागर (रावतभाटा, चित्तौड़गढ़) है।</p>",
-    pdfUrl: "https://archive.org/download/rajasthan-study-capsules/Rajasthan_Physical_Geography_Rivers_Climate.pdf",
+    pdfUrl: "/storage/pdfs/Notes_Rajasthan_41_Districts_7_Divisions.pdf",
     downloadRecord: {
       fileName: "Rajasthan_Physical_Rivers_Climate.pdf",
       fileSize: "2.8 MB",
       directUrl: "/api/pyq-download?type=note&id=note_geo_physical_divisions_climate_rivers",
-      mirrorUrl: "https://archive.org/download/rajasthan-study-capsules/Rajasthan_Physical_Geography_Rivers_Climate.pdf"
+      mirrorUrl: "/storage/pdfs/Notes_Rajasthan_41_Districts_7_Divisions.pdf"
     },
     isVerified: true
   },
@@ -327,12 +327,12 @@ const notesDataset = [
     ],
     examTips: "आरपीएससी एवं चयन बोर्ड का क्लासिक प्रश्न: पाबूजी की फड़ वाचन में कौन सा वाद्ययंत्र प्रयुक्त होता है? उत्तर: रावणहत्था। आदिवासियों का कुंभ किसे कहते हैं? उत्तर: बेणेश्वर मेला (डूंगरपुर)।",
     readOnlineHtml: "<h3>दुर्ग, महल एवं मेले-त्योहार</h3><p>चित्तौड़गढ़ राजस्थान का सबसे बड़ा आवासीय किला (Living Fort) है। बेणेश्वर में खंडित शिवलिंग की पूजा की जाती है।</p>",
-    pdfUrl: "https://archive.org/download/rajasthan-study-capsules/Rajasthan_Forts_Palaces_Fairs_Folk_Deities.pdf",
+    pdfUrl: "/storage/pdfs/Notes_Rajasthan_History_Culture_Forts.pdf",
     downloadRecord: {
       fileName: "Rajasthan_Art_Culture_Full_Capsule.pdf",
       fileSize: "3.1 MB",
       directUrl: "/api/pyq-download?type=note&id=note_history_culture_forts_palaces_fairs",
-      mirrorUrl: "https://archive.org/download/rajasthan-study-capsules/Rajasthan_Forts_Palaces_Fairs_Folk_Deities.pdf"
+      mirrorUrl: "/storage/pdfs/Notes_Rajasthan_History_Culture_Forts.pdf"
     },
     isVerified: true
   },
@@ -359,12 +359,12 @@ const notesDataset = [
     ],
     examTips: "अक्सर पूछा जाता है: 1857 की किन दो छावनियों ने विद्रोह में भाग नहीं लिया? उत्तर: ब्यावर एवं खेरवाड़ा। मत्स्य संघ का विलय किस समिति की सिफारिश पर हुआ? उत्तर: डॉ. शंकरराव देव समिति।",
     readOnlineHtml: "<h3>1857 की क्रांति एवं एकीकरण</h3><p>30 मार्च 1949 को वृहत राजस्थान के गठन के दिन को प्रतिवर्ष 'राजस्थान दिवस' के रूप में मनाया जाता है।</p>",
-    pdfUrl: "https://archive.org/download/rajasthan-study-capsules/Rajasthan_1857_Prajamandal_Integration_7_Stages.pdf",
+    pdfUrl: "/storage/pdfs/Notes_Rajasthan_History_Culture_Forts.pdf",
     downloadRecord: {
       fileName: "Rajasthan_1857_Prajamandal_Integration.pdf",
       fileSize: "2.6 MB",
       directUrl: "/api/pyq-download?type=note&id=note_history_1857_prajamandal_integration",
-      mirrorUrl: "https://archive.org/download/rajasthan-study-capsules/Rajasthan_1857_Prajamandal_Integration_7_Stages.pdf"
+      mirrorUrl: "/storage/pdfs/Notes_Rajasthan_History_Culture_Forts.pdf"
     },
     isVerified: true
   },
@@ -390,12 +390,12 @@ const notesDataset = [
     ],
     examTips: "SHRC अध्यक्ष पद हेतु उच्च न्यायालय का सेवानिवृत्त मुख्य न्यायाधीश या अन्य न्यायाधीश पात्र है। पंचायती राज 2 अक्टूबर 1959 को नागौर के बगदरी में शुरू हुआ।",
     readOnlineHtml: "<h3>राज्यपाल, लोकायुक्त एवं पंचायती राज</h3><p>राजस्थान पंचायती राज अधिनियम 23 अप्रैल 1994 से लागू हुआ।</p>",
-    pdfUrl: "https://archive.org/download/rajasthan-study-capsules/Rajasthan_Polity_Governor_CM_SHRC_Lokayukta.pdf",
+    pdfUrl: "/storage/pdfs/Notes_Rajasthan_Polity_Governor_CM.pdf",
     downloadRecord: {
       fileName: "Rajasthan_Polity_Governance_Capsule.pdf",
       fileSize: "2.3 MB",
       directUrl: "/api/pyq-download?type=note&id=note_polity_governor_cm_shrc_lokayukta_panchayat",
-      mirrorUrl: "https://archive.org/download/rajasthan-study-capsules/Rajasthan_Polity_Governor_CM_SHRC_Lokayukta.pdf"
+      mirrorUrl: "/storage/pdfs/Notes_Rajasthan_Polity_Governor_CM.pdf"
     },
     isVerified: true
   },
@@ -420,12 +420,12 @@ const notesDataset = [
     ],
     examTips: "पीताम्बर का विग्रह यदि 'पीले वस्त्र' हो तो कर्मधारय, और 'श्रीकृष्ण' का बोध हो तो बहुव्रीहि।",
     readOnlineHtml: "<h3>संधि, समास एवं शब्द शुद्धि</h3><p>शब्द शुद्धि में 'उज्ज्वल' और 'कवयित्री' सबसे ज्यादा बार पूछे जाने वाले शब्द हैं।</p>",
-    pdfUrl: "https://archive.org/download/rajasthan-study-capsules/General_Hindi_Grammar_Capsule.pdf",
+    pdfUrl: "/storage/pdfs/Notes_General_Hindi_Sandhi_Samas.pdf",
     downloadRecord: {
       fileName: "General_Hindi_Grammar_Capsule.pdf",
       fileSize: "2.1 MB",
       directUrl: "/api/pyq-download?type=note&id=note_hindi_sandhi_samasa_shuddhi",
-      mirrorUrl: "https://archive.org/download/rajasthan-study-capsules/General_Hindi_Grammar_Capsule.pdf"
+      mirrorUrl: "/storage/pdfs/Notes_General_Hindi_Sandhi_Samas.pdf"
     },
     isVerified: true
   },
@@ -452,12 +452,12 @@ const notesDataset = [
     ],
     examTips: "कोबाल्ट धातु विटामिन B12 में पाई जाती है। 10% ऊर्जा नियम लिंडेमान ने दिया था।",
     readOnlineHtml: "<h3>मानव रोग, विटामिन एवं पोषण</h3><p>विटामिन सी गर्म करने पर सबसे पहले नष्ट होता है।</p>",
-    pdfUrl: "https://archive.org/download/rajasthan-study-capsules/General_Science_Diseases_Nutrition_Environment.pdf",
+    pdfUrl: "/storage/pdfs/Notes_General_Science_Everyday.pdf",
     downloadRecord: {
       fileName: "General_Science_Complete_Capsule.pdf",
       fileSize: "2.7 MB",
       directUrl: "/api/pyq-download?type=note&id=note_science_diseases_nutrition_environment",
-      mirrorUrl: "https://archive.org/download/rajasthan-study-capsules/General_Science_Diseases_Nutrition_Environment.pdf"
+      mirrorUrl: "/storage/pdfs/Notes_General_Science_Everyday.pdf"
     },
     isVerified: true
   }
