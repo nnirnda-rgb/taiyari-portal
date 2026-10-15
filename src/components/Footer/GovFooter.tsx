@@ -74,11 +74,11 @@ export default function GovFooter() {
             <div className="flex items-center gap-2.5">
               <div className="w-10 h-10 flex-shrink-0">
                 <Image
-                  src="/images/rajasthan_seal.svg"
-                  alt="राजस्थान सरकार प्रतीक"
+                  src="/images/trust_seal.svg"
+                  alt="॥ निःशुल्क जन-शिक्षा संकल्प ॥"
                   width={40}
                   height={40}
-                  className="w-full h-full object-contain"
+                  className="w-full h-full object-contain drop-shadow"
                 />
               </div>
               <div>
@@ -92,13 +92,13 @@ export default function GovFooter() {
             </div>
 
             <p className="text-slate-400 text-xs leading-relaxed text-justify">
-              राजस्थान सरकार द्वारा संचालित एवं अनुमोदित प्रतियोगी परीक्षा तैयारी हेतु एक आदर्श निःशुल्क मंच, 
-              जहां ग्रामीण और शहरी क्षेत्रों के युवाओं को गुणवत्तापूर्ण डिजिटल अध्ययन सामग्री, पूर्व प्रश्न-पत्र तथा मॉक टेस्ट उपलब्ध कराए जाते हैं।
+              रूपसिंह फनात की प्रेरणा से संचालित एक 100% निःशुल्क, जन-सहयोग आधारित छात्र संबल मंच, 
+              जहां राजस्थान के प्रत्येक प्रतियोगी छात्र को गुणवत्तापूर्ण डिजिटल अध्ययन सामग्री, विगत प्रश्न-पत्र तथा मॉक टेस्ट पूर्णतः निःशुल्क उपलब्ध कराए जाते हैं।
             </p>
 
             <div className="flex items-center gap-2 pt-1 text-slate-300 font-semibold">
               <ShieldCheck className="w-4 h-4 text-emerald-400" />
-              <span>100% निःशुल्क एवं प्रामाणिक</span>
+              <span>100% निःशुल्क जन-शिक्षा संकल्प</span>
             </div>
           </div>
 
@@ -159,7 +159,7 @@ export default function GovFooter() {
                   rel="noopener noreferrer"
                   className="hover:text-amber-300 flex items-center justify-between text-slate-300 transition-colors"
                 >
-                  <span>राजस्थान सरकार आधिकारिक पोर्टल</span>
+                  <span>राजस्थान राज्य वेब डायरेक्टरी (rajasthan.gov.in)</span>
                   <ExternalLink className="w-3.5 h-3.5 text-slate-500" />
                 </a>
               </li>
@@ -172,26 +172,25 @@ export default function GovFooter() {
               पोर्टल मुख्य अनुभाग
             </h4>
             <ul className="space-y-1.5 text-slate-300">
-              <li><a href="#rsmssb-hub" className="hover:text-white">✓ RSMSSB हब (पटवार, CET, पशु परिचर, VDO)</a></li>
-              <li><a href="#rpsc-hub" className="hover:text-white">✓ RPSC हब (RAS Pre/Mains, 1st & 2nd Grade)</a></li>
+              <li><a href="#rajasthan-exams-hub" className="hover:text-white">✓ राजस्थान भर्ती महा-संग्रह (5 बोर्ड डायरेक्टरी)</a></li>
               <li><a href="#taiyari-section" className="hover:text-white">✓ तैयारी (राजस्थान इतिहास, 50 जिले भूगोल, राजव्यवस्था)</a></li>
-              <li><a href="#self-assessment-section" className="hover:text-white">✓ स्वयं की जांच (ऑनलाइन मॉक टेस्ट एवं 5वां विकल्प)</a></li>
-              <li><a href="#previous-papers-section" className="hover:text-white">✓ पुराने पेपर (2021-2024 प्रश्न-पत्र एवं उत्तर कुंजी)</a></li>
-              <li><a href="#notifications-section" className="hover:text-white">✓ सूचनाएं एवं आगामी परीक्षा कैलेंडर</a></li>
+              <li><a href="#self-assessment-section" className="hover:text-white">✓ स्वयं की जांच (ऑनलाइन CBT मॉक टेस्ट एवं 5वां विकल्प)</a></li>
+              <li><a href="#previous-papers-section" className="hover:text-white">✓ पुराने पेपर (वाटरमार्क युक्त प्रश्न-पत्र एवं उत्तर कुंजी)</a></li>
+              <li><a href="#notifications-section" className="hover:text-white">✓ सूचनाएं एवं आगामी भर्ती कैलेंडर</a></li>
             </ul>
           </div>
 
           {/* Col 4: Helpline & Support */}
           <div className="space-y-3">
             <h4 className="font-bold text-white text-sm uppercase tracking-wider text-amber-400 border-b border-slate-800 pb-2">
-              सहायता एवं मार्गदर्शन प्रकोष्ठ
+              छात्र संबल एवं मार्गदर्शन प्रकोष्ठ
             </h4>
             <div className="space-y-2.5 text-slate-300 text-xs">
               <div className="flex items-start gap-2">
                 <PhoneCall className="w-4 h-4 text-emerald-400 flex-shrink-0 mt-0.5" />
                 <div>
-                  <span className="font-semibold block text-white">हेल्पलाइन नंबर:</span>
-                  <span>181 (टोल फ्री) / 0141-2227181</span>
+                  <span className="font-semibold block text-white">छात्र संबल हेल्पलाइन:</span>
+                  <span>1800-180-6127 (टोल फ्री)</span>
                 </div>
               </div>
 
@@ -199,15 +198,15 @@ export default function GovFooter() {
                 <Mail className="w-4 h-4 text-blue-400 flex-shrink-0 mt-0.5" />
                 <div>
                   <span className="font-semibold block text-white">ई-मेल सहायता:</span>
-                  <span>helpdesk.nayisoch@rajasthan.gov.in</span>
+                  <span>contact@taiyari-portal.in</span>
                 </div>
               </div>
 
               <div className="flex items-start gap-2">
                 <MapPin className="w-4 h-4 text-rose-400 flex-shrink-0 mt-0.5" />
                 <div>
-                  <span className="font-semibold block text-white">पता:</span>
-                  <span>शासन सचिवालय परिसर, जयपुर, राजस्थान - 302005</span>
+                  <span className="font-semibold block text-white">संबल केंद्र:</span>
+                  <span>रूपसिंह फनात जन-शिक्षा संबल केंद्र, राजस्थान</span>
                 </div>
               </div>
             </div>
@@ -218,10 +217,10 @@ export default function GovFooter() {
         {/* Disclaimer & Copyright */}
         <div className="mt-10 pt-6 border-t border-slate-800 text-[11px] text-slate-400 text-center space-y-2">
           <p>
-            यह पोर्टल <strong>रूपसिंह फनात</strong> की ओर से युवाओं को समर्पित — उन सभी युवाओं के लिए जो राजस्थान भर्ती परीक्षा की तैयारी कर रहे हैं। प्रेरणादायी पहल: <strong>&lsquo;नई सोच, नई पहल&rsquo;</strong> — आइए मिलकर कल को और बेहतर बनाते हैं।
+            यह पोर्टल <strong>रूपसिंह फनात</strong> की ओर से युवाओं को समर्पित एक 100% निःशुल्क एवं स्वतंत्र जन-शिक्षा संबल पहल है — जिसका उद्देश्य राजस्थान के प्रत्येक प्रतियोगी छात्र को समान अवसर और उच्च गुणवत्ता वाली अध्ययन सामग्री उपलब्ध कराना है। प्रेरणादायी संकल्प: <strong>&lsquo;नई सोच, नई पहल&rsquo;</strong> — आइए मिलकर कल को और बेहतर बनाते हैं।
           </p>
           <p className="text-slate-500">
-            © 2024-2026 युवा शिक्षा पोर्टल | नई सोच, नई पहल - रूपसिंह फनात। सर्वाधिकार सुरक्षित।
+            © 2024-2026 युवा शिक्षा पोर्टल | ॥ निःशुल्क जन-शिक्षा संकल्प ॥ • रूपसिंह फनात। सर्वाधिकार सुरक्षित।
           </p>
         </div>
 

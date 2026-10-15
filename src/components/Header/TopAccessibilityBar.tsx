@@ -56,11 +56,11 @@ export default function TopAccessibilityBar() {
       <header className="bg-slate-900 text-slate-200 text-xs border-b border-slate-800 py-1.5 px-3 sm:px-6">
         <div className="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-2">
           
-          {/* Left: Govt Affiliation & Date */}
+          {/* Left: Trust Initiative & Date */}
           <div className="flex items-center gap-4 text-[11px] sm:text-xs">
             <span className="font-semibold text-amber-400 flex items-center gap-1.5">
               <span className="inline-block w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-              राजस्थान सरकार | Government of Rajasthan
+              ॥ निःशुल्क जन-शिक्षा संकल्प ॥ | युवा शिक्षा संबल पहल • रूपसिंह फनात
             </span>
             <span className="hidden md:inline-block text-slate-400">|</span>
             <span className="hidden md:flex items-center gap-1 text-slate-300">

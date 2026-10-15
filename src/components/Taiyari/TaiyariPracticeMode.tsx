@@ -29,6 +29,7 @@ import {
   PracticeQuestion 
 } from '@/data/practiceQuestionsData';
 import { RecruitmentBoard } from '@/data/rajasthanExams';
+import { fetchAutoPublishedPracticeQuestions } from '@/services/firestoreService';
 
 interface TaiyariPracticeModeProps {
   initialExamId?: string;
@@ -42,9 +43,33 @@ export default function TaiyariPracticeMode({ initialExamId = 'all' }: TaiyariPr
   const [userAnswers, setUserAnswers] = useState<{ [qId: string]: number }>({});
   const [bookmarkedQuestions, setBookmarkedQuestions] = useState<{ [qId: string]: boolean }>({});
   const [isEnglish, setIsEnglish] = useState<boolean>(false);
+  const [questionsList, setQuestionsList] = useState<PracticeQuestion[]>(PRACTICE_QUESTIONS);
+
+  React.useEffect(() => {
+    fetchAutoPublishedPracticeQuestions().then((cloudList) => {
+      if (cloudList && cloudList.length > 0) {
+        const optionIndexMap: Record<string, number> = { A: 0, B: 1, C: 2, D: 3, E: 4 };
+        const mapped: PracticeQuestion[] = cloudList.map((item, idx) => ({
+          id: item.id || `cloud_q_${idx}`,
+          examIds: ['all'],
+          subjectId: 'geography',
+          topic: item.subject || 'राजस्थान सामान्य ज्ञान',
+          questionHindi: item.questionHindi,
+          questionEnglish: item.questionHindi,
+          optionsHindi: item.options ? item.options.map((o: any) => o.hindi) : [],
+          optionsEnglish: item.options ? item.options.map((o: any) => o.english || o.hindi) : [],
+          correctOptionIndex: optionIndexMap[item.correctOption] ?? 0,
+          explanationHindi: item.explanationHindi || '',
+          explanationEnglish: item.explanationHindi || '',
+          difficulty: 'मध्यम',
+        }));
+        setQuestionsList([...mapped, ...PRACTICE_QUESTIONS]);
+      }
+    }).catch(() => {});
+  }, []);
 
   // Filter questions based on selected Exam & Subject
-  const filteredQuestions = PRACTICE_QUESTIONS.filter((q) => {
+  const filteredQuestions = questionsList.filter((q) => {
     const examMatch = selectedExamId === 'all' || q.examIds.includes(selectedExamId) || q.examIds.includes('all');
     const subjectMatch = selectedSubjectId === 'all' || q.subjectId === selectedSubjectId;
     return examMatch && subjectMatch;

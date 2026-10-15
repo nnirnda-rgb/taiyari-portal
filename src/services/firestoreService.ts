@@ -324,3 +324,82 @@ export async function seedInitialDataToFirestore(): Promise<{ success: boolean; 
     return { success: false, message: err?.message || 'Failed to seed Firestore data.' };
   }
 }
+
+// =========================================================================
+// 6. FETCH AUTO-PUBLISHED PRACTICE QUESTIONS (AGENT 2 PIPELINE)
+// =========================================================================
+export async function fetchAutoPublishedPracticeQuestions(): Promise<any[]> {
+  if (db && isFirebaseConfigured()) {
+    try {
+      const q = query(
+        collection(db, 'practice_questions'),
+        orderBy('publishedAt', 'desc'),
+        limit(30)
+      );
+      const snapshot = await getDocs(q);
+      if (!snapshot.empty) {
+        const list: any[] = [];
+        snapshot.forEach(docSnap => {
+          list.push({ id: docSnap.id, ...docSnap.data() });
+        });
+        return list;
+      }
+    } catch (e) {
+      console.warn('Firestore practice_questions read fallback:', e);
+    }
+  }
+  return [];
+}
+
+// =========================================================================
+// 7. FETCH AUTO-PUBLISHED CIRCULARS & NOTIFICATIONS (AGENT 3 PIPELINE)
+// =========================================================================
+export async function fetchAutoPublishedCirculars(): Promise<any[]> {
+  if (db && isFirebaseConfigured()) {
+    try {
+      const q = query(
+        collection(db, 'circular_notifications'),
+        orderBy('publishedAt', 'desc'),
+        limit(15)
+      );
+      const snapshot = await getDocs(q);
+      if (!snapshot.empty) {
+        const list: any[] = [];
+        snapshot.forEach(docSnap => {
+          list.push({ id: docSnap.id, ...docSnap.data() });
+        });
+        return list;
+      }
+    } catch (e) {
+      console.warn('Firestore circular_notifications read fallback:', e);
+    }
+  }
+  return [];
+}
+
+// =========================================================================
+// 8. FETCH AUTO-PUBLISHED WATERMARKED PYQS (AGENT 5 PIPELINE)
+// =========================================================================
+export async function fetchAutoPublishedPYQs(): Promise<any[]> {
+  if (db && isFirebaseConfigured()) {
+    try {
+      const q = query(
+        collection(db, 'pyq_repository'),
+        orderBy('publishedAt', 'desc'),
+        limit(20)
+      );
+      const snapshot = await getDocs(q);
+      if (!snapshot.empty) {
+        const list: any[] = [];
+        snapshot.forEach(docSnap => {
+          list.push({ id: docSnap.id, ...docSnap.data() });
+        });
+        return list;
+      }
+    } catch (e) {
+      console.warn('Firestore pyq_repository read fallback:', e);
+    }
+  }
+  return [];
+}
+

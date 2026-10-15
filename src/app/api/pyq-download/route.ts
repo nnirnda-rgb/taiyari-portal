@@ -144,8 +144,8 @@ export async function GET(request: NextRequest) {
         : 'राजस्थान लोक सेवा आयोग, घूघरा घाटी, जयपुर रोड, अजमेर (राजस्थान)';
 
       if (customFont) {
-        page.drawText('राजस्थान सरकार (GOVERNMENT OF RAJASTHAN)', {
-          x: 180,
+        page.drawText('॥ निःशुल्क जन-शिक्षा संकल्प ॥ (युवा शिक्षा संबल पहल)', {
+          x: 160,
           y: y - 18,
           size: 11,
           font: customFont,
@@ -525,7 +525,7 @@ export async function GET(request: NextRequest) {
       });
 
       if (customFont) {
-        page.drawText('नई सोच, नई पहल | रूपसिंह फनात', {
+        page.drawText('नई सोच, नई पहल | युवा शिक्षा पोर्टल - रूपसिंह फनात', {
           x: 35,
           y: height - 26,
           size: 13,
@@ -533,7 +533,7 @@ export async function GET(request: NextRequest) {
           color: rgb(1, 1, 1),
         });
 
-        page.drawText('युवा शिक्षा पोर्टल • 100% निःशुल्क प्रामाणिक प्रश्न-पत्र', {
+        page.drawText('॥ निःशुल्क जन-शिक्षा संकल्प ॥ • 100% निःशुल्क प्रश्न-पत्र', {
           x: 35,
           y: height - 38,
           size: 8.5,
@@ -541,10 +541,10 @@ export async function GET(request: NextRequest) {
           color: rgb(0.9, 0.8, 0.4),
         });
       } else {
-        page.drawText('Nayi Soch, Nayi Pehal | Roopsingh Fanat', {
+        page.drawText('Nayi Soch, Nayi Pehal | Yuva Shiksha Portal - Roopsingh Fanat', {
           x: 35,
           y: height - 26,
-          size: 12,
+          size: 11,
           font: standardFontBold,
           color: rgb(1, 1, 1),
         });

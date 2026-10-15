@@ -27,34 +27,34 @@ export default function GovHeader({ onSearch }: GovHeaderProps) {
     <div className="bg-white border-b border-slate-200 py-3.5 px-4 sm:px-6 shadow-sm">
       <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
         
-        {/* Left: Official State Emblem & Portal Branding */}
+        {/* Left: Educational Trust Seal & Portal Branding */}
         <div className="flex items-center gap-3.5 w-full md:w-auto">
-          {/* Official Emblem */}
+          {/* Educational Trust Seal */}
           <div className="w-14 h-14 sm:w-16 sm:h-16 flex-shrink-0 relative">
             <Image
-              src="/images/rajasthan_seal.svg"
-              alt="राजस्थान सरकार प्रतीक चिह्न"
+              src="/images/trust_seal.svg"
+              alt="॥ निःशुल्क जन-शिक्षा संकल्प ॥ - युवा शिक्षा संबल पहल"
               width={64}
               height={64}
-              className="w-full h-full object-contain"
+              className="w-full h-full object-contain drop-shadow-sm"
               priority
             />
           </div>
 
           {/* Typography */}
-          <div className="border-l-2 border-slate-200 pl-3.5">
+          <div className="border-l-2 border-amber-300 pl-3.5">
             <div className="flex items-center gap-2">
-              <span className="text-[11px] font-bold tracking-widest text-blue-900 uppercase">
-                राजस्थान सरकार • GOVT. OF RAJASTHAN
+              <span className="text-[11px] font-extrabold tracking-wider text-blue-950 uppercase">
+                ॥ निःशुल्क जन-शिक्षा संकल्प ॥ • युवा शिक्षा संबल पहल
               </span>
-              <span className="bg-blue-100 text-blue-900 text-[10px] font-bold px-1.5 py-0.2 rounded border border-blue-200">
-                प्रामाणिक पोर्टल
+              <span className="bg-emerald-100 text-emerald-900 text-[10px] font-bold px-2 py-0.5 rounded border border-emerald-300">
+                100% निःशुल्क छात्र संबल
               </span>
             </div>
 
             <div className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight flex items-center gap-1.5">
               <span>युवा शिक्षा पोर्टल</span>
-              <span className="text-xs sm:text-sm font-semibold text-blue-800 bg-blue-50 px-2 py-0.5 rounded-md border border-blue-200 hidden sm:inline-block">
+              <span className="text-xs sm:text-sm font-semibold text-blue-800 bg-amber-50 px-2 py-0.5 rounded-md border border-amber-300 hidden sm:inline-block">
                 नई सोच, नई पहल
               </span>
             </div>

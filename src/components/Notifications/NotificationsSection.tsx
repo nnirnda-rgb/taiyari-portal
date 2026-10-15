@@ -25,6 +25,7 @@ import {
 } from 'lucide-react';
 import { PORTAL_NOTIFICATIONS, PortalNotification, NotificationTag } from '@/data/portalData';
 import AdSenseBanner from '@/components/Ads/AdSenseBanner';
+import { fetchAutoPublishedCirculars } from '@/services/firestoreService';
 
 export default function NotificationsSection() {
   const [boardFilter, setBoardFilter] = useState<'ALL' | 'RSMSSB' | 'RPSC'>('ALL');
@@ -32,6 +33,33 @@ export default function NotificationsSection() {
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [selectedCircular, setSelectedCircular] = useState<PortalNotification | null>(null);
   const [downloadingId, setDownloadingId] = useState<string | null>(null);
+  const [allNotifications, setAllNotifications] = useState<PortalNotification[]>(PORTAL_NOTIFICATIONS);
+
+  React.useEffect(() => {
+    fetchAutoPublishedCirculars().then((cloudList) => {
+      if (cloudList && cloudList.length > 0) {
+        const formatted: PortalNotification[] = cloudList.map((item, idx) => ({
+          id: item.id || `cloud_notif_${idx}`,
+          title: item.title,
+          board: (item.board === 'RPSC' ? 'RPSC' : 'RSMSSB') as 'RSMSSB' | 'RPSC',
+          tag: 'परीक्षा तिथि',
+          date: new Date(item.publishedAt || Date.now()).toLocaleDateString('hi-IN'),
+          circularNo: `CIRCULAR/AUTO/${item.id?.substring(0, 8) || '2025'}`,
+          department: 'राजस्थान भर्ती एवं चयन प्रकोष्ठ',
+          summary: item.title,
+          keyDetails: [
+            { label: 'स्थिति', value: 'ऑटो-पब्लिश्ड (लाइव)' },
+            { label: 'प्राथमिकता', value: 'आगामी परीक्षा' }
+          ],
+          fileSize: '1.2 MB',
+          isNew: true,
+          isUrgent: item.urgent ?? true,
+          linkText: 'आधिकारिक परिपत्र एवं परीक्षा विवरण',
+        }));
+        setAllNotifications([...formatted, ...PORTAL_NOTIFICATIONS]);
+      }
+    }).catch(() => {});
+  }, []);
 
   // Available tag filters specifically highlighting the user-requested tags: 'नई भर्ती', 'परीक्षा तिथि', and 'सिलेबस'
   const filterTags: { id: string; label: string; icon: any; color: string }[] = [
@@ -41,7 +69,7 @@ export default function NotificationsSection() {
     { id: 'सिलेबस', label: 'सिलेबस', icon: FileText, color: 'text-indigo-700 bg-indigo-50 hover:bg-indigo-100 border-indigo-200' },
   ];
 
-  const filteredNotifs = PORTAL_NOTIFICATIONS.filter((notif) => {
+  const filteredNotifs = allNotifications.filter((notif) => {
     // Board filter
     if (boardFilter !== 'ALL' && notif.board !== boardFilter) return false;
     
@@ -475,7 +503,7 @@ export default function NotificationsSection() {
             <div className="bg-white rounded-2xl p-5 border border-slate-200 shadow-xs">
               <h4 className="text-xs font-bold text-slate-900 uppercase tracking-wider mb-3 flex items-center gap-1.5">
                 <ExternalLink className="w-3.5 h-3.5 text-blue-800" />
-                राजस्थान सरकार आधिकारिक पोर्टल लिंक
+                आधिकारिक भर्ती बोर्ड एवं पोर्टल लिंक
               </h4>
 
               <div className="space-y-2 text-xs">
@@ -550,10 +578,10 @@ export default function NotificationsSection() {
               <X className="w-4 h-4" />
             </button>
 
-            {/* Modal Government Letterhead Header */}
+            {/* Modal Board Circular Letterhead Header */}
             <div className="text-center pb-4 border-b border-slate-200">
               <div className="inline-block bg-blue-900 text-white text-[10px] font-black px-3 py-0.5 rounded-full uppercase tracking-wider mb-2">
-                राजस्थान सरकार (GOVERNMENT OF RAJASTHAN)
+                ॥ निःशुल्क जन-शिक्षा संकल्प ॥ • आधिकारिक भर्ती विज्ञप्ति संकलन
               </div>
               <h3 className="text-lg font-black text-slate-900">
                 {selectedCircular.board === 'RSMSSB'
