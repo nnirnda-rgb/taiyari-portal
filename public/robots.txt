@@ -8,5 +8,12 @@ Disallow: /admin/
 Disallow: /api/
 Disallow: /api/*
 
+User-agent: Mediapartners-Google
+Allow: /
+Disallow: /admin
+Disallow: /admin/
+Disallow: /api/
+Disallow: /api/*
+
 # Sitemap
 Sitemap: https://taiyari-portal.vercel.app/sitemap.xml

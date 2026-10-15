@@ -13,7 +13,6 @@ import RajasthanExamHubs from '@/components/Exams/RajasthanExamHubs';
 import TaiyariSection from '@/components/Taiyari/TaiyariSection';
 import GovFooter from '@/components/Footer/GovFooter';
 import AdSenseBanner from '@/components/Ads/AdSenseBanner';
-import GoogleAdSense from '@/components/Ads/GoogleAdSense';
 
 // Low-Bandwidth 4G Mobile Optimization: Dynamic Lazy Loading for Below-the-Fold Heavy Interactive Modules
 const SelfAssessmentSection = dynamic(
@@ -110,8 +109,6 @@ export default function Home() {
 
   return (
     <div className="min-h-screen flex flex-col bg-slate-50 font-sans">
-      {/* Official Google AdSense Integration (Exclusively for Public Student Portal) */}
-      <GoogleAdSense />
       
       {/* 1. Official National & Accessibility Bar */}
       <TopAccessibilityBar />

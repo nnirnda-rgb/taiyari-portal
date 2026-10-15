@@ -13,6 +13,9 @@ export const metadata: Metadata = {
     locale: 'hi_IN',
     type: 'website',
   },
+  other: {
+    'google-adsense-account': 'ca-pub-4361999133480039',
+  },
 };
 
 export const viewport: Viewport = {
@@ -35,6 +38,14 @@ export default function RootLayout({
         <link 
           href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Noto+Sans+Devanagari:wght@400;500;600;700;800;900&display=swap" 
           rel="stylesheet" 
+        />
+        {/* Google AdSense Publisher Account Verification */}
+        <meta name="google-adsense-account" content="ca-pub-4361999133480039" />
+        {/* Official Google AdSense Code Snippet */}
+        <script 
+          async 
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4361999133480039"
+          crossOrigin="anonymous"
         />
       </head>
       <body className="min-h-screen bg-slate-50 text-slate-900 antialiased selection:bg-blue-900 selection:text-white">
