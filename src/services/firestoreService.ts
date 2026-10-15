@@ -8,13 +8,17 @@ import {
   where, 
   orderBy, 
   serverTimestamp,
-  limit 
+  limit,
+  onSnapshot,
+  Unsubscribe 
 } from 'firebase/firestore';
 import { db, isFirebaseConfigured } from '@/lib/firebase';
 import { CBT_MOCK_TEST_CET, CbtQuestion, getExamQuestions, FULL_100_CBT_QUESTIONS } from '@/data/cbtExamData';
 import { PRACTICE_QUESTIONS } from '@/data/practiceQuestionsData';
-import { PREVIOUS_PAPERS_DATA, PORTAL_NOTIFICATIONS } from '@/data/portalData';
-import { RAJASTHAN_EXAMS } from '@/data/rajasthanExams';
+import { PREVIOUS_PAPERS_DATA, PORTAL_NOTIFICATIONS, PreviousPaper } from '@/data/portalData';
+import { RAJASTHAN_EXAMS_DIRECTORY as RAJASTHAN_EXAMS, RajasthanExam } from '@/data/rajasthanExams';
+import { AUTHENTIC_STUDY_NOTES, StudyNoteTopic } from '@/data/notesData';
+import { RAJASTHAN_REVISION_NOTES, RevisionNote } from '@/data/rajasthanNotesData';
 
 export interface MockTestModel {
   id: string;
@@ -445,7 +449,181 @@ export async function seedInitialDataToFirestore(): Promise<{
       notifCount++;
     }
 
-    // 6. Seed Official Syllabi from Rajasthan Exams Directory
+    // 6. Seed Official Syllabi with Exact Subject-Wise Marks Distribution
+    const SYLLABI_DETAILED_BLUEPRINTS = [
+      {
+        id: "syllabus_cet_graduate",
+        examId: "rssb-cet-grad",
+        examNameHindi: "समान पात्रता परीक्षा (CET) स्नातक स्तर",
+        board: "RSMSSB",
+        totalQuestions: 150,
+        totalMarks: 300,
+        durationMinutes: 180,
+        negativeMarking: "लागू नहीं (पात्रता आधारित)",
+        subjectDistribution: [
+          { subject: "भारतीय राष्ट्रीय आन्दोलन एवं राजस्थान का इतिहास, कला, संस्कृति, साहित्य", questions: 35, marks: 70 },
+          { subject: "भारत एवं राजस्थान का भूगोल", questions: 30, marks: 60 },
+          { subject: "राजस्थान पर विशेष बल के साथ भारतीय राजनीतिक एवं प्रशासनिक व्यवस्था", questions: 25, marks: 50 },
+          { subject: "भारत एवं राजस्थान की अर्थव्यवस्था", questions: 20, marks: 40 },
+          { subject: "दैनिक विज्ञान (General Science) एवं रीजनिंग (Mental Ability)", questions: 20, marks: 40 },
+          { subject: "सामान्य हिन्दी एवं General English", questions: 10, marks: 20 },
+          { subject: "कम्प्यूटर ज्ञान एवं समसामयिक घटनाएं (Current Affairs)", questions: 10, marks: 20 }
+        ],
+        officialPdfUrl: "https://archive.org/download/rajasthan-recruitment-pyqs/CET_Graduation_Syllabus.pdf",
+        downloadMirrorUrl: "https://raw.githubusercontent.com/rajasthan-open-data/exam-repository/main/syllabi/CET_Graduate_Syllabus.pdf",
+        isVerified: true
+      },
+      {
+        id: "syllabus_cet_12th",
+        examId: "rssb-cet-12th",
+        examNameHindi: "समान पात्रता परीक्षा (CET) 12वीं (सीनियर सेकंडरी) स्तर",
+        board: "RSMSSB",
+        totalQuestions: 150,
+        totalMarks: 300,
+        durationMinutes: 180,
+        negativeMarking: "लागू नहीं (पात्रता आधारित)",
+        subjectDistribution: [
+          { subject: "राजस्थान का इतिहास, कला, सांस्कृतिक विरासत, साहित्य, परंपराएं व मेले-त्योहार", questions: 35, marks: 70 },
+          { subject: "भारत एवं राजस्थान का भूगोल (नवीन 50 जिलों के अनुसार)", questions: 30, marks: 60 },
+          { subject: "राजस्थान पर विशेष बल के साथ भारतीय राजनीतिक व्यवस्था", questions: 20, marks: 40 },
+          { subject: "दैनिक विज्ञान (Everyday Science)", questions: 20, marks: 40 },
+          { subject: "तार्किक विवेचन एवं मानसिक योग्यता (Reasoning)", questions: 15, marks: 30 },
+          { subject: "सामान्य हिन्दी", questions: 12, marks: 24 },
+          { subject: "General English", questions: 8, marks: 16 },
+          { subject: "कम्प्यूटर ज्ञान एवं समसामयिकी (Current Affairs)", questions: 10, marks: 20 }
+        ],
+        officialPdfUrl: "https://archive.org/download/rajasthan-recruitment-pyqs/CET_12th_Syllabus.pdf",
+        downloadMirrorUrl: "https://raw.githubusercontent.com/rajasthan-open-data/exam-repository/main/syllabi/CET_12th_Syllabus.pdf",
+        isVerified: true
+      },
+      {
+        id: "syllabus_patwari",
+        examId: "rssb-patwari",
+        examNameHindi: "राजस्थान पटवारी सीधी भर्ती परीक्षा",
+        board: "RSMSSB",
+        totalQuestions: 150,
+        totalMarks: 300,
+        durationMinutes: 180,
+        negativeMarking: "1/3 अंक प्रति गलत उत्तर (5वां विकल्प नियम लागू)",
+        subjectDistribution: [
+          { subject: "General Science, History, Polity & Geography of India; General Knowledge, Current Affairs", weightage: "25%", questions: 38, marks: 76 },
+          { subject: "Geography, History, Culture and Polity of Rajasthan", weightage: "20%", questions: 30, marks: 60 },
+          { subject: "General English & Hindi", weightage: "15%", questions: 22, marks: 44 },
+          { subject: "Mental ability and Reasoning, Basic Numerical efficiency", weightage: "30%", questions: 45, marks: 90 },
+          { subject: "Basic Computer", weightage: "10%", questions: 15, marks: 30 }
+        ],
+        officialPdfUrl: "https://archive.org/download/rajasthan-recruitment-pyqs/Patwari_Official_Syllabus.pdf",
+        downloadMirrorUrl: "https://raw.githubusercontent.com/rajasthan-open-data/exam-repository/main/syllabi/Patwari_Official_Syllabus.pdf",
+        isVerified: true
+      },
+      {
+        id: "syllabus_pashu_paricharak",
+        examId: "rssb-pashu-parichar",
+        examNameHindi: "पशु परिचारक सीधी भर्ती परीक्षा (Animal Attendant)",
+        board: "RSMSSB",
+        totalQuestions: 150,
+        totalMarks: 150,
+        durationMinutes: 180,
+        negativeMarking: "1/4 अंक (0.25 अंक) प्रति गलत उत्तर",
+        subjectDistribution: [
+          { part: "भाग 'अ' (भारांक 70%)", subject: "राजस्थान का भूगोल, इतिहास, संस्कृति, दैनिक विज्ञान एवं गणित (माध्यमिक स्तर)", questions: 105, marks: 105 },
+          { part: "भाग 'ब' (भारांक 30%)", subject: "पशुपालन, देशी नस्लें, दुग्ध दोहन, कृत्रिम गर्भाधान, पशु रोग, टीकाकरण, चारा एवं पशु गणना", questions: 45, marks: 45 }
+        ],
+        officialPdfUrl: "https://archive.org/download/rajasthan-recruitment-pyqs/Pashu_Paricharak_Official_Syllabus.pdf",
+        downloadMirrorUrl: "https://raw.githubusercontent.com/rajasthan-open-data/exam-repository/main/syllabi/Pashu_Paricharak_Syllabus.pdf",
+        isVerified: true
+      },
+      {
+        id: "syllabus_rajasthan_police",
+        examId: "police-constable-gd",
+        examNameHindi: "राजस्थान पुलिस कांस्टेबल भर्ती परीक्षा",
+        board: "Police",
+        totalQuestions: 150,
+        totalMarks: 150,
+        durationMinutes: 120,
+        negativeMarking: "1/4 अंक (0.25 अंक) प्रति गलत उत्तर",
+        subjectDistribution: [
+          { subject: "विवेचना एवं तार्किक योग्यता तथा कम्प्यूटर का सामान्य ज्ञान", questions: 60, marks: 60 },
+          { subject: "सामान्य ज्ञान, सामान्य विज्ञान, सामाजिक विज्ञान एवं समसामयिक विषय तथा महिला एवं बाल अपराध", questions: 45, marks: 45 },
+          { subject: "राजस्थान के इतिहास, संस्कृति, कला, भूगोल, राजनीति एवं आर्थिक स्थिति", questions: 45, marks: 45 }
+        ],
+        officialPdfUrl: "https://archive.org/download/rajasthan-recruitment-pyqs/Police_Constable_Syllabus.pdf",
+        downloadMirrorUrl: "https://raw.githubusercontent.com/rajasthan-open-data/exam-repository/main/syllabi/Police_Constable_Syllabus.pdf",
+        isVerified: true
+      },
+      {
+        id: "syllabus_ras_prelims",
+        examId: "rpsc-ras-rts",
+        examNameHindi: "राजस्थान राज्य एवं अधीनस्थ सेवाएं संयुक्त प्रतियोगी (प्रारंभिक) परीक्षा (RAS Prelims)",
+        board: "RPSC",
+        totalQuestions: 150,
+        totalMarks: 200,
+        durationMinutes: 180,
+        negativeMarking: "1/3 अंक प्रति गलत उत्तर (5वां विकल्प नियम लागू)",
+        subjectDistribution: [
+          { subject: "राजस्थान का इतिहास, कला, संस्कृति, साहित्य, परंपरा एवं विरासत", questions: 25, marks: 33.3 },
+          { subject: "भारतीय इतिहास (प्राचीन, मध्यकालीन, आधुनिक)", questions: 15, marks: 20.0 },
+          { subject: "भारत एवं विश्व का भूगोल", questions: 15, marks: 20.0 },
+          { subject: "राजस्थान का भूगोल", questions: 15, marks: 20.0 },
+          { subject: "भारतीय संविधान, राजनीतिक व्यवस्था एवं शासन प्रणाली", questions: 20, marks: 26.6 },
+          { subject: "राजस्थान की प्रशासनिक एवं राजनीतिक व्यवस्था", questions: 15, marks: 20.0 },
+          { subject: "आर्थिक अवधारणाएं एवं भारतीय व राजस्थान की अर्थव्यवस्था", questions: 20, marks: 26.6 },
+          { subject: "विज्ञान एवं प्रौद्योगिकी (Science & Tech)", questions: 15, marks: 20.0 },
+          { subject: "तार्किक विवेचन एवं मानसिक योग्यता (Reasoning & Mental Ability)", questions: 20, marks: 26.6 },
+          { subject: "समसामयिक घटनाएं (Current Affairs)", questions: 15, marks: 20.0 }
+        ],
+        officialPdfUrl: "https://archive.org/download/rajasthan-recruitment-pyqs/RAS_RTS_Official_Syllabus.pdf",
+        downloadMirrorUrl: "https://raw.githubusercontent.com/rajasthan-open-data/exam-repository/main/syllabi/RAS_Prelims_Syllabus.pdf",
+        isVerified: true
+      },
+      {
+        id: "syllabus_2nd_grade_gk",
+        examId: "rpsc-senior-teacher-2nd-grade",
+        examNameHindi: "वरिष्ठ अध्यापक (2nd Grade Teacher) - Paper-1 सामान्य ज्ञान",
+        board: "RPSC",
+        totalQuestions: 100,
+        totalMarks: 200,
+        durationMinutes: 120,
+        negativeMarking: "1/3 अंक प्रति गलत उत्तर (5वां विकल्प नियम लागू)",
+        subjectDistribution: [
+          { subject: "Geographical, Historical, Cultural and General Knowledge of Rajasthan", questions: 40, marks: 80 },
+          { subject: "Current Affairs of Rajasthan", questions: 10, marks: 20 },
+          { subject: "General Knowledge of World and India", questions: 30, marks: 60 },
+          { subject: "Educational Psychology (शिक्षा मनोविज्ञान)", questions: 20, marks: 40 }
+        ],
+        officialPdfUrl: "https://archive.org/download/rajasthan-recruitment-pyqs/2nd_Grade_Teacher_Syllabus.pdf",
+        downloadMirrorUrl: "https://raw.githubusercontent.com/rajasthan-open-data/exam-repository/main/syllabi/2nd_Grade_Teacher_Syllabus.pdf",
+        isVerified: true
+      },
+      {
+        id: "syllabus_lab_assistant",
+        examId: "rssb-lab-assistant",
+        examNameHindi: "प्रयोगशाला सहायक संयुक्त सीधी भर्ती (Lab Assistant Science)",
+        board: "RSMSSB",
+        totalQuestions: 200,
+        totalMarks: 400,
+        durationMinutes: 240,
+        negativeMarking: "1/3 अंक प्रति गलत उत्तर",
+        subjectDistribution: [
+          { part: "प्रश्न पत्र-I", subject: "राजस्थान का सामान्य ज्ञान (भूगोल, इतिहास, संस्कृति) एवं समसामयिकी तथा शिक्षा मनोविज्ञान", questions: 100, marks: 200 },
+          { part: "प्रश्न पत्र-II", subject: "भौतिक विज्ञान, रसायन विज्ञान एवं जीव विज्ञान (सीनियर सैकण्डरी स्तर)", questions: 100, marks: 200 }
+        ],
+        officialPdfUrl: "https://archive.org/download/rajasthan-recruitment-pyqs/Lab_Assistant_Official_Syllabus.pdf",
+        downloadMirrorUrl: "https://raw.githubusercontent.com/rajasthan-open-data/exam-repository/main/syllabi/Lab_Assistant_Syllabus.pdf",
+        isVerified: true
+      }
+    ];
+
+    for (const blueprint of SYLLABI_DETAILED_BLUEPRINTS) {
+      const syllabusDoc = doc(db, 'syllabi', blueprint.id);
+      await setDoc(syllabusDoc, {
+        ...blueprint,
+        updatedAt: serverTimestamp(),
+      }, { merge: true });
+      syllabiCount++;
+    }
+
+    // Also populate general exams directory in syllabi collection
     for (const exam of RAJASTHAN_EXAMS) {
       const syllabusDoc = doc(db, 'syllabi', `syllabus_${exam.id}`);
       await setDoc(syllabusDoc, {
@@ -454,13 +632,35 @@ export async function seedInitialDataToFirestore(): Promise<{
         examNameEnglish: exam.nameEnglish,
         board: exam.board,
         department: exam.department,
-        officialSyllabusUrl: exam.officialSyllabusUrl || null,
+        officialSyllabusUrl: exam.mirrorSyllabusUrl || exam.officialSyllabusUrl || null,
         mirrorSyllabusUrl: exam.mirrorSyllabusUrl || null,
         syllabusHighlights: exam.syllabusHighlights,
         negativeMarking: exam.negativeMarking,
+        totalMarks: exam.totalMarks,
         updatedAt: serverTimestamp(),
       }, { merge: true });
       syllabiCount++;
+    }
+
+    // 7. Seed Structured Pure Hindi Revision Capsules into 'notes' collection
+    let notesCount = 0;
+    for (const revNote of RAJASTHAN_REVISION_NOTES) {
+      const noteDoc = doc(db, 'notes', revNote.id);
+      await setDoc(noteDoc, {
+        ...revNote,
+        publishedAt: serverTimestamp(),
+        updatedAt: serverTimestamp(),
+      }, { merge: true });
+      notesCount++;
+    }
+
+    // Also seed into 'study_notes' for multi-topic portal reader compatibility
+    for (const note of AUTHENTIC_STUDY_NOTES) {
+      const noteDoc = doc(db, 'study_notes', note.id);
+      await setDoc(noteDoc, {
+        ...note,
+        updatedAt: serverTimestamp(),
+      }, { merge: true });
     }
 
     const stats = {
@@ -470,11 +670,12 @@ export async function seedInitialDataToFirestore(): Promise<{
       pyqs: pyqCount,
       notifications: notifCount,
       syllabi: syllabiCount,
+      notes: notesCount,
     };
 
     return { 
       success: true, 
-      message: `Successfully seeded genuine Rajasthan recruitment data to Cloud Firestore!`,
+      message: `Successfully seeded genuine Rajasthan recruitment study materials (Notes, PYQs, Syllabi) to Cloud Firestore!`,
       stats
     };
   } catch (err: any) {
@@ -538,7 +739,7 @@ export async function fetchAutoPublishedCirculars(): Promise<any[]> {
 // =========================================================================
 // 8. FETCH AUTO-PUBLISHED MASTER PYQS (AGENT PIPELINE + FALLBACK)
 // =========================================================================
-export async function fetchAutoPublishedPYQs(): Promise<any[]> {
+export async function fetchAutoPublishedPYQs(): Promise<PreviousPaper[]> {
   if (db && isFirebaseConfigured()) {
     try {
       const q = query(
@@ -548,9 +749,9 @@ export async function fetchAutoPublishedPYQs(): Promise<any[]> {
       );
       const snapshot = await getDocs(q);
       if (!snapshot.empty) {
-        const list: any[] = [];
+        const list: PreviousPaper[] = [];
         snapshot.forEach(docSnap => {
-          list.push({ id: docSnap.id, ...docSnap.data() });
+          list.push({ id: docSnap.id, ...docSnap.data() } as PreviousPaper);
         });
         return list;
       }
@@ -560,4 +761,169 @@ export async function fetchAutoPublishedPYQs(): Promise<any[]> {
   }
   return PREVIOUS_PAPERS_DATA;
 }
+
+// =========================================================================
+// 9. FETCH AUTHENTIC STUDY NOTES (FIRESTORE OR LOCAL SEED)
+// =========================================================================
+export async function fetchStudyNotes(): Promise<StudyNoteTopic[]> {
+  if (db && isFirebaseConfigured()) {
+    try {
+      const q = query(
+        collection(db, 'study_notes'),
+        orderBy('lastUpdated', 'desc')
+      );
+      const snapshot = await getDocs(q);
+      if (!snapshot.empty) {
+        const list: StudyNoteTopic[] = [];
+        snapshot.forEach(docSnap => {
+          list.push({ id: docSnap.id, ...(docSnap.data() as any) });
+        });
+        return list;
+      }
+    } catch (err) {
+      console.warn('Firestore study_notes read fallback:', err);
+    }
+  }
+  return AUTHENTIC_STUDY_NOTES;
+}
+
+// =========================================================================
+// 10. REAL-TIME LISTENER: STUDY NOTES (AUTHENTIC READING ROOM)
+// =========================================================================
+export function subscribeToStudyNotes(
+  callback: (notes: StudyNoteTopic[]) => void,
+  onError?: (err: any) => void
+): Unsubscribe {
+  // If db not configured or SSR environment, invoke immediately with authentic notes
+  if (!db || !isFirebaseConfigured() || typeof window === 'undefined') {
+    callback(AUTHENTIC_STUDY_NOTES);
+    return () => {};
+  }
+
+  try {
+    const q = query(collection(db, 'study_notes'));
+    const unsubscribe = onSnapshot(
+      q,
+      (snapshot) => {
+        if (!snapshot.empty) {
+          const list: StudyNoteTopic[] = [];
+          snapshot.forEach(docSnap => {
+            list.push({ id: docSnap.id, ...(docSnap.data() as any) });
+          });
+          callback(list);
+        } else {
+          callback(AUTHENTIC_STUDY_NOTES);
+        }
+      },
+      (error) => {
+        console.warn('Realtime study_notes listener warning, fallback to authentic seed data:', error);
+        if (onError) onError(error);
+        callback(AUTHENTIC_STUDY_NOTES);
+      }
+    );
+    return unsubscribe;
+  } catch (err) {
+    console.warn('Realtime study_notes setup failed, using authentic seed data:', err);
+    callback(AUTHENTIC_STUDY_NOTES);
+    return () => {};
+  }
+}
+
+// =========================================================================
+// 11. REAL-TIME LISTENER: PREVIOUS YEARS PAPERS (PYQ MASTER BANK)
+// =========================================================================
+export function subscribeToPYQs(
+  callback: (pyqs: PreviousPaper[]) => void,
+  onError?: (err: any) => void
+): Unsubscribe {
+  if (!db || !isFirebaseConfigured() || typeof window === 'undefined') {
+    callback(PREVIOUS_PAPERS_DATA);
+    return () => {};
+  }
+
+  try {
+    const q = query(collection(db, 'pyqs'));
+    const unsubscribe = onSnapshot(
+      q,
+      (snapshot) => {
+        if (!snapshot.empty) {
+          const list: PreviousPaper[] = [];
+          snapshot.forEach(docSnap => {
+            list.push({ id: docSnap.id, ...(docSnap.data() as any) });
+          });
+          callback(list);
+        } else {
+          callback(PREVIOUS_PAPERS_DATA);
+        }
+      },
+      (error) => {
+        console.warn('Realtime pyqs listener warning, fallback to authentic seed data:', error);
+        if (onError) onError(error);
+        callback(PREVIOUS_PAPERS_DATA);
+      }
+    );
+    return unsubscribe;
+  } catch (err) {
+    console.warn('Realtime pyqs setup failed, using authentic seed data:', err);
+    callback(PREVIOUS_PAPERS_DATA);
+    return () => {};
+  }
+}
+
+// =========================================================================
+// 12. REAL-TIME LISTENER: OFFICIAL SYLLABI (EXAMS DIRECTORY)
+// =========================================================================
+export function subscribeToSyllabi(
+  callback: (syllabi: RajasthanExam[]) => void,
+  onError?: (err: any) => void
+): Unsubscribe {
+  if (!db || !isFirebaseConfigured() || typeof window === 'undefined') {
+    callback(RAJASTHAN_EXAMS);
+    return () => {};
+  }
+
+  try {
+    const q = query(collection(db, 'syllabi'));
+    const unsubscribe = onSnapshot(
+      q,
+      (snapshot) => {
+        if (!snapshot.empty) {
+          const cloudMap = new Map<string, any>();
+          snapshot.forEach(docSnap => {
+            const data = docSnap.data();
+            cloudMap.set(data.examId || docSnap.id, data);
+          });
+          
+          // Merge with rich base directory for complete UI fidelity
+          const merged = RAJASTHAN_EXAMS.map(exam => {
+            const cloudData = cloudMap.get(exam.id) || cloudMap.get(`syllabus_${exam.id}`);
+            if (cloudData) {
+              return {
+                ...exam,
+                officialSyllabusUrl: cloudData.officialSyllabusUrl || exam.officialSyllabusUrl,
+                mirrorSyllabusUrl: cloudData.mirrorSyllabusUrl || exam.mirrorSyllabusUrl,
+                syllabusHighlights: cloudData.syllabusHighlights || exam.syllabusHighlights,
+              };
+            }
+            return exam;
+          });
+          callback(merged);
+        } else {
+          callback(RAJASTHAN_EXAMS);
+        }
+      },
+      (error) => {
+        console.warn('Realtime syllabi listener warning, fallback to local directory:', error);
+        if (onError) onError(error);
+        callback(RAJASTHAN_EXAMS);
+      }
+    );
+    return unsubscribe;
+  } catch (err) {
+    console.warn('Realtime syllabi setup failed, using local directory:', err);
+    callback(RAJASTHAN_EXAMS);
+    return () => {};
+  }
+}
+
 

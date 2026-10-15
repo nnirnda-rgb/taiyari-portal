@@ -90,6 +90,35 @@ service cloud.firestore {
       allow update, delete: if false;
     }
 
+    // 4. Notes: Publicly readable educational revision capsules; write requires admin
+    match /notes/{noteId} {
+      allow read: if true;
+      allow write: if request.auth != null && request.auth.token.admin == true;
+    }
+
+    // 5. PYQs: Master question papers & answer keys; publicly readable
+    match /pyqs/{pyqId} {
+      allow read: if true;
+      allow write: if request.auth != null && request.auth.token.admin == true;
+    }
+
+    // 6. Syllabi: Official examination syllabi & marks schemes; publicly readable
+    match /syllabi/{syllabusId} {
+      allow read: if true;
+      allow write: if request.auth != null && request.auth.token.admin == true;
+    }
+
+    // 7. Practice Questions & Circulars: Publicly readable
+    match /practice_questions/{questionId} {
+      allow read: if true;
+      allow write: if request.auth != null && request.auth.token.admin == true;
+    }
+
+    match /circular_notifications/{notifId} {
+      allow read: if true;
+      allow write: if request.auth != null && request.auth.token.admin == true;
+    }
+
     // Default deny for any unlisted collections
     match /{document=**} {
       allow read, write: if false;

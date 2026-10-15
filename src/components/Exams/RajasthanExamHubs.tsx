@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useMemo } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { 
   Layers, 
   GraduationCap, 
@@ -24,7 +24,8 @@ import {
   HelpCircle,
   Stethoscope,
   Terminal,
-  Award
+  Award,
+  Download
 } from 'lucide-react';
 import { 
   RAJASTHAN_EXAMS_DIRECTORY, 
@@ -37,6 +38,8 @@ import {
   CETStatus
 } from '@/data/rajasthanExams';
 import RajasthanExamDetailModal from './RajasthanExamDetailModal';
+import { subscribeToSyllabi } from '@/services/firestoreService';
+import { downloadWithFallback } from '@/lib/downloadEngine';
 
 interface RajasthanExamHubsProps {
   onStartQuiz: (examId?: string) => void;
@@ -51,15 +54,40 @@ export default function RajasthanExamHubs({
   initialBoard = 'all',
   searchFilter = ''
 }: RajasthanExamHubsProps) {
+  const [allExams, setAllExams] = useState<RajasthanExam[]>(RAJASTHAN_EXAMS_DIRECTORY);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   const [selectedBoard, setSelectedBoard] = useState<RecruitmentBoard | 'all'>(initialBoard);
   const [selectedQual, setSelectedQual] = useState<QualificationLevel | 'all'>('all');
   const [selectedCet, setSelectedCet] = useState<CETStatus | 'all'>('all');
   const [localSearch, setLocalSearch] = useState<string>(searchFilter);
   const [selectedExam, setSelectedExam] = useState<RajasthanExam | null>(null);
 
+  // Real-time Firestore Syllabus & Exams Listener with Skeleton Loader
+  useEffect(() => {
+    setIsLoading(true);
+    const unsubscribe = subscribeToSyllabi(
+      (realtimeExams) => {
+        if (realtimeExams && realtimeExams.length > 0) {
+          setAllExams(realtimeExams);
+        }
+        setIsLoading(false);
+      },
+      (error) => {
+        console.warn('Realtime syllabi listener fallback to local directory:', error);
+        setIsLoading(false);
+      }
+    );
+
+    return () => {
+      if (typeof unsubscribe === 'function') {
+        unsubscribe();
+      }
+    };
+  }, []);
+
   // Filtered Exam List
   const filteredExams = useMemo(() => {
-    return RAJASTHAN_EXAMS_DIRECTORY.filter((exam) => {
+    return allExams.filter((exam) => {
       // 1. Board filter
       if (selectedBoard !== 'all' && exam.board !== selectedBoard) {
         return false;
@@ -91,7 +119,7 @@ export default function RajasthanExamHubs({
 
       return true;
     });
-  }, [selectedBoard, selectedQual, selectedCet, localSearch, searchFilter]);
+  }, [allExams, selectedBoard, selectedQual, selectedCet, localSearch, searchFilter]);
 
   // Board Icon Helper
   const renderBoardIcon = (board: RecruitmentBoard | 'all') => {
@@ -396,7 +424,23 @@ export default function RajasthanExamHubs({
           </div>
         )}
 
-        {/* 4. Exams Directory Cards Grid */}
+        {/* 4. Exams Directory Cards Grid & Skeleton Loader */}
+        {isLoading ? (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+            {[1, 2, 3, 4, 5, 6].map((i) => (
+              <div key={i} className="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm space-y-3 animate-pulse">
+                <div className="flex justify-between">
+                  <div className="h-5 w-20 bg-slate-200 rounded" />
+                  <div className="h-5 w-24 bg-slate-200 rounded" />
+                </div>
+                <div className="h-6 w-3/4 bg-slate-200 rounded" />
+                <div className="h-4 w-1/2 bg-slate-100 rounded" />
+                <div className="h-14 w-full bg-slate-100 rounded-xl" />
+                <div className="h-9 w-full bg-slate-200 rounded-xl pt-2" />
+              </div>
+            ))}
+          </div>
+        ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
           {filteredExams.map((exam) => (
             <div
@@ -484,6 +528,7 @@ export default function RajasthanExamHubs({
             </div>
           ))}
         </div>
+        )}
 
         {/* Bottom Educational Guidance Banner */}
         <div className="bg-gradient-to-r from-blue-900 via-indigo-900 to-blue-950 text-white rounded-2xl p-5 sm:p-6 shadow-lg border-2 border-amber-400 flex flex-col md:flex-row items-center justify-between gap-4">

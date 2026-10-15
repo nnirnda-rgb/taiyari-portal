@@ -20,6 +20,7 @@ import {
   Sparkles
 } from 'lucide-react';
 import { RajasthanExam } from '@/data/rajasthanExams';
+import { downloadWithFallback } from '@/lib/downloadEngine';
 
 interface RajasthanExamDetailModalProps {
   exam: RajasthanExam | null;
@@ -220,7 +221,7 @@ export default function RajasthanExamDetailModal({
               ))}
             </ul>
 
-            {/* Official Syllabus PDF Direct Access */}
+            {/* Official Syllabus PDF Direct Access with Resilient Fallback Engine */}
             <div className="mt-3 p-3 bg-gradient-to-r from-blue-50 to-indigo-50/60 rounded-xl border border-blue-200/80 flex flex-col sm:flex-row sm:items-center justify-between gap-2.5">
               <div className="flex items-center gap-2">
                 <div className="w-7 h-7 rounded-lg bg-blue-900 text-white flex items-center justify-center flex-shrink-0">
@@ -228,21 +229,47 @@ export default function RajasthanExamDetailModal({
                 </div>
                 <div>
                   <div className="text-xs font-bold text-blue-950">आधिकारिक विस्तृत पाठ्यक्रम (Official Syllabus PDF)</div>
-                  <div className="text-[10px] text-blue-700">विभाग एवं चयन बोर्ड द्वारा जारी मूल पीडीएफ डाउनलोड करें</div>
+                  <div className="text-[10px] text-blue-700">बोर्ड सर्वर एवं सुरक्षित शैक्षिक मिरर से प्रमाणित डाउनलोड</div>
                 </div>
               </div>
 
               <div className="flex items-center gap-2 flex-wrap">
-                {exam.officialSyllabusUrl ? (
-                  <a
-                    href={exam.officialSyllabusUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1.5 bg-blue-900 hover:bg-blue-800 text-white text-[11px] font-bold px-3 py-1.5 rounded-lg shadow-xs transition-colors"
-                  >
-                    <Download className="w-3 h-3 text-amber-300" />
-                    <span>मूल पीडीएफ (बोर्ड सर्वर)</span>
-                  </a>
+                {exam.officialSyllabusUrl || exam.mirrorSyllabusUrl ? (
+                  <>
+                    <button
+                      onClick={async () => {
+                        await downloadWithFallback({
+                          primaryUrl: exam.officialSyllabusUrl || exam.mirrorSyllabusUrl!,
+                          mirrorUrl: exam.mirrorSyllabusUrl,
+                          fileName: `${exam.id}_Official_Syllabus.pdf`,
+                          title: `${exam.name} पाठ्यक्रम (Syllabus)`
+                        });
+                      }}
+                      className="inline-flex items-center gap-1.5 bg-blue-900 hover:bg-blue-800 text-white text-[11px] font-bold px-3 py-1.5 rounded-lg shadow-xs transition-colors"
+                      title="आधिकारिक बोर्ड सर्वर से पाठ्यक्रम डाउनलोड करें (ऑटो-मिरर फॉलबैक सहित)"
+                    >
+                      <Download className="w-3 h-3 text-amber-300" />
+                      <span>मूल पाठ्यक्रम (PDF)</span>
+                    </button>
+
+                    {exam.mirrorSyllabusUrl && (
+                      <button
+                        onClick={async () => {
+                          await downloadWithFallback({
+                            primaryUrl: exam.mirrorSyllabusUrl!,
+                            mirrorUrl: exam.officialSyllabusUrl,
+                            fileName: `${exam.id}_Syllabus_Mirror.pdf`,
+                            title: `${exam.name} पाठ्यक्रम (फास्ट मिरर)`
+                          });
+                        }}
+                        className="inline-flex items-center gap-1 bg-white hover:bg-blue-50 text-blue-950 border border-blue-300 text-[11px] font-bold px-2.5 py-1.5 rounded-lg transition-colors"
+                        title="उच्च गति वाले CDN मिरर से तुरंत पाठ्यक्रम डाउनलोड करें"
+                      >
+                        <Download className="w-3 h-3 text-emerald-600" />
+                        <span>फास्ट मिरर</span>
+                      </button>
+                    )}
+                  </>
                 ) : (
                   <a
                     href={exam.officialWebsite}
@@ -252,18 +279,6 @@ export default function RajasthanExamDetailModal({
                   >
                     <ExternalLink className="w-3 h-3" />
                     <span>पोर्टल पर देखें</span>
-                  </a>
-                )}
-
-                {exam.mirrorSyllabusUrl && (
-                  <a
-                    href={exam.mirrorSyllabusUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1 bg-white hover:bg-blue-50 text-blue-950 border border-blue-300 text-[11px] font-bold px-2.5 py-1.5 rounded-lg transition-colors"
-                  >
-                    <Download className="w-3 h-3 text-emerald-600" />
-                    <span>फास्ट मिरर</span>
                   </a>
                 )}
               </div>

@@ -132,6 +132,8 @@ export async function runAgent1_SyllabusScanner(): Promise<{ success: boolean; c
     stages: exam.stages,
     totalMarks: exam.totalMarks,
     syllabusHighlights: exam.syllabusHighlights,
+    officialSyllabusUrl: exam.officialSyllabusUrl || null,
+    mirrorSyllabusUrl: exam.mirrorSyllabusUrl || null,
     status: 'published',
     autoPublishedBy: 'Agent 1 (Multi-Source Syllabus Scanner)',
     publishedAt: new Date().toISOString(),
@@ -139,11 +141,15 @@ export async function runAgent1_SyllabusScanner(): Promise<{ success: boolean; c
 
   if (db && isFirebaseConfigured()) {
     try {
-      for (const item of publishedSyllabi.slice(0, 10)) {
+      for (const item of publishedSyllabi.slice(0, 15)) {
+        await setDoc(doc(db, 'syllabi', item.id), {
+          ...item,
+          updatedAt: serverTimestamp(),
+        }, { merge: true });
         await setDoc(doc(db, 'exam_syllabi', item.id), {
           ...item,
           updatedAt: serverTimestamp(),
-        });
+        }, { merge: true });
       }
     } catch (e) {
       console.warn('Agent 1 cloud write warning (local fallback active):', e);
