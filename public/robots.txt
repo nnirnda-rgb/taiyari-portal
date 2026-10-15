@@ -1,0 +1,12 @@
+# Robots.txt for Yuva Shiksha Portal
+# Public Student Portal is indexable, Private Admin and Internal APIs are strictly disallowed
+
+User-agent: *
+Allow: /
+Disallow: /admin
+Disallow: /admin/
+Disallow: /api/
+Disallow: /api/*
+
+# Sitemap
+Sitemap: https://taiyari-portal.vercel.app/sitemap.xml

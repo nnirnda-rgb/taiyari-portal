@@ -1,7 +1,6 @@
 'use client';
 
 import React, { useState } from 'react';
-import Link from 'next/link';
 import { 
   Home, 
   Layers, 
@@ -12,8 +11,7 @@ import {
   Bell, 
   Menu, 
   X,
-  Sparkles,
-  Bot
+  Sparkles
 } from 'lucide-react';
 
 interface NavbarProps {
@@ -129,16 +127,6 @@ export default function Navbar({ activeTab, setActiveTab }: NavbarProps) {
                 </button>
               );
             })}
-
-            {/* Desktop Direct Admin Link */}
-            <Link
-              href="/admin"
-              className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold text-amber-300 bg-blue-950/80 hover:bg-blue-950 border border-amber-400/40 rounded-lg transition-all ml-2"
-              title="Admin Control Hub (6-Agent Autonomous Architecture)"
-            >
-              <Bot className="w-3.5 h-3.5 text-amber-400" />
-              <span>एडमिन हब</span>
-            </Link>
           </div>
 
           {/* Mobile Header Bar & Hamburger Button */}
@@ -208,22 +196,6 @@ export default function Navbar({ activeTab, setActiveTab }: NavbarProps) {
               </button>
             );
           })}
-
-          <div className="pt-2 border-t border-blue-900 mt-2">
-            <Link
-              href="/admin"
-              onClick={() => setIsMobileMenuOpen(false)}
-              className="w-full flex items-center justify-between px-3.5 py-2.5 rounded-lg text-sm font-bold bg-amber-400 text-slate-950 hover:bg-amber-300 transition-colors"
-            >
-              <div className="flex items-center gap-2.5">
-                <Bot className="w-4 h-4 text-slate-900" />
-                <span>एडमिन कंट्रोल हब (6-एजेंट सिस्टम)</span>
-              </div>
-              <span className="text-[10px] bg-slate-900 text-amber-300 px-2 py-0.5 rounded font-mono">
-                Admin
-              </span>
-            </Link>
-          </div>
         </div>
       )}
     </nav>

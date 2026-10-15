@@ -1,5 +1,6 @@
 import { initializeApp, getApps, getApp, FirebaseApp } from 'firebase/app';
 import { getFirestore, Firestore, enableIndexedDbPersistence } from 'firebase/firestore';
+import { getAuth, Auth, GoogleAuthProvider } from 'firebase/auth';
 
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY || 'AIzaSyDemoDummyKeyForRajasthanPortal4G',
@@ -21,20 +22,20 @@ export const isFirebaseConfigured = (): boolean => {
 
 let app: FirebaseApp | null = null;
 let db: Firestore | null = null;
+let auth: Auth | null = null;
 
 try {
   if (typeof window !== 'undefined') {
     app = getApps().length ? getApp() : initializeApp(firebaseConfig);
     db = getFirestore(app);
+    auth = getAuth(app);
 
     // Enable offline persistence for low-bandwidth 4G mobile networks
     try {
       enableIndexedDbPersistence(db).catch((err) => {
         if (err.code === 'failed-precondition') {
-          // Multiple tabs open, persistence can only be enabled in one tab at a time.
           console.warn('Firestore offline persistence: multiple tabs open.');
         } else if (err.code === 'unimplemented') {
-          // The current browser does not support all of the features required to enable persistence.
           console.warn('Firestore offline persistence not supported in this browser.');
         }
       });
@@ -45,9 +46,10 @@ try {
     // Server-side
     app = getApps().length ? getApp() : initializeApp(firebaseConfig);
     db = getFirestore(app);
+    auth = getAuth(app);
   }
 } catch (error) {
   console.warn('Firebase initialization notice: Running with local offline cache fallback.', error);
 }
 
-export { app, db };
+export { app, db, auth, GoogleAuthProvider };
