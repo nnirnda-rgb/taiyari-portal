@@ -10,6 +10,7 @@ import { fileURLToPath } from 'url';
 import 'regenerator-runtime/runtime.js';
 import { PDFDocument, rgb, StandardFonts } from 'pdf-lib';
 import fontkit from '@pdf-lib/fontkit';
+import { MASTER_150_QUESTIONS, getMasterAnswerGrid } from './questions_bank.mjs';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -24,6 +25,26 @@ if (!fs.existsSync(storageDir)) {
 const fontBytes = fs.readFileSync(fontPath);
 
 /**
+ * Cleanly wraps text into lines respecting word boundaries
+ */
+function wrapText(text, maxChars = 85) {
+  if (!text || text.length <= maxChars) return [text || ''];
+  const words = text.split(' ');
+  const lines = [];
+  let curLine = '';
+  for (const w of words) {
+    if ((curLine + ' ' + w).length <= maxChars) {
+      curLine = curLine ? curLine + ' ' + w : w;
+    } else {
+      lines.push(curLine);
+      curLine = w;
+    }
+  }
+  if (curLine) lines.push(curLine);
+  return lines;
+}
+
+/**
  * Creates a styled professional PDF
  */
 async function createDocument({
@@ -34,6 +55,7 @@ async function createDocument({
   type, // 'master_paper' | 'answer_key' | 'syllabus' | 'notes' | 'circular'
   sections = [],
   answerGrid = null,
+  questions = null,
 }) {
   const doc = await PDFDocument.create();
   doc.registerFontkit(fontkit);
@@ -210,26 +232,154 @@ async function createDocument({
   }
   y -= 10;
 
-  // Sections or Answer Key Grid
-  if (answerGrid) {
-    currentPage.drawText('आधिकारिक अंतिम मास्टर उत्तर कुंजी (Official Final Master Answer Key):', {
+  // Render by document type
+  if (type === 'master_paper') {
+    // 1. If intro overview sections exist, render them first
+    if (sections && sections.length > 0) {
+      for (const sec of sections) {
+        if (y < 110) {
+          currentPage = addPageWithHeader(doc.getPageCount() + 1);
+          y = 842 - 145;
+        }
+
+        currentPage.drawText(sec.heading, {
+          x: 30,
+          y: y,
+          size: 10,
+          font: hindiFont,
+          color: primaryNavy,
+        });
+        y -= 15;
+
+        if (sec.items) {
+          for (const item of sec.items) {
+            const itemLines = wrapText(item, 85);
+            for (let li = 0; li < itemLines.length; li++) {
+              if (y < 45) {
+                currentPage = addPageWithHeader(doc.getPageCount() + 1);
+                y = 842 - 145;
+              }
+              currentPage.drawText(li === 0 ? `• ${itemLines[li]}` : `  ${itemLines[li]}`, {
+                x: 38,
+                y: y,
+                size: 8,
+                font: hindiFont,
+                color: slateDark,
+              });
+              y -= 12;
+            }
+          }
+        }
+        y -= 8;
+      }
+    }
+
+    // 2. Render Full 150 Master Examination Questions
+    const paperQuestions = questions || MASTER_150_QUESTIONS;
+
+    for (const q of paperQuestions) {
+      const qLines = wrapText(`प्र.${q.num}. ${q.text}`, 80);
+      const heightNeeded = (qLines.length * 12) + 40;
+
+      if (y - heightNeeded < 45) {
+        currentPage = addPageWithHeader(doc.getPageCount() + 1);
+        y = 842 - 145;
+      }
+
+      // Question Text
+      for (const line of qLines) {
+        currentPage.drawText(line, {
+          x: 30,
+          y: y,
+          size: 8.5,
+          font: hindiFont,
+          color: primaryNavy,
+        });
+        y -= 11.5;
+      }
+
+      // Options (2 per row + Option E)
+      const optA = `(A) ${q.options[0] || ''}`;
+      const optB = `(B) ${q.options[1] || ''}`;
+      const optC = `(C) ${q.options[2] || ''}`;
+      const optD = `(D) ${q.options[3] || ''}`;
+      const optE = `(E) अनुत्तरित प्रश्न (Unattempted)`;
+
+      // Row 1: A and B
+      currentPage.drawText(optA.substring(0, 42), {
+        x: 40,
+        y: y,
+        size: 7.5,
+        font: hindiFont,
+        color: slateDark,
+      });
+      currentPage.drawText(optB.substring(0, 42), {
+        x: 300,
+        y: y,
+        size: 7.5,
+        font: hindiFont,
+        color: slateDark,
+      });
+      y -= 11;
+
+      // Row 2: C and D
+      currentPage.drawText(optC.substring(0, 42), {
+        x: 40,
+        y: y,
+        size: 7.5,
+        font: hindiFont,
+        color: slateDark,
+      });
+      currentPage.drawText(optD.substring(0, 42), {
+        x: 300,
+        y: y,
+        size: 7.5,
+        font: hindiFont,
+        color: slateDark,
+      });
+      y -= 11;
+
+      // Row 3: Option E
+      currentPage.drawText(optE, {
+        x: 40,
+        y: y,
+        size: 7.2,
+        font: hindiFont,
+        color: accentAmber,
+      });
+      y -= 14;
+
+      // Subtle divider
+      currentPage.drawLine({
+        start: { x: 30, y: y + 2 },
+        end: { x: 565, y: y + 2 },
+        thickness: 0.3,
+        color: rgb(0.88, 0.9, 0.93),
+      });
+      y -= 4;
+    }
+
+    // 3. Final Master Answer Key Grid (Appended to paper)
+    currentPage = addPageWithHeader(doc.getPageCount() + 1);
+    let ky = 842 - 145;
+
+    currentPage.drawText('आधिकारिक अंतिम मास्टर उत्तर कुंजी (Official Final Master Answer Key - 150 Questions):', {
       x: 30,
-      y: y,
+      y: ky,
       size: 11,
       font: hindiFont,
       color: accentAmber,
     });
-    y -= 20;
+    ky -= 20;
 
-    // Draw Answer Key Grid (5 columns of 30 questions each = 150 questions)
+    const answers = getMasterAnswerGrid();
     const cols = 5;
     const rows = 30;
     const colWidth = 105;
     const startX = 30;
 
     for (let c = 0; c < cols; c++) {
-      let curY = y;
-      // Header for column
+      let curY = ky;
       currentPage.drawRectangle({
         x: startX + c * colWidth,
         y: curY - 14,
@@ -248,6 +398,55 @@ async function createDocument({
 
       for (let r = 0; r < rows; r++) {
         const qNum = c * rows + r + 1;
+        const ans = answers[qNum - 1] || 'A';
+        currentPage.drawText(`Q.${qNum.toString().padStart(3, '0')}:   [ ${ans} ]`, {
+          x: startX + c * colWidth + 8,
+          y: curY - 8,
+          size: 7.5,
+          font: helv,
+          color: slateDark,
+        });
+        curY -= 12;
+      }
+    }
+
+  } else if (answerGrid) {
+    // Dedicated Answer Key PDF
+    currentPage.drawText('आधिकारिक अंतिम मास्टर उत्तर कुंजी (Official Final Master Answer Key):', {
+      x: 30,
+      y: y,
+      size: 11,
+      font: hindiFont,
+      color: accentAmber,
+    });
+    y -= 20;
+
+    const cols = 5;
+    const rows = Math.min(30, Math.ceil(answerGrid.length / 5));
+    const colWidth = 105;
+    const startX = 30;
+
+    for (let c = 0; c < cols; c++) {
+      let curY = y;
+      currentPage.drawRectangle({
+        x: startX + c * colWidth,
+        y: curY - 14,
+        width: colWidth - 5,
+        height: 14,
+        color: primaryNavy,
+      });
+      currentPage.drawText('प्र.सं.  उत्तर', {
+        x: startX + c * colWidth + 10,
+        y: curY - 10,
+        size: 8,
+        font: hindiFont,
+        color: rgb(1, 1, 1),
+      });
+      curY -= 16;
+
+      for (let r = 0; r < rows; r++) {
+        const qNum = c * rows + r + 1;
+        if (qNum > answerGrid.length) break;
         const ans = answerGrid[qNum - 1] || (['A', 'B', 'C', 'D'][qNum % 4]);
         
         currentPage.drawText(`Q.${qNum.toString().padStart(3, '0')}:   [ ${ans} ]`, {
@@ -262,6 +461,7 @@ async function createDocument({
       }
     }
   } else if (sections && sections.length > 0) {
+    // Dedicated Syllabus / Notes / Circular / Vigyapti
     for (const sec of sections) {
       if (y < 120) {
         currentPage = addPageWithHeader(doc.getPageCount() + 1);
@@ -279,19 +479,22 @@ async function createDocument({
 
       if (sec.items) {
         for (const item of sec.items) {
-          if (y < 90) {
-            currentPage = addPageWithHeader(doc.getPageCount() + 1);
-            y = 842 - 145;
-          }
+          const itemLines = wrapText(item, 85);
+          for (let li = 0; li < itemLines.length; li++) {
+            if (y < 45) {
+              currentPage = addPageWithHeader(doc.getPageCount() + 1);
+              y = 842 - 145;
+            }
 
-          currentPage.drawText(`• ${item}`, {
-            x: 38,
-            y: y,
-            size: 8.5,
-            font: hindiFont,
-            color: slateDark,
-          });
-          y -= 14;
+            currentPage.drawText(li === 0 ? `• ${itemLines[li]}` : `  ${itemLines[li]}`, {
+              x: 38,
+              y: y,
+              size: 8.5,
+              font: hindiFont,
+              color: slateDark,
+            });
+            y -= 13;
+          }
         }
       }
       y -= 10;
