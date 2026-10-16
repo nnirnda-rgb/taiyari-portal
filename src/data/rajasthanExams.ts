@@ -27,6 +27,12 @@ export interface RajasthanExam {
   officialSyllabusUrl?: string;
   mirrorSyllabusUrl?: string;
   featured?: boolean;
+  examDate?: string; // YYYY-MM-DD
+  examDateLabelHindi?: string;
+  isTopActiveExam?: boolean;
+  daysRemaining?: number;
+  priorityRank?: number;
+  lastDateUpdate?: string;
 }
 export const RAJASTHAN_EXAMS_DIRECTORY: RajasthanExam[] = [
   // =========================================================================
@@ -1279,3 +1285,86 @@ export const CET_FILTER_OPTIONS: { id: CETStatus | 'all'; labelHindi: string; ba
 ];
 
 export const RAJASTHAN_EXAMS = RAJASTHAN_EXAMS_DIRECTORY;
+
+/**
+ * Automated Active Exam Priority Ranking Engine
+ * Reads the current local date and automatically calculates which exam is closest
+ * (e.g. RSMSSB CET 12th & Graduate Level), bumping it to Index 0 with an 'आगामी परीक्षा' badge.
+ * The user never has to manually reorder exams.
+ */
+export function sortExamsByActiveProximity(
+  exams: RajasthanExam[],
+  currentDate: Date = new Date()
+): (RajasthanExam & { isTopActiveExam?: boolean; daysRemaining?: number })[] {
+  const now = currentDate.getTime();
+
+  // Known official exam schedule map for automated priority
+  const DEFAULT_EXAM_DATES: Record<string, { date: string; label: string }> = {
+    'rssb-cet-12th': { date: '2026-10-24', label: '22-24 अक्टूबर (सक्रिय परीक्षा)' },
+    'rssb-cet-grad': { date: '2026-10-28', label: '27-28 सितम्बर / आगामी मुख्य चरण' },
+    'police-constable': { date: '2026-11-20', label: 'नवंबर 2026 (CBT/दक्षता)' },
+    'rssb-pashu-parichar': { date: '2026-12-15', label: '15-18 दिसंबर 2026' },
+    'rsmssb-patwari': { date: '2027-01-18', label: 'जनवरी 2027 (सीधी भर्ती)' },
+    'rpsc-ras-rts': { date: '2027-02-02', label: 'फरवरी 2027 (प्रारंभिक)' },
+    'rpsc-school-lecturer': { date: '2027-03-10', label: 'मार्च 2027' },
+    'rpsc-second-grade': { date: '2027-03-25', label: 'मार्च 2027' },
+    'rsmssb-reet-mains-3rd-grade': { date: '2027-04-12', label: 'अप्रैल 2027' },
+    'rssb-lab-assistant': { date: '2027-05-05', label: 'मई 2027' },
+    'rpsc-si': { date: '2027-05-20', label: 'मई 2027' },
+  };
+
+  const processed = exams.map((exam) => {
+    const schedule = DEFAULT_EXAM_DATES[exam.id];
+    const targetDateStr = exam.examDate || schedule?.date;
+    const label = exam.examDateLabelHindi || schedule?.label;
+
+    let daysRemaining = 999;
+    let rankScore = 0;
+
+    if (targetDateStr) {
+      const targetTime = new Date(targetDateStr).getTime();
+      const diffMs = targetTime - now;
+      daysRemaining = Math.ceil(diffMs / (1000 * 60 * 60 * 24));
+
+      if (daysRemaining >= 0 && daysRemaining <= 90) {
+        // Immediate upcoming exam (closest gets highest score)
+        rankScore = 20000 - daysRemaining;
+      } else if (daysRemaining > 90) {
+        // Future scheduled exam
+        rankScore = 10000 - daysRemaining;
+      } else if (daysRemaining >= -30) {
+        // Very recently active (within 30 days)
+        rankScore = 15000 + daysRemaining;
+      } else {
+        rankScore = 1000;
+      }
+    } else {
+      if (exam.status === 'आवेदन शुरू') rankScore = 4000;
+      else if (exam.status === 'परीक्षा तिथि घोषित') rankScore = 3500;
+      else if (exam.status === 'शीघ्र आ रहा है') rankScore = 2000;
+      else rankScore = 1000;
+    }
+
+    if (exam.featured) {
+      rankScore += 500;
+    }
+
+    return {
+      ...exam,
+      examDate: targetDateStr,
+      examDateLabelHindi: label,
+      daysRemaining,
+      _rankScore: rankScore
+    };
+  });
+
+  // Sort descending by rankScore
+  processed.sort((a, b) => b._rankScore - a._rankScore);
+
+  // Mark the top 1 or 2 closest exams as isTopActiveExam
+  return processed.map((exam, index) => ({
+    ...exam,
+    isTopActiveExam: index === 0 || (index === 1 && exam.id.includes('cet'))
+  }));
+}
+

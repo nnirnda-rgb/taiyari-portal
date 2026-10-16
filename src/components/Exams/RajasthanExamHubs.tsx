@@ -25,7 +25,8 @@ import {
   Stethoscope,
   Terminal,
   Award,
-  Download
+  Download,
+  Flame
 } from 'lucide-react';
 import { 
   RAJASTHAN_EXAMS_DIRECTORY, 
@@ -35,7 +36,8 @@ import {
   RajasthanExam, 
   RecruitmentBoard,
   QualificationLevel,
-  CETStatus
+  CETStatus,
+  sortExamsByActiveProximity
 } from '@/data/rajasthanExams';
 import RajasthanExamDetailModal from './RajasthanExamDetailModal';
 import { subscribeToSyllabi } from '@/services/firestoreService';
@@ -87,7 +89,7 @@ export default function RajasthanExamHubs({
 
   // Filtered Exam List
   const filteredExams = useMemo(() => {
-    return allExams.filter((exam) => {
+    const raw = allExams.filter((exam) => {
       // 1. Board filter
       if (selectedBoard !== 'all' && exam.board !== selectedBoard) {
         return false;
@@ -119,6 +121,8 @@ export default function RajasthanExamHubs({
 
       return true;
     });
+
+    return sortExamsByActiveProximity(raw);
   }, [allExams, selectedBoard, selectedQual, selectedCet, localSearch, searchFilter]);
 
   // Board Icon Helper
@@ -445,8 +449,27 @@ export default function RajasthanExamHubs({
           {filteredExams.map((exam) => (
             <div
               key={exam.id}
-              className="bg-white rounded-2xl border border-slate-200 hover:border-blue-400 shadow-sm hover:shadow-gov-hover transition-all duration-300 flex flex-col justify-between overflow-hidden group"
+              className={`bg-white rounded-2xl border transition-all duration-300 flex flex-col justify-between overflow-hidden group ${
+                exam.isTopActiveExam
+                  ? 'border-amber-400 ring-2 ring-amber-400/50 shadow-md shadow-amber-500/10'
+                  : 'border-slate-200 hover:border-blue-400 shadow-sm hover:shadow-gov-hover'
+              }`}
             >
+              {/* Automated Active Exam Priority Banner */}
+              {exam.isTopActiveExam && (
+                <div className="bg-gradient-to-r from-red-600 via-rose-600 to-amber-600 text-white text-[11px] font-black px-3.5 py-1.5 flex items-center justify-between shadow-xs">
+                  <span className="flex items-center gap-1.5">
+                    <Flame className="w-3.5 h-3.5 text-amber-200 animate-bounce" />
+                    आगामी परीक्षा (Active Exam)
+                  </span>
+                  <span className="bg-black/30 backdrop-blur-xs px-2 py-0.5 rounded text-[10px] tracking-wide font-mono font-bold">
+                    {exam.daysRemaining !== undefined && exam.daysRemaining >= 0 
+                      ? `⚡ मात्र ${exam.daysRemaining} दिन शेष` 
+                      : (exam.examDateLabelHindi || 'सक्रिय चक्र')}
+                  </span>
+                </div>
+              )}
+
               {/* Card Top Details */}
               <div className="p-5">
                 
@@ -468,12 +491,18 @@ export default function RajasthanExamHubs({
                   {exam.nameEnglish}
                 </p>
 
-                {/* Qualification Badge */}
+                {/* Qualification Badge & Exam Date */}
                 <div className="mb-3 flex flex-wrap gap-1.5 items-center">
                   {renderQualificationBadge(exam.qualificationLevel, exam.minQualification)}
-                  <span className="text-[10px] text-slate-600 bg-slate-100 px-2 py-0.5 rounded border border-slate-200">
+                  <span className="text-[10px] text-slate-600 bg-slate-100 px-2 py-0.5 rounded border border-slate-200 font-medium">
                     {exam.status}
                   </span>
+                  {exam.examDateLabelHindi && (
+                    <span className="text-[10px] text-amber-900 bg-amber-50 px-2 py-0.5 rounded border border-amber-300 font-bold flex items-center gap-1">
+                      <Calendar className="w-3 h-3 text-amber-600" />
+                      {exam.examDateLabelHindi}
+                    </span>
+                  )}
                 </div>
 
                 {/* Description Excerpt */}

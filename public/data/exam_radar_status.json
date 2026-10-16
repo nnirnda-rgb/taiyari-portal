@@ -1,0 +1,86 @@
+{
+  "lastScannedAt": "2026-10-16T00:42:18.892Z",
+  "topActiveExam": {
+    "examId": "rssb-cet-12th",
+    "nameHindi": "समान पात्रता परीक्षा (CET - 12वीं स्तर) 2024-25",
+    "examDate": "2026-10-24",
+    "examDateLabelHindi": "22, 23 एवं 24 अक्टूबर (सक्रिय परीक्षा चरण)",
+    "daysRemaining": 8,
+    "board": "RSMSSB"
+  },
+  "rankedExams": [
+    {
+      "rank": 1,
+      "examId": "rssb-cet-12th",
+      "nameHindi": "समान पात्रता परीक्षा (CET - 12वीं स्तर) 2024-25",
+      "examDate": "2026-10-24",
+      "examDateLabelHindi": "22, 23 एवं 24 अक्टूबर (सक्रिय परीक्षा चरण)",
+      "daysRemaining": 8,
+      "isTopActive": true
+    },
+    {
+      "rank": 2,
+      "examId": "rssb-cet-grad",
+      "nameHindi": "समान पात्रता परीक्षा (CET - स्नातक स्तर) 2024-25",
+      "examDate": "2026-10-28",
+      "examDateLabelHindi": "27 एवं 28 सितम्बर / आगामी मुख्य चरण",
+      "daysRemaining": 12,
+      "isTopActive": true
+    },
+    {
+      "rank": 3,
+      "examId": "police-constable",
+      "nameHindi": "राजस्थान पुलिस कांस्टेबल सीधी भर्ती परीक्षा 2025-26",
+      "examDate": "2026-11-20",
+      "examDateLabelHindi": "20 नवंबर 2026 (CBT एवं शारीरिक दक्षता)",
+      "daysRemaining": 35,
+      "isTopActive": false
+    },
+    {
+      "rank": 4,
+      "examId": "rssb-pashu-parichar",
+      "nameHindi": "पशु परिचारक (Animal Attendant) सीधी भर्ती 2024-25",
+      "examDate": "2026-12-15",
+      "examDateLabelHindi": "15, 16, 17 एवं 18 दिसंबर 2026 (8 पारियां)",
+      "daysRemaining": 60,
+      "isTopActive": false
+    },
+    {
+      "rank": 5,
+      "examId": "rssb-patwari",
+      "nameHindi": "राजस्थान पटवारी सीधी भर्ती परीक्षा 2025-26",
+      "examDate": "2027-01-18",
+      "examDateLabelHindi": "जनवरी 2027 (राजस्व मंडल अधिकृत)",
+      "daysRemaining": 94,
+      "isTopActive": false
+    },
+    {
+      "rank": 6,
+      "examId": "rpsc-ras-rts",
+      "nameHindi": "RPSC RAS / RTS संयुक्त प्रतियोगी (प्रारंभिक) परीक्षा",
+      "examDate": "2027-02-02",
+      "examDateLabelHindi": "फरवरी 2027 (प्रारंभिक परीक्षा प्रस्तावित)",
+      "daysRemaining": 109,
+      "isTopActive": false
+    },
+    {
+      "rank": 7,
+      "examId": "rpsc-senior-teacher-2nd-grade",
+      "nameHindi": "RPSC वरिष्ठ अध्यापक (2nd Grade Teacher) सामान्य ज्ञान",
+      "examDate": "2027-03-25",
+      "examDateLabelHindi": "मार्च 2027 (माध्यमिक शिक्षा)",
+      "daysRemaining": 160,
+      "isTopActive": false
+    },
+    {
+      "rank": 8,
+      "examId": "rssb-lab-assistant",
+      "nameHindi": "प्रयोगशाला सहायक संयुक्त सीधी भर्ती (Lab Assistant)",
+      "examDate": "2027-05-05",
+      "examDateLabelHindi": "मई 2027 (विज्ञान एवं भूगोल संवर्ग)",
+      "daysRemaining": 201,
+      "isTopActive": false
+    }
+  ],
+  "summaryHindi": "शीर्ष सक्रिय परीक्षा 'समान पात्रता परीक्षा (CET - 12वीं स्तर) 2024-25' (22, 23 एवं 24 अक्टूबर (सक्रिय परीक्षा चरण)) पोर्टल पर रैंक #1 पर पदोन्नत है।"
+}

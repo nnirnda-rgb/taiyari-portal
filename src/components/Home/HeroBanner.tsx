@@ -11,7 +11,8 @@ import {
   Trophy, 
   ShieldCheck, 
   Award,
-  Users
+  Users,
+  Flame
 } from 'lucide-react';
 import { DIGNITARY_DATA } from '@/data/portalData';
 
@@ -39,21 +40,36 @@ export default function HeroBanner({ onNavigate }: HeroBannerProps) {
           {/* Left Column: Heading, Vision, Call to Action */}
           <div className="lg:col-span-7 space-y-5 text-left">
             
-            {/* Patron Guidance Pill */}
-            <div className="inline-flex items-center gap-2.5 bg-gradient-to-r from-amber-400/20 via-amber-300/20 to-transparent px-3 py-1 rounded-full border border-amber-400/40 text-amber-300 text-xs font-semibold backdrop-blur-sm shadow-sm">
-              <div className="w-6 h-6 rounded-full border border-amber-400 overflow-hidden flex-shrink-0 bg-blue-950">
-                <Image 
-                  src="/images/roopsingh-fanat.png" 
-                  alt="रूपसिंह फनात - प्रेरक एवं मुख्य मार्गदर्शक"
-                  width={24}
-                  height={24}
-                  className="w-full h-full object-cover object-top"
-                />
+            <div className="flex flex-wrap items-center gap-2.5">
+              {/* Patron Guidance Pill */}
+              <div className="inline-flex items-center gap-2.5 bg-gradient-to-r from-amber-400/20 via-amber-300/20 to-transparent px-3 py-1 rounded-full border border-amber-400/40 text-amber-300 text-xs font-semibold backdrop-blur-sm shadow-sm">
+                <div className="w-6 h-6 rounded-full border border-amber-400 overflow-hidden flex-shrink-0 bg-blue-950">
+                  <Image 
+                    src="/images/roopsingh-fanat.png" 
+                    alt="रूपसिंह फनात - प्रेरक एवं मुख्य मार्गदर्शक"
+                    width={24}
+                    height={24}
+                    className="w-full h-full object-cover object-top"
+                  />
+                </div>
+                <span>प्रेरक सानिध्य: <strong>{DIGNITARY_DATA.hindiName}</strong></span>
+                <span className="hidden sm:inline bg-amber-400 text-slate-950 text-[10px] px-1.5 py-0.2 rounded font-bold">
+                  मार्गदर्शक
+                </span>
               </div>
-              <span>प्रेरक सानिध्य: <strong>{DIGNITARY_DATA.hindiName}</strong></span>
-              <span className="hidden sm:inline bg-amber-400 text-slate-950 text-[10px] px-1.5 py-0.2 rounded font-bold">
-                मार्गदर्शक
-              </span>
+
+              {/* Automated Active Exam Badge */}
+              <button
+                onClick={() => onNavigate('rajasthan-exams-hub')}
+                className="inline-flex items-center gap-1.5 bg-gradient-to-r from-rose-500/25 to-amber-500/25 hover:from-rose-500/35 hover:to-amber-500/35 px-3 py-1 rounded-full border border-rose-400/40 text-amber-200 text-xs font-bold backdrop-blur-sm shadow-sm transition-all"
+                title="निकटतम आगामी परीक्षा की तुरंत तैयारी करें"
+              >
+                <Flame className="w-3.5 h-3.5 text-amber-300 animate-bounce" />
+                <span>आगामी परीक्षा: <strong>RSMSSB CET (12वीं व स्नातक)</strong></span>
+                <span className="bg-rose-600 text-white text-[9px] px-1.5 py-0.2 rounded uppercase font-black">
+                  Active Exam
+                </span>
+              </button>
             </div>
 
             {/* Main Title */}

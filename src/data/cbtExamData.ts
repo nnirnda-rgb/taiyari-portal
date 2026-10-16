@@ -1,6 +1,6 @@
 export interface CBTQuestion {
   id: number;
-  sectionId: 'sec-raj-gk' | 'sec-science' | 'sec-polity' | 'sec-hindi' | 'sec-maths' | 'sec-animal' | 'sec-law';
+  sectionId: 'sec-raj-gk' | 'sec-science' | 'sec-polity' | 'sec-hindi' | 'sec-maths' | 'sec-animal' | 'sec-law' | 'sec-raj-geo' | 'sec-raj-history' | 'sec-raj-history-movement' | 'sec-raj-india-geo' | 'sec-polity-governance' | 'sec-economy' | 'sec-science-tech' | 'sec-reasoning-mental' | 'sec-hindi-english' | 'sec-maths-reasoning' | 'sec-english' | 'sec-computer-current' | string;
   sectionNameHindi: string;
   sectionNameEnglish: string;
   questionHindi: string;
@@ -16,7 +16,7 @@ export interface CBTQuestion {
 }
 
 export interface CBTSection {
-  id: 'sec-raj-gk' | 'sec-science' | 'sec-polity' | 'sec-hindi' | 'sec-maths' | 'sec-animal' | 'sec-law';
+  id: 'sec-raj-gk' | 'sec-science' | 'sec-polity' | 'sec-hindi' | 'sec-maths' | 'sec-animal' | 'sec-law' | 'sec-raj-geo' | 'sec-raj-history' | 'sec-raj-history-movement' | 'sec-raj-india-geo' | 'sec-polity-governance' | 'sec-economy' | 'sec-science-tech' | 'sec-reasoning-mental' | 'sec-hindi-english' | 'sec-maths-reasoning' | 'sec-english' | 'sec-computer-current' | string;
   nameHindi: string;
   nameEnglish: string;
   questionRange: [number, number]; // start to end question id
@@ -569,31 +569,41 @@ export const FULL_100_CBT_QUESTIONS = generateFull100QuestionBank();
 
 export type CbtQuestion = CBTQuestion;
 
-export const CBT_MOCK_TEST_CET = {
-  id: 'mock-test-cet-grad-2024',
-  title: 'RSMSSB समान पात्रता परीक्षा (CET स्नातक स्तर) 2024-25 फुल मॉडल टेस्ट',
-  board: 'RSMSSB' as const,
-  category: 'CET स्नातक स्तर 2024-25',
-  totalQuestions: 100,
-  durationMinutes: 120,
-  totalMarks: 200,
-  negativeMarking: '1/3 अंक (0.66 अंक)',
-  hasFifthOption: true,
-  subjectBreakdown: [
-    { subject: 'राजस्थान सामान्य ज्ञान', totalQuestions: 40, weightage: '80 अंक' },
-    { subject: 'सामान्य विज्ञान', totalQuestions: 20, weightage: '40 अंक' },
-    { subject: 'राजस्थान राजव्यवस्था', totalQuestions: 15, weightage: '30 अंक' },
-    { subject: 'सामान्य हिन्दी', totalQuestions: 15, weightage: '30 अंक' },
-    { subject: 'तार्किक क्षमता एवं गणित', totalQuestions: 10, weightage: '20 अंक' },
-  ],
-  questions: FULL_100_CBT_QUESTIONS,
+import { 
+  FULL_150_CET_12TH_QUESTIONS, 
+  FULL_150_CET_GRAD_QUESTIONS, 
+  CET_12TH_SECTIONS, 
+  CET_GRAD_SECTIONS, 
+  CBT_MOCK_TEST_CET_12TH, 
+  CBT_MOCK_TEST_CET_GRAD 
+} from './cet150MockData';
+
+export { 
+  FULL_150_CET_12TH_QUESTIONS, 
+  FULL_150_CET_GRAD_QUESTIONS, 
+  CET_12TH_SECTIONS, 
+  CET_GRAD_SECTIONS, 
+  CBT_MOCK_TEST_CET_12TH, 
+  CBT_MOCK_TEST_CET_GRAD 
 };
+
+export const CBT_MOCK_TEST_CET = CBT_MOCK_TEST_CET_12TH;
 
 /**
  * Returns exam-customized authentic questions matching board blueprints
  */
-export function getExamQuestions(examId: string): CBTQuestion[] {
-  if (examId.includes('pashu')) {
+export function getExamQuestions(examId: string = ''): CBTQuestion[] {
+  const normId = (examId || '').toLowerCase();
+  
+  if (normId.includes('12th') || normId === 'rssb-cet-12th' || normId === 'cbt_cet_12th_full_mock_150') {
+    return FULL_150_CET_12TH_QUESTIONS;
+  }
+
+  if (normId.includes('grad') || normId === 'rssb-cet-grad' || normId === 'cbt_cet_grad_full_mock_150') {
+    return FULL_150_CET_GRAD_QUESTIONS;
+  }
+
+  if (normId.includes('pashu')) {
     // Pashu Paricharak: mix GK and Animal Husbandry
     const gkPart = AUTHENTIC_RAJASTHAN_GK_QUESTIONS.slice(0, 10).map((q, idx) => ({
       ...q,
@@ -610,5 +620,23 @@ export function getExamQuestions(examId: string): CBTQuestion[] {
     return [...gkPart, ...animalPart];
   }
 
-  return FULL_100_CBT_QUESTIONS;
+  // Default to full 150-question CET 12th Level suite
+  return FULL_150_CET_12TH_QUESTIONS;
+}
+
+/**
+ * Returns official exam sections matching the test question ranges
+ */
+export function getExamSections(examId: string = ''): CBTSection[] {
+  const normId = (examId || '').toLowerCase();
+
+  if (normId.includes('12th') || normId === 'rssb-cet-12th' || normId === 'cbt_cet_12th_full_mock_150') {
+    return CET_12TH_SECTIONS;
+  }
+
+  if (normId.includes('grad') || normId === 'rssb-cet-grad' || normId === 'cbt_cet_grad_full_mock_150') {
+    return CET_GRAD_SECTIONS;
+  }
+
+  return CBT_SECTIONS;
 }

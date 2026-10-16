@@ -13,7 +13,14 @@ import {
   Unsubscribe 
 } from 'firebase/firestore';
 import { db, isFirebaseConfigured } from '@/lib/firebase';
-import { CBT_MOCK_TEST_CET, CbtQuestion, getExamQuestions, FULL_100_CBT_QUESTIONS } from '@/data/cbtExamData';
+import { 
+  CBT_MOCK_TEST_CET, 
+  CBT_MOCK_TEST_CET_12TH, 
+  CBT_MOCK_TEST_CET_GRAD, 
+  CbtQuestion, 
+  getExamQuestions, 
+  FULL_100_CBT_QUESTIONS 
+} from '@/data/cbtExamData';
 import { PRACTICE_QUESTIONS } from '@/data/practiceQuestionsData';
 import { PREVIOUS_PAPERS_DATA, PORTAL_NOTIFICATIONS, PreviousPaper, PortalNotification } from '@/data/portalData';
 import { RAJASTHAN_EXAMS_DIRECTORY as RAJASTHAN_EXAMS, RajasthanExam } from '@/data/rajasthanExams';
@@ -314,28 +321,52 @@ export async function seedInitialDataToFirestore(): Promise<{
     let notifCount = 0;
     let syllabiCount = 0;
 
-    // 1. Seed Mock Tests
+    // 1. Seed Mock Tests (Including 150-question CET 12th & Graduate Full Mock Papers)
     const mockTests = [
       {
-        id: CBT_MOCK_TEST_CET.id,
-        title: CBT_MOCK_TEST_CET.title,
-        examBoard: CBT_MOCK_TEST_CET.board,
-        examCategory: CBT_MOCK_TEST_CET.category,
-        totalQuestions: CBT_MOCK_TEST_CET.totalQuestions,
-        durationMinutes: CBT_MOCK_TEST_CET.durationMinutes,
-        totalMarks: CBT_MOCK_TEST_CET.totalMarks,
-        negativeMarking: CBT_MOCK_TEST_CET.negativeMarking,
-        hasFifthOption: CBT_MOCK_TEST_CET.hasFifthOption,
-        subjectBreakdown: CBT_MOCK_TEST_CET.subjectBreakdown,
+        id: CBT_MOCK_TEST_CET_12TH.id,
+        title: CBT_MOCK_TEST_CET_12TH.title,
+        examBoard: CBT_MOCK_TEST_CET_12TH.board,
+        examCategory: CBT_MOCK_TEST_CET_12TH.category,
+        examId: CBT_MOCK_TEST_CET_12TH.examId,
+        totalQuestions: 150,
+        durationMinutes: 180,
+        totalMarks: 300,
+        negativeMarking: '1/3 अंक (0.66 अंक) - 5वां विकल्प अनिवार्य',
+        hasFifthOption: true,
+        status: 'published',
+        subjectBreakdown: CBT_MOCK_TEST_CET_12TH.sections.map(s => ({
+          subject: s.nameHindi,
+          totalQuestions: s.totalQuestions,
+          weightage: `${s.totalQuestions * 2} अंक`
+        })),
+      },
+      {
+        id: CBT_MOCK_TEST_CET_GRAD.id,
+        title: CBT_MOCK_TEST_CET_GRAD.title,
+        examBoard: CBT_MOCK_TEST_CET_GRAD.board,
+        examCategory: CBT_MOCK_TEST_CET_GRAD.category,
+        examId: CBT_MOCK_TEST_CET_GRAD.examId,
+        totalQuestions: 150,
+        durationMinutes: 180,
+        totalMarks: 300,
+        negativeMarking: '1/3 अंक (0.66 अंक) - 5वां विकल्प अनिवार्य',
+        hasFifthOption: true,
+        status: 'published',
+        subjectBreakdown: CBT_MOCK_TEST_CET_GRAD.sections.map(s => ({
+          subject: s.nameHindi,
+          totalQuestions: s.totalQuestions,
+          weightage: `${s.totalQuestions * 2} अंक`
+        })),
       },
       {
         id: 'mock-test-patwar-2025',
         title: 'RSMSSB पटवार सीधी भर्ती 2025 फुल लेंथ मॉडल टेस्ट',
         examBoard: 'RSMSSB',
         examCategory: 'राजस्व विभाग सीधी भर्ती',
-        totalQuestions: 100,
-        durationMinutes: 120,
-        totalMarks: 200,
+        totalQuestions: 150,
+        durationMinutes: 180,
+        totalMarks: 300,
         negativeMarking: '1/3 अंक (0.66 अंक)',
         hasFifthOption: true,
       },
@@ -344,9 +375,9 @@ export async function seedInitialDataToFirestore(): Promise<{
         title: 'RSMSSB पशु परिचर (Animal Attendant) भर्ती परीक्षा 2025 मॉडल पेपर',
         examBoard: 'RSMSSB',
         examCategory: 'पशुपालन विभाग सीधी भर्ती',
-        totalQuestions: 20,
-        durationMinutes: 30,
-        totalMarks: 20,
+        totalQuestions: 150,
+        durationMinutes: 180,
+        totalMarks: 150,
         negativeMarking: '1/4 अंक',
         hasFifthOption: true,
       },
@@ -355,8 +386,8 @@ export async function seedInitialDataToFirestore(): Promise<{
         title: 'RPSC RAS/RTS संयुक्त प्रतियोगी (प्रारंभिक) परीक्षा 2025 टेस्ट',
         examBoard: 'RPSC',
         examCategory: 'राजस्थान राज्य एवं अधीनस्थ सेवाएं',
-        totalQuestions: 100,
-        durationMinutes: 120,
+        totalQuestions: 150,
+        durationMinutes: 180,
         totalMarks: 200,
         negativeMarking: '1/3 अंक',
         hasFifthOption: true,
@@ -366,7 +397,7 @@ export async function seedInitialDataToFirestore(): Promise<{
         title: 'राजस्थान पुलिस कांस्टेबल भर्ती परीक्षा 2025 सीबीटी टेस्ट',
         examBoard: 'Police',
         examCategory: 'गृह (पुलिस) विभाग',
-        totalQuestions: 100,
+        totalQuestions: 150,
         durationMinutes: 120,
         totalMarks: 150,
         negativeMarking: '1/4 अंक',
@@ -394,18 +425,33 @@ export async function seedInitialDataToFirestore(): Promise<{
       mockTestsCount++;
     }
 
-    // 2. Seed CBT Questions for tests
-    const cetQuestions = getExamQuestions('mock-test-cet-grad-2024');
-    for (const q of cetQuestions) {
-      const qDoc = doc(db, 'questions', `cet_q_${q.id}`);
+    // 2. Seed Complete 150 Questions for CET 12th Level
+    const cet12thQuestions = getExamQuestions('rssb-cet-12th');
+    for (const q of cet12thQuestions) {
+      const qDoc = doc(db, 'questions', `cet_12th_q_${q.id}`);
       await setDoc(qDoc, {
         ...q,
-        testId: 'mock-test-cet-grad-2024',
+        testId: 'cbt_cet_12th_full_mock_150',
+        districtSetup: '41 Districts & 7 Divisions',
         updatedAt: serverTimestamp(),
       }, { merge: true });
       questionsCount++;
     }
 
+    // 2b. Seed Complete 150 Questions for CET Graduate Level
+    const cetGradQuestions = getExamQuestions('rssb-cet-grad');
+    for (const q of cetGradQuestions) {
+      const qDoc = doc(db, 'questions', `cet_grad_q_${q.id}`);
+      await setDoc(qDoc, {
+        ...q,
+        testId: 'cbt_cet_grad_full_mock_150',
+        districtSetup: '41 Districts & 7 Divisions',
+        updatedAt: serverTimestamp(),
+      }, { merge: true });
+      questionsCount++;
+    }
+
+    // 2c. Seed Pashu Paricharak Questions
     const pashuQuestions = getExamQuestions('mock-test-pashu-parichar-2025');
     for (const q of pashuQuestions) {
       const qDoc = doc(db, 'questions', `pashu_q_${q.id}`);
@@ -903,6 +949,14 @@ export function subscribeToSyllabi(
                 officialSyllabusUrl: cloudData.officialSyllabusUrl || exam.officialSyllabusUrl,
                 mirrorSyllabusUrl: cloudData.mirrorSyllabusUrl || exam.mirrorSyllabusUrl,
                 syllabusHighlights: cloudData.syllabusHighlights || exam.syllabusHighlights,
+                status: cloudData.status || exam.status,
+                examDate: cloudData.examDate || exam.examDate,
+                examDateLabelHindi: cloudData.examDateLabelHindi || exam.examDateLabelHindi,
+                isTopActiveExam: cloudData.isTopActiveExam ?? (cloudData.priorityRank === 1 || exam.isTopActiveExam),
+                priorityRank: cloudData.priorityRank !== undefined ? cloudData.priorityRank : exam.priorityRank,
+                featured: cloudData.featured ?? exam.featured,
+                totalPosts: cloudData.totalPosts || exam.totalPosts,
+                lastDateUpdate: cloudData.lastDateUpdate || exam.lastDateUpdate,
               };
             }
             return exam;

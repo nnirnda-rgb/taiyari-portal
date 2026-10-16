@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { 
   Clock, 
   ShieldAlert, 
@@ -32,6 +32,8 @@ import {
 import { 
   CBTQuestion, 
   CBTSection, 
+  getExamQuestions,
+  getExamSections,
   CBT_SECTIONS, 
   FULL_100_CBT_QUESTIONS 
 } from '@/data/cbtExamData';
@@ -47,24 +49,39 @@ interface ProctoredCBTInterfaceProps {
   initialExamId?: string;
 }
 
-export default function ProctoredCBTInterface({ initialExamId = 'rssb-patwari' }: ProctoredCBTInterfaceProps) {
+export default function ProctoredCBTInterface({ initialExamId = 'rssb-cet-12th' }: ProctoredCBTInterfaceProps) {
   // Target Exam Selection
   const [targetExamId, setTargetExamId] = useState<string>(initialExamId);
   const selectedTargetExam = RAJASTHAN_EXAMS_DIRECTORY.find(e => e.id === targetExamId) || RAJASTHAN_EXAMS_DIRECTORY[0];
+
+  // Dynamic Exam Questions & Sections (supports 150-question CET 12th & Graduate Level)
+  const examQuestions = useMemo(() => getExamQuestions(targetExamId), [targetExamId]);
+  const examSections = useMemo(() => getExamSections(targetExamId), [targetExamId]);
 
   // Test State
   const [isTestStarted, setIsTestStarted] = useState<boolean>(false);
   const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
   const [currentQIndex, setCurrentQIndex] = useState<number>(0);
-  const [currentSectionId, setCurrentSectionId] = useState<string>('sec-raj-gk');
+  const [currentSectionId, setCurrentSectionId] = useState<string>(examSections[0]?.id || 'sec-raj-geo');
   const [isEnglish, setIsEnglish] = useState<boolean>(false);
 
-  // Responses & Statuses for all 100 questions
+  // Responses & Statuses for all test questions
   const [selectedAnswers, setSelectedAnswers] = useState<{ [qId: number]: number }>({});
   const [questionStatuses, setQuestionStatuses] = useState<{ [qId: number]: QuestionStatus }>({});
 
-  // Timer: 120 minutes = 7200 seconds (or standard 60 mins for quick simulation)
-  const [timeLeft, setTimeLeft] = useState<number>(7200);
+  // Timer: 180 minutes (10800 seconds) for 150 questions, or 120 minutes (7200 seconds) for 100 questions
+  const [timeLeft, setTimeLeft] = useState<number>(examQuestions.length === 150 ? 10800 : 7200);
+
+  // Sync timer & sections when targetExamId changes
+  useEffect(() => {
+    setTimeLeft(examQuestions.length === 150 ? 10800 : 7200);
+    setCurrentQIndex(0);
+    if (examSections[0]) {
+      setCurrentSectionId(examSections[0].id);
+    }
+    setSelectedAnswers({});
+    setQuestionStatuses({});
+  }, [targetExamId, examQuestions.length, examSections]);
 
   // Anti-Cheat & Fullscreen Monitoring
   const [isFullscreen, setIsFullscreen] = useState<boolean>(false);
@@ -214,12 +231,12 @@ export default function ProctoredCBTInterface({ initialExamId = 'rssb-patwari' }
     setCurrentQIndex(0);
   };
 
-  const currentQ: CBTQuestion = FULL_100_CBT_QUESTIONS[currentQIndex];
+  const currentQ: CBTQuestion = examQuestions[currentQIndex] || examQuestions[0];
 
   // Update Section when Question Changes
   const handleJumpToQuestion = (index: number) => {
     setCurrentQIndex(index);
-    const q = FULL_100_CBT_QUESTIONS[index];
+    const q = examQuestions[index];
     if (q) {
       setCurrentSectionId(q.sectionId);
       // If it was not visited, mark as not answered
@@ -239,7 +256,7 @@ export default function ProctoredCBTInterface({ initialExamId = 'rssb-patwari' }
       [qId]: isAnswered ? 'answered' : 'not_answered'
     }));
 
-    if (currentQIndex < FULL_100_CBT_QUESTIONS.length - 1) {
+    if (currentQIndex < examQuestions.length - 1) {
       handleJumpToQuestion(currentQIndex + 1);
     }
   };
@@ -265,7 +282,7 @@ export default function ProctoredCBTInterface({ initialExamId = 'rssb-patwari' }
       [qId]: isAnswered ? 'answered_and_marked' : 'marked_for_review'
     }));
 
-    if (currentQIndex < FULL_100_CBT_QUESTIONS.length - 1) {
+    if (currentQIndex < examQuestions.length - 1) {
       handleJumpToQuestion(currentQIndex + 1);
     }
   };
@@ -282,16 +299,16 @@ export default function ProctoredCBTInterface({ initialExamId = 'rssb-patwari' }
     let incorrectCount = 0;
     let unattemptedCount = 0;
 
-    const subjectStats: { [secId: string]: { total: number; correct: number; incorrect: number; unattempted: number } } = {
-      'sec-raj-gk': { total: 0, correct: 0, incorrect: 0, unattempted: 0 },
-      'sec-science': { total: 0, correct: 0, incorrect: 0, unattempted: 0 },
-      'sec-polity': { total: 0, correct: 0, incorrect: 0, unattempted: 0 },
-      'sec-hindi': { total: 0, correct: 0, incorrect: 0, unattempted: 0 },
-      'sec-maths': { total: 0, correct: 0, incorrect: 0, unattempted: 0 },
-    };
+    const subjectStats: { [secId: string]: { total: number; correct: number; incorrect: number; unattempted: number } } = {};
+    examSections.forEach(sec => {
+      subjectStats[sec.id] = { total: 0, correct: 0, incorrect: 0, unattempted: 0 };
+    });
 
-    FULL_100_CBT_QUESTIONS.forEach(q => {
+    examQuestions.forEach(q => {
       const userChoice = selectedAnswers[q.id];
+      if (!subjectStats[q.sectionId]) {
+        subjectStats[q.sectionId] = { total: 0, correct: 0, incorrect: 0, unattempted: 0 };
+      }
       subjectStats[q.sectionId].total++;
 
       if (userChoice === undefined || userChoice === 4) {
@@ -312,7 +329,7 @@ export default function ProctoredCBTInterface({ initialExamId = 'rssb-patwari' }
     const grossScore = correctCount * marksPerQuestion;
     const totalNegativeDeduction = incorrectCount * negativePerQuestion;
     const netScore = Math.max(0, grossScore - totalNegativeDeduction);
-    const totalMarks = FULL_100_CBT_QUESTIONS.length * marksPerQuestion;
+    const totalMarks = examQuestions.length * marksPerQuestion;
     const totalAttempted = correctCount + incorrectCount;
     const accuracy = totalAttempted > 0 ? Math.round((correctCount / totalAttempted) * 100) : 0;
 
@@ -340,7 +357,7 @@ export default function ProctoredCBTInterface({ initialExamId = 'rssb-patwari' }
       setSaveStatus('saving');
       const studentId = getOrCreateStudentId();
 
-      const subjectStrengths = CBT_SECTIONS.map(sec => {
+      const subjectStrengths = examSections.map(sec => {
         const stats = results.subjectStats[sec.id] || { total: 0, correct: 0, incorrect: 0, unattempted: 0 };
         const attempted = stats.correct + stats.incorrect;
         const acc = attempted > 0 ? Math.round((stats.correct / attempted) * 100) : 0;
@@ -677,12 +694,12 @@ export default function ProctoredCBTInterface({ initialExamId = 'rssb-patwari' }
                 विषय-वार दक्षता एवं प्रदर्शन विश्लेषण (Subject-Wise Strength Analysis)
               </h3>
             </div>
-            <span className="text-xs text-slate-500 font-semibold">5 प्रमुख विषय क्षेत्र</span>
+            <span className="text-xs text-slate-500 font-semibold">{examSections.length} प्रमुख विषय क्षेत्र</span>
           </div>
 
           <div className="space-y-4">
-            {CBT_SECTIONS.map((sec) => {
-              const stat = results.subjectStats[sec.id];
+            {examSections.map((sec) => {
+              const stat = results.subjectStats[sec.id] || { total: 0, correct: 0, incorrect: 0, unattempted: 0 };
               const secAttempted = stat.correct + stat.incorrect;
               const secAccuracy = secAttempted > 0 ? Math.round((stat.correct / secAttempted) * 100) : 0;
               const isStrong = secAccuracy >= 70;
@@ -958,7 +975,7 @@ export default function ProctoredCBTInterface({ initialExamId = 'rssb-patwari' }
           <span className="text-[11px] font-bold text-slate-500 mr-2 uppercase tracking-wider hidden sm:inline">
             अनुभाग (Sections):
           </span>
-          {CBT_SECTIONS.map((sec) => {
+          {examSections.map((sec) => {
             const isSecActive = currentSectionId === sec.id;
             return (
               <button
@@ -1180,20 +1197,20 @@ export default function ProctoredCBTInterface({ initialExamId = 'rssb-patwari' }
               </div>
             </div>
 
-            {/* 1-100 Question Palette Grid */}
+            {/* Dynamic Question Palette Grid */}
             <div className="bg-white p-3.5 rounded-2xl border border-slate-200">
               <div className="flex items-center justify-between pb-2 mb-2 border-b border-slate-100">
                 <span className="font-bold text-slate-800 text-xs">
-                  प्रश्न पैलेट (1 - 100)
+                  प्रश्न पैलेट (1 - {examQuestions.length})
                 </span>
                 <span className="text-[10px] text-blue-900 font-semibold">
                   प्रश्न पर सीधे जाएं
                 </span>
               </div>
 
-              {/* 100-Question Button Grid */}
+              {/* Dynamic Button Grid */}
               <div className="grid grid-cols-5 sm:grid-cols-6 lg:grid-cols-7 gap-1.5 max-h-72 overflow-y-auto pr-1">
-                {FULL_100_CBT_QUESTIONS.map((q, idx) => {
+                {examQuestions.map((q, idx) => {
                   const status = questionStatuses[q.id] || 'not_visited';
                   const isCurrent = currentQIndex === idx;
 
